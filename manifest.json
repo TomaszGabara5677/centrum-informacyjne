@@ -2,7 +2,7 @@
   "name": "Centrum Informacyjne",
   "short_name": "Zegar Info",
   "description": "Zegar segmentowy z informacjami astro i kalendarzem.",
-  "start_url": "/Zegar19seg.html",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#00FF00",
@@ -19,3 +19,4 @@
     }
   ]
 }
+
