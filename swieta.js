@@ -1,10 +1,4 @@
-// KOMENTARZ (Dlaczego?):
-// Poprawiamy trzy rzeczy:
-// 1. Dodajemy brakujący znak "=" po nazwie zmiennej.
-// 2. Zmieniamy nazwę z "SWIETA_NIETYPOWE_BAZA" na "swietaData",
-//    ponieważ tej nazwy szuka funkcja getSwieta() w pliku index.html.
-// 3. Usuwamy dodatkowy nawias "}" na samym końcu pliku, który powodował błąd.
-window.swietaData = {
+const SWIETA_NIETYPOWE_BAZA = {
     '01-01': 'Światowy Dzień Kaca, Dzień Domeny Publicznej',
     '01-02': 'Dzień Nauczyciela Na Prądzie',
     '01-03': 'Dzień Słomki Do Picia',
@@ -372,4 +366,3 @@ window.swietaData = {
     '12-30': 'Dzień Serka Wiejskiego',
     '12-31': 'Sylwestra'
 };
-
