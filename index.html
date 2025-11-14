@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kompletne Centrum Informacyjne</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ZegarCentrum">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+
+    <meta name="theme-color" content="#1a1a1a" />
+
+    <script src="suncalc.min.js"></script>
+    
+    <script src="imieniny.js"></script>
+    <script src="swieta.js"></script>
+
+    <style>
+        /* Twoje istniejące style CSS */
+        body {
+            font-family: 'Arial Black', sans-serif;
+            background-color: #1a1a1a; /* Bardzo ciemne tło */
+            color: #00FF00; /* Neonowa zieleń */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Zapobieganie przewijaniu */
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* Efekt neonu */
+        }
+
+        #clock-container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5); /* Większa poświata */
+            background: rgba(0, 0, 0, 0.5); /* Lekko przezroczyste tło */
+            border: 2px solid #00FF00;
+        }
+
+        #time {
+            font-size: 15vw; /* Rozmiar responsywny */
+            letter-spacing: 0.8vw;
+            margin-bottom: 2vw;
+            font-weight: bold;
+        }
+
+        #date {
+            font-size: 5vw;
+            margin-bottom: 2vw;
+            font-weight: bold;
+        }
+
+        #info {
+            font-size: 3vw;
+            line-height: 1.5;
+            text-align: left; /* Wyrównanie informacji do lewej */
+            max-width: 90vw; /* Maksymalna szerokość */
+            margin-top: 2vw;
+        }
+
+        /* Responsywność dla mniejszych ekranów (np. telefony pionowo) */
+        @media (max-width: 600px) {
+            #time { font-size: 20vw; }
+            #date { font-size: 7vw; }
+            #info { font-size: 4vw; }
+        }
+
+        /* Responsywność dla większych ekranów (np. tablety poziomo) */
+        @media (min-width: 1024px) {
+            #time { font-size: 10vw; }
+            #date { font-size: 4vw; }
+            #info { font-size: 2vw; }
+        }
+    </style>
+</head>
+<body>
+    <div id="clock-container">
+        <div id="time"></div>
+        <div id="date"></div>
+        <div id="info"></div>
+    </div>
+
+<script>
+        // === Konfiguracja początkowa ===
+        const LATITUDE = 51.1079;
+        const LONGITUDE = 17.0385;
+
+        // --- Funkcje pomocnicze ---
+        function padZero(num) {
+            return num < 10 ? '0' + num : num;
+        }
+
+        // KOMENTARZ (Dlaczego?):
+        // Ta funkcja jest teraz poprawna. Będzie szukać w obiekcie 'imieninyData'
+        // (który zdefiniowaliśmy w imieniny.js) klucza z nazwą miesiąca,
+        // a następnie klucza z numerem dnia.
+        function getImieniny(month, day) {
+            const monthNames = ["styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"];
+            const currentMonthName = monthNames[month - 1]; // Miesiące w JS są 0-indeksowane
+            
+            // Sprawdzamy, czy window.imieninyData istnieje i czy ma dane dla tego miesiąca i dnia
+            if (window.imieninyData && window.imieninyData[currentMonthName] && window.imieninyData[currentMonthName][day]) {
+                return window.imieninyData[currentMonthName][day].join(', ');
+            }
+            return 'Brak danych';
+        }
+
+        // KOMENTARZ (Dlaczego?):
+        // Poprawiamy tę funkcję. Oryginalny plik swieta.js używa klucza "MM-DD".
+        // Nie potrzebujemy "year" (roku) do szukania w tym pliku.
+        // Będziemy więc tworzyć klucz w formacie "MM-DD".
+        function getSwieta(month, day) {
+            const key = `${padZero(month)}-${padZero(day)}`; // Tworzymy klucz np. "11-14"
+            
+            // Sprawdzamy, czy window.swietaData istnieje i ma wpis dla tego klucza
+            if (window.swietaData && window.swietaData[key]) {
+                return window.swietaData[key];
+            }
+            return ''; // Zwracamy pusty ciąg, jeśli nic nie znaleziono
+        }
+
+        // --- Główna funkcja aktualizująca zegar i informacje ---
+        function aktualizujZegar() {
+            const now = new Date();
+
+            // Czas
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            document.getElementById('time').textContent = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+
+            // Data
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1; // getMonth() zwraca 0-11
+            const day = now.getDate();
+            const dayOfWeek = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'][now.getDay()];
+            const monthNamesPl = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+            document.getElementById('date').textContent = `${dayOfWeek}, ${day} ${monthNamesPl[month - 1]} ${year}`;
+
+            // Imieniny i Święta
+            // KOMENTARZ (Dlaczego?):
+            // Poprawiamy wywołanie getSwieta, usuwając 'year', 
+            // aby pasowało do naszej poprawionej funkcji.
+            const imieniny = getImieniny(month, day);
+            const swieta = getSwieta(month, day); // Usunięto 'year'
+            let swietaInfo = swieta ? `<br>Święto: ${swieta}` : '';
+
+            // Fazy Księżyca (używa suncalc.js)
+            // Upewniamy się, że SunCalc się załadował, zanim go użyjemy
+            let currentMoonPhase = 'Brak danych';
+            if (typeof SunCalc !== 'undefined') {
+                const moonPhase = SunCalc.getMoonPhase(now);
+                const phaseNames = [
+                    "Nów", "Wzrastający Sierp", "Pierwsza Kwadra", "Przybywający Księżyc",
+                    "Pełnia", "Ubywający Księżyc", "Ostatnia Kwadra", "Malejący Sierp"
+                ];
+                let phaseIndex = Math.floor(moonPhase.phase * 8);
+                if (phaseIndex === 8) phaseIndex = 0;
+                currentMoonPhase = phaseNames[phaseIndex];
+            }
+
+            // Czasy wschodu/zachodu słońca i świtu/zmierzchu (używa suncalc.js)
+            let sunriseStr = 'Brak danych';
+            let sunsetStr = 'Brak danych';
+            let dawnStr = 'Brak danych';
+            let duskStr = 'Brak danych';
+
+            if (typeof SunCalc !== 'undefined') {
+                const times = SunCalc.getTimes(now, LATITUDE, LONGITUDE);
+                sunriseStr = `${padZero(times.sunrise.getHours())}:${padZero(times.sunrise.getMinutes())}`;
+                sunsetStr = `${padZero(times.sunset.getHours())}:${padZero(times.sunset.getMinutes())}`;
+                dawnStr = `${padZero(times.dawn.getHours())}:${padZero(times.dawn.getMinutes())}`;
+                duskStr = `${padZero(times.dusk.getHours())}:${padZero(times.dusk.getMinutes())}`;
+            }
+
+            // Wyświetlanie informacji
+            document.getElementById('info').innerHTML = `
+                Imieniny: ${imieniny}${swietaInfo}<br>
+                Faza Księżyca: ${currentMoonPhase}<br>
+                Wschód słońca: ${sunriseStr}<br>
+                Zachód słońca: ${sunsetStr}<br>
+                Początek świtu: ${dawnStr}<br>
+                Koniec zmierzchu: ${duskStr}
+            `;
+        }
+
+        // --- Inicjalizacja zegara ---
+        function inicjalizujZegar() {
+            // KOMENTARZ (Dlaczego?):
+            // Dodajemy małe opóźnienie (100ms), aby dać zewnętrznym plikom JS 
+            // (imieniny.js, swieta.js) szansę na załadowanie się 
+            // i zdefiniowanie zmiennych globalnych, zanim ich użyjemy.
+            setTimeout(() => {
+                aktualizujZegar(); // Uruchom od razu
+                setInterval(aktualizujZegar, 1000); // Aktualizuj co sekundę
+            }, 100); 
+        }
+
+        // Uruchomienie inicjalizacji po załadowaniu DOM
+        document.addEventListener('DOMContentLoaded', inicjalizujZegar);
+    </script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('Service Worker zarejestrowany pomyślnie!', registration);
+                    })
+                    .catch(error => {
+                        console.error('Rejestracja Service Workera nie powiodła się:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
