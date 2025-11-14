@@ -1,20 +1,19 @@
 {
-  "name": "Kompletne Centrum Informacyjne",
-  "short_name": "ZegarCentrum",
-  "description": "Zegar segmentowy z informacjami o dacie, słońcu i astrologii.",
-  "start_url": "./index.html",
+  "name": "Centrum Informacyjne",
+  "short_name": "Zegar Info",
+  "description": "Zegar segmentowy z informacjami astro i kalendarzem.",
+  "start_url": "/Zegar19seg.html",
   "display": "standalone",
-  "background_color": "#1a1a1a",
+  "background_color": "#000000",
   "theme_color": "#00FF00",
-  "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-192x192.png",
+      "src": "ikona-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512x512.png",
+      "src": "ikona-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
