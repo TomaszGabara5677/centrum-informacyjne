@@ -150,13 +150,17 @@
             const swieta = getSwieta(month, day);
             let swietaInfo = swieta ? `<br>Święto: ${swieta}` : '';
 
+            // --- MA BYĆ (Poprawnie): ---
+
             // Fazy Księżyca
-            const moonPhase = SunCalc.getMoonPhase(now);
+            // KOMENTARZ (Dlaczego?): Poprawna nazwa funkcji to 'getMoonIllumination'.
+            const moonIllumination = SunCalc.getMoonIllumination(now); 
             const phaseNames = [
                 "Nów", "Wzrastający Sierp", "Pierwsza Kwadra", "Przybywający Księżyc",
                 "Pełnia", "Ubywający Księżyc", "Ostatnia Kwadra", "Malejący Sierp"
             ];
-            let phaseIndex = Math.floor(moonPhase.phase * 8);
+            // KOMENTARZ (Dlaczego?): Używamy obiektu 'moonIllumination' i jego właściwości '.phase'.
+            let phaseIndex = Math.floor(moonIllumination.phase * 8); 
             if (phaseIndex === 8) phaseIndex = 0;
             const currentMoonPhase = phaseNames[phaseIndex];
 
@@ -203,3 +207,4 @@
 
 </body>
 </html>
+
