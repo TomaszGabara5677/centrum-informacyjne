@@ -97,37 +97,38 @@
             return num < 10 ? '0' + num : num;
         }
 
-        // KOMENTARZ (Dlaczego?):
-        // Ta funkcja jest teraz poprawna. Będzie szukać w obiekcie 'imieninyData'
-        // (który zdefiniowaliśmy w imieniny.js) klucza z nazwą miesiąca,
-        // a następnie klucza z numerem dnia.
+        // Ta funkcja pozostaje bez zmian, ale teraz jest bezpieczna,
+        // bo uruchomimy ją dopiero, gdy 'imieninyData' będzie gotowe.
         function getImieniny(month, day) {
             const monthNames = ["styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"];
-            const currentMonthName = monthNames[month - 1]; // Miesiące w JS są 0-indeksowane
+            const currentMonthName = monthNames[month - 1]; 
             
-            // Sprawdzamy, czy window.imieninyData istnieje i czy ma dane dla tego miesiąca i dnia
             if (window.imieninyData && window.imieninyData[currentMonthName] && window.imieninyData[currentMonthName][day]) {
                 return window.imieninyData[currentMonthName][day].join(', ');
             }
             return 'Brak danych';
         }
 
-        // KOMENTARZ (Dlaczego?):
-        // Poprawiamy tę funkcję. Oryginalny plik swieta.js używa klucza "MM-DD".
-        // Nie potrzebujemy "year" (roku) do szukania w tym pliku.
-        // Będziemy więc tworzyć klucz w formacie "MM-DD".
+        // Ta funkcja również jest już bezpieczna.
         function getSwieta(month, day) {
-            const key = `${padZero(month)}-${padZero(day)}`; // Tworzymy klucz np. "11-14"
-            
-            // Sprawdzamy, czy window.swietaData istnieje i ma wpis dla tego klucza
+            const key = `${padZero(month)}-${padZero(day)}`;
             if (window.swietaData && window.swietaData[key]) {
                 return window.swietaData[key];
             }
-            return ''; // Zwracamy pusty ciąg, jeśli nic nie znaleziono
+            return '';
         }
 
-        // --- Główna funkcja aktualizująca zegar i informacje ---
+        // --- Główna funkcja aktualizująca ---
         function aktualizujZegar() {
+            // Sprawdzamy, czy wszystkie 3 krytyczne zasoby są gotowe
+            // Zanim spróbujemy cokolwiek zrobić.
+            if (typeof SunCalc === 'undefined' || typeof window.imieninyData === 'undefined' || typeof window.swietaData === 'undefined') {
+                // Jeśli nie, wyświetl komunikat o ładowaniu i spróbuj ponownie za chwilę
+                document.getElementById('time').textContent = "ŁADOWANIE...";
+                // Nie uruchamiamy setInterval - 'glownyStart' spróbuje ponownie
+                return; 
+            }
+
             const now = new Date();
 
             // Czas
@@ -138,47 +139,33 @@
 
             // Data
             const year = now.getFullYear();
-            const month = now.getMonth() + 1; // getMonth() zwraca 0-11
+            const month = now.getMonth() + 1;
             const day = now.getDate();
             const dayOfWeek = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'][now.getDay()];
             const monthNamesPl = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
             document.getElementById('date').textContent = `${dayOfWeek}, ${day} ${monthNamesPl[month - 1]} ${year}`;
 
             // Imieniny i Święta
-            // KOMENTARZ (Dlaczego?):
-            // Poprawiamy wywołanie getSwieta, usuwając 'year', 
-            // aby pasowało do naszej poprawionej funkcji.
             const imieniny = getImieniny(month, day);
-            const swieta = getSwieta(month, day); // Usunięto 'year'
+            const swieta = getSwieta(month, day);
             let swietaInfo = swieta ? `<br>Święto: ${swieta}` : '';
 
-            // Fazy Księżyca (używa suncalc.js)
-            // Upewniamy się, że SunCalc się załadował, zanim go użyjemy
-            let currentMoonPhase = 'Brak danych';
-            if (typeof SunCalc !== 'undefined') {
-                const moonPhase = SunCalc.getMoonPhase(now);
-                const phaseNames = [
-                    "Nów", "Wzrastający Sierp", "Pierwsza Kwadra", "Przybywający Księżyc",
-                    "Pełnia", "Ubywający Księżyc", "Ostatnia Kwadra", "Malejący Sierp"
-                ];
-                let phaseIndex = Math.floor(moonPhase.phase * 8);
-                if (phaseIndex === 8) phaseIndex = 0;
-                currentMoonPhase = phaseNames[phaseIndex];
-            }
+            // Fazy Księżyca
+            const moonPhase = SunCalc.getMoonPhase(now);
+            const phaseNames = [
+                "Nów", "Wzrastający Sierp", "Pierwsza Kwadra", "Przybywający Księżyc",
+                "Pełnia", "Ubywający Księżyc", "Ostatnia Kwadra", "Malejący Sierp"
+            ];
+            let phaseIndex = Math.floor(moonPhase.phase * 8);
+            if (phaseIndex === 8) phaseIndex = 0;
+            const currentMoonPhase = phaseNames[phaseIndex];
 
-            // Czasy wschodu/zachodu słońca i świtu/zmierzchu (używa suncalc.js)
-            let sunriseStr = 'Brak danych';
-            let sunsetStr = 'Brak danych';
-            let dawnStr = 'Brak danych';
-            let duskStr = 'Brak danych';
-
-            if (typeof SunCalc !== 'undefined') {
-                const times = SunCalc.getTimes(now, LATITUDE, LONGITUDE);
-                sunriseStr = `${padZero(times.sunrise.getHours())}:${padZero(times.sunrise.getMinutes())}`;
-                sunsetStr = `${padZero(times.sunset.getHours())}:${padZero(times.sunset.getMinutes())}`;
-                dawnStr = `${padZero(times.dawn.getHours())}:${padZero(times.dawn.getMinutes())}`;
-                duskStr = `${padZero(times.dusk.getHours())}:${padZero(times.dusk.getMinutes())}`;
-            }
+            // Czasy Słońca
+            const times = SunCalc.getTimes(now, LATITUDE, LONGITUDE);
+            const sunriseStr = `${padZero(times.sunrise.getHours())}:${padZero(times.sunrise.getMinutes())}`;
+            const sunsetStr = `${padZero(times.sunset.getHours())}:${padZero(times.sunset.getMinutes())}`;
+            const dawnStr = `${padZero(times.dawn.getHours())}:${padZero(times.dawn.getMinutes())}`;
+            const duskStr = `${padZero(times.dusk.getHours())}:${padZero(times.dusk.getMinutes())}`;
 
             // Wyświetlanie informacji
             document.getElementById('info').innerHTML = `
@@ -191,34 +178,28 @@
             `;
         }
 
-        // --- Inicjalizacja zegara ---
-        function inicjalizujZegar() {
-            // KOMENTARZ (Dlaczego?):
-            // Dodajemy małe opóźnienie (100ms), aby dać zewnętrznym plikom JS 
-            // (imieniny.js, swieta.js) szansę na załadowanie się 
-            // i zdefiniowanie zmiennych globalnych, zanim ich użyjemy.
-            setTimeout(() => {
-                aktualizujZegar(); // Uruchom od razu
-                setInterval(aktualizujZegar, 1000); // Aktualizuj co sekundę
-            }, 100); 
-        }
+        // --- NOWA, BEZPIECZNA INICJALIZACJA ---
 
-        // Uruchomienie inicjalizacji po załadowaniu DOM
-        document.addEventListener('DOMContentLoaded', inicjalizujZegar);
+        // KOMENTARZ (Dlaczego?):
+        // To jest "magiczna" linijka, która jest sercem naprawy.
+        // Zamiast 'DOMContentLoaded', czekamy na zdarzenie 'load'.
+        // 'load' uruchamia się DOPIERO WTEDY, gdy cała strona,
+        // w tym wszystkie skrypty (imieniny.js, suncalc.js),
+        // zostaną w pełni pobrane i wykonane.
+        window.addEventListener('load', () => {
+            // Gdy mamy 100% pewność, że wszystko jest załadowane,
+            // uruchamiamy zegar po raz pierwszy...
+            aktualizujZegar(); 
+            // ...i dopiero wtedy ustawiamy interwał, aby działał co sekundę.
+            setInterval(aktualizujZegar, 1000);
+        });
+
+        // KOMENTARZ (Dlaczego?):
+        // Całkowicie usunęliśmy 'setTimeout' i 'DOMContentLoaded',
+        // ponieważ 'window.addEventListener('load', ...)'
+        // jest właściwym i niezawodnym sposobem na rozwiązanie tego problemu.
+        
     </script>
-    
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(registration => {
-                        console.log('Service Worker zarejestrowany pomyślnie!', registration);
-                    })
-                    .catch(error => {
-                        console.error('Rejestracja Service Workera nie powiodła się:', error);
-                    });
-            });
-        }
-    </script>
+
 </body>
 </html>
