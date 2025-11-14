@@ -206,7 +206,6 @@ const swietaData = {
     '07-17': 'Światowy Dzień Emoji',
     '07-18': 'Dzień Nelsona Mandeli',
     '07-19': 'Dzień Czerwonego Kapturka',
-
     '07-20': 'Międzynarodowy Dzień Szachów',
     '07-21': 'Dzień Lodów',
     '07-22': 'Dzień Hamaka',
