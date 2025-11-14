@@ -3,7 +3,7 @@
 // 1. Dodajemy brakujący znak "=" po nazwie zmiennej.
 // 2. Zmieniamy nazwę z "IMIENINY_BAZA" na "imieninyData",
 //    ponieważ tej nazwy szuka funkcja getImieniny() w pliku index.html.
-const imieninyData = {
+window.imieninyData = {
     'styczeń': {
         '1': ['Mieszka', 'Mieczysława', 'Marii'], '2': ['Bazylego', 'Grzegorza', 'Makarego'],
         '3': ['Danuty', 'Daniela', 'Genowefy'], '4': ['Elżbiety', 'Anieli', 'Eugeniusza'],
@@ -216,3 +216,4 @@ const imieninyData = {
         '31': ['Sylwestra', 'Melanii', 'Mariusza']
     }
 };
+
