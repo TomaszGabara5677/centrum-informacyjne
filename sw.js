@@ -1,76 +1,87 @@
-// KOMENTARZ (Dlaczego?):
-// Definiujemy unikalną nazwę dla naszej "skrzynki" (pamięci podręcznej).
-// Jeśli kiedykolwiek zaktualizujesz aplikację, zmienisz 'v1' na 'v2',
-// a telefon automatycznie pobierze nowe pliki.
-const CACHE_NAME = 'zegar-centrum-cache-v1';
+/*
+  KOMENTARZ (DLACZEGO?): To jest Service Worker. Jego celem jest
+  przechwycenie wszystkich żądań sieciowych i dostarczenie plików
+  z pamięci podręcznej (cache), jeśli są dostępne.
+*/
 
-// KOMENTARZ (Dlaczego?):
-// To jest lista zakupów. Wymieniamy tu WSZYSTKIE pliki,
-// które są absolutnie niezbędne do działania aplikacji.
-// Musimy tu dodać wszystko, co będziemy wgrywać na GitHub.
-const PLIKI_DO_ZAPISANIA = [
-    './', // Reprezentuje stronę główną
-    './index.html',
-    './imieniny.js',
-    './swieta.js',
-    './suncalc.min.js',
-    './manifest.json',
-    './icon-192x192.png', // Ikona
-    './icon-512x512.png'  // Większa ikona
+// Nazwa naszej pamięci podręcznej. Zmiana tej nazwy (np. na v2) 
+// spowoduje odświeżenie cache przy następnej wizycie.
+const CACHE_NAME = 'zegar-info-cache-v1';
+
+// Lista plików, które MUSZĄ zostać zapisane w cache podczas instalacji.
+// To jest "szkielet" naszej aplikacji.
+const PLIKI_DO_CACHE = [
+  '/Zegar19seg.html', // Główny plik HTML
+  '/imieniny.js',     // Baza imienin
+  '/swieta.js',       // Baza świąt
+  '/suncalc.min.js',  // Biblioteka SunCalc (teraz lokalna)
+  '/ikona-192.png',   // Ikona dla manifestu
+  '/ikona-512.png'    // Ikona dla manifestu
 ];
 
-// === ETAP 1: INSTALACJA (Uruchamiany tylko raz) ===
-
-// KOMENTARZ (Dlaczego?):
-// To zdarzenie (event) jest wywoływane, gdy Service Worker jest instalowany
-// po raz pierwszy (przy pierwszej wizycie na stronie).
+// --- ETAP 1: INSTALACJA ---
+// To się dzieje tylko raz, gdy Service Worker jest instalowany.
 self.addEventListener('install', (event) => {
-    // KOMENTARZ (Dlaczego?):
-    // 'event.waitUntil' każe przeglądarce poczekać, aż obietnica (promise) się zakończy.
-    // Nie zakończymy instalacji, dopóki wszystkie pliki nie znajdą się w cache'u.
-    event.waitUntil(
-        // Otwieramy naszą "skrzynkę" (Cache) o zdefiniowanej nazwie.
-        caches.open(CACHE_NAME)
-            .then((cache) => {
-                // Gdy skrzynka jest otwarta, mówimy jej:
-                // "Pobierz wszystkie pliki z naszej listy zakupów (PLIKI_DO_ZAPISANIA)
-                // i zapisz je tutaj na stałe."
-                console.log('Service Worker: Zapisywanie plików aplikacji do cache...');
-                return cache.addAll(PLIKI_DO_ZAPISANIA);
-            })
-    );
+  console.log('[Service Worker] Instalacja...');
+  
+  // 'waitUntil' każe przeglądarce poczekać, aż obietnica (promise) się zakończy.
+  event.waitUntil(
+    // Otwieramy naszą pamięć podręczną (cache) o zdefiniowanej nazwie.
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('[Service Worker] Otwieranie pamięci podręcznej i cachowanie plików szkieletu');
+        // Dodajemy wszystkie pliki z naszej listy do cache.
+        // Jeśli którykolwiek plik się nie pobierze, cała instalacja się nie uda.
+        return cache.addAll(PLIKI_DO_CACHE);
+      })
+  );
 });
 
-// === ETAP 2: PRZECHWYTYWANIE ŻĄDAŃ (Działa za każdym razem) ===
+// --- ETAP 2: AKTYWACJA ---
+// To się dzieje po instalacji. Służy głównie do czyszczenia starych cache.
+self.addEventListener('activate', (event) => {
+  console.log('[Service Worker] Aktywacja...');
+  event.waitUntil(
+    caches.keys().then((keyList) => {
+      return Promise.all(keyList.map((key) => {
+        // Jeśli nazwa cache nie pasuje do naszej aktualnej nazwy (CACHE_NAME),
+        // usuwamy ją. To zapewnia, że stare wersje plików są czyszczone.
+        if (key !== CACHE_NAME) {
+          console.log('[Service Worker] Usuwanie starej pamięci podręcznej:', key);
+          return caches.delete(key);
+        }
+      }));
+    })
+  );
+  // 'clients.claim()' pozwala nowemu Service Workerowi przejąć kontrolę
+  // nad stroną natychmiast, bez czekania na przeładowanie.
+  return self.clients.claim();
+});
 
-// KOMENTARZ (Dlaczego?):
-// To jest główna "magia" trybu offline. To zdarzenie jest wywoływane
-// ZA KAŻDYM RAZEM, gdy Twoja strona (HTML) próbuje pobrać jakikolwiek zasób
-// (inny plik JS, obrazek, cokolwiek).
+
+// --- ETAP 3: PRZECHWYTYWANIE (FETCH) ---
+// To jest główna logika. Uruchamia się ZA KAŻDYM razem, gdy strona
+// próbuje pobrać jakikolwiek zasób (HTML, JS, CSS, obrazek).
 self.addEventListener('fetch', (event) => {
-    // KOMENTARZ (Dlaczego?):
-    // 'event.respondWith' pozwala nam przechwycić żądanie sieciowe
-    // i zdecydować, co zwrócić aplikacji.
-    event.respondWith(
-        // Najpierw sprawdzamy, czy mamy już ten plik w naszej "skrzynce" (Cache).
-        caches.match(event.request)
-            .then((response) => {
-                // KOMENTARZ (Dlaczego?):
-                // Jeśli 'response' istnieje, to znaczy, że znaleźliśmy plik w cache'u.
-                // Zwracamy go natychmiast, całkowicie pomijając internet.
-                // To sprawia, że aplikacja ładuje się błyskawicznie, nawet offline.
-                if (response) {
-                    // console.log('Service Worker: Zwracam plik z cache: ', event.request.url);
-                    return response;
-                }
+  console.log('[Service Worker] Przechwytywanie żądania:', event.request.url);
+  
+  // 'respondWith' przechwytuje żądanie i pozwala nam zdecydować, co zwrócić.
+  event.respondWith(
+    // Najpierw sprawdzamy, czy żądany plik jest już w naszej pamięci podręcznej.
+    caches.match(event.request)
+      .then((response) => {
+        // Jeśli JEST w cache (response istnieje):
+        if (response) {
+          console.log('[Service Worker] Zwracanie z cache:', event.request.url);
+          // Zwracamy plik z cache. To jest super szybkie i działa offline.
+          return response;
+        }
 
-                // KOMENTARZ (Dlaczego?):
-                // Jeśli pliku nie było w cache'u (np. to było jakieś dziwne
-                // żądanie, którego nie przewidzieliśmy), po prostu próbujemy
-                // pobrać go normalnie z internetu, tak jakby Service Worker nie istniał.
-                // console.log('Service Worker: Nie ma w cache, pobieram z sieci: ', event.request.url);
-                return fetch(event.request);
-            }
-        )
-    );
+        // Jeśli NIE MA w cache (np. jakieś inne żądanie, którego nie przewidzieliśmy):
+        console.log('[Service Worker] Zwracanie z sieci (nie ma w cache):', event.request.url);
+        // Próbujemy pobrać go normalnie z sieci.
+        return fetch(event.request);
+      }
+    )
+  );
 });
