@@ -215,4 +215,3 @@ const imieninyData = {
         '29': ['Tomasza', 'Dawida', 'Dominika'], '30': ['Eugeniusza', 'Katarzyny', 'Sabiny'],
         '31': ['Sylwestra', 'Melanii', 'Mariusza']
     }
-};
