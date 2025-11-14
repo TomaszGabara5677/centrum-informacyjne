@@ -11,12 +11,12 @@ const CACHE_NAME = 'zegar-info-cache-v1';
 // Lista plików, które MUSZĄ zostać zapisane w cache podczas instalacji.
 // To jest "szkielet" naszej aplikacji.
 const PLIKI_DO_CACHE = [
-  '/Zegar19seg.html', // Główny plik HTML
+  '/index.html', // Główny plik HTML
   '/imieniny.js',     // Baza imienin
   '/swieta.js',       // Baza świąt
   '/suncalc.min.js',  // Biblioteka SunCalc (teraz lokalna)
-  '/ikona-192.png',   // Ikona dla manifestu
-  '/ikona-512.png'    // Ikona dla manifestu
+  '/icon-192x192.png',   // Ikona dla manifestu
+  '/icon-512x512.png'    // Ikona dla manifestu
 ];
 
 // --- ETAP 1: INSTALACJA ---
@@ -85,3 +85,4 @@ self.addEventListener('fetch', (event) => {
     )
   );
 });
+
