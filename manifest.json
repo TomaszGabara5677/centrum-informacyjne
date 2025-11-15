@@ -4,6 +4,9 @@
   "description": "Zegar segmentowy z informacjami astro i kalendarzem.",
   "start_url": "index.html",
   "display": "standalone",
+  
+  "orientation": "landscape",
+  
   "background_color": "#000000",
   "theme_color": "#00FF00",
   "icons": [
@@ -19,6 +22,3 @@
     }
   ]
 }
-
-
-
