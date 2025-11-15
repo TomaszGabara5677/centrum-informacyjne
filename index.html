@@ -92,6 +92,139 @@
         #astro-countdown > span { color: #008000; margin: 3px 0; }
         #astro-countdown span span { color: var(--kolor-aktywny); font-weight: bold; }
         .astro-separator-maly { margin: 0 10px; font-size: 1.1rem; color: #008000; }
+
+        /* --- SEKCJA RESPONSYWNA DLA TELEFONU W POZIOMIE --- 
+         
+         KOMENTARZ (DLACZEGO?): Poniższy blok @media to "magiczna" reguła,
+         która aktywuje zawarte w niej style CSS tylko wtedy, gdy
+         urządzenie jest w orientacji poziomej (landscape) ORAZ
+         jego wysokość jest mniejsza niż 500 pikseli.
+         
+         To pozwala nam precyzyjnie namierzyć telefony trzymane bokiem,
+         ignorując jednocześnie tablety i monitory komputerowe.
+        */
+        @media (orientation: landscape) and (max-height: 500px) {
+            
+            /* KOMENTARZ (DLACZEGO?): W trybie pełnoekranowym nie chcemy żadnych
+             marginesów ani paddingu na samym 'body'. 
+             Usuwamy 'padding: 20px', który był zdefiniowany w głównych
+             stylach, aby nasz kontener mógł dotykać krawędzi ekranu.
+            */
+            body {
+                padding: 0;
+            }
+            
+            /* KOMENTARZ (DLACZEGO?): To jest główna reguła. 
+             Rozciągamy kontener na 100% szerokości i wysokości ekranu.
+            */
+            #kontener {
+                /* Ustawia szerokość na 100% szerokości okna przeglądarki */
+                width: 100vw; 
+                /* Ustawia wysokość na 100% wysokości okna przeglądarki */
+                height: 100vh;
+                
+                /* Usuwa limit 'max-width: 1000px', który przeszkadzałby
+                   na szerszych telefonach. */
+                max-width: none;
+                
+                /* Usuwa zaokrąglone rogi, które wyglądałyby źle
+                   przy krawędziach ekranu. */
+                border-radius: 0;
+                
+                /* KOMENTARZ (DLACZEGO?): To jest kluczowa "magiczna" właściwość.
+                 Mówi ona przeglądarce, aby 'border' (4px) i 'padding' (10px)
+                 zostały wliczone DO WEWNĄTRZ wymiarów 100vw/100vh, 
+                 zamiast dodawane na zewnątrz. Bez tego kontener
+                 byłby za duży i pojawiłyby się paski przewijania.
+                */
+                box-sizing: border-box;
+                
+                /* Zmniejszamy wewnętrzne odstępy (padding), aby zmieścić
+                   więcej treści na bardzo niskim ekranie. */
+                padding: 10px 15px;
+                
+                /* Pozwala na przewijanie zawartości w pionie, jeśli
+                   treść mimo wszystko się nie zmieści (np. na bardzo
+                   małym telefonie). */
+                overflow-y: auto;
+            }
+            
+            /* --- ZMNIEJSZENIE CZCIONEK I ELEMENTÓW --- */
+            
+            /* KOMENTARZ (DLACZEGO?): Ekran w poziomie jest bardzo niski,
+             więc musimy drastycznie zmniejszyć czcionki, aby
+             zapobiec "rozpychaniu" układu.
+            */
+            
+            /* Zmniejszamy duży napis z dniem tygodnia */
+            .komorka-dzien {
+                font-size: 2.5rem; /* Było 3.5rem */
+                letter-spacing: 2px;
+                width: 35%; /* Dajemy trochę mniej miejsca */
+            }
+            
+            /* Zmniejszamy napisy "Imieniny:", "(Święto...)" */
+            .komorka-info {
+                font-size: 0.95rem; /* Było 1.1rem */
+                line-height: 1.3;
+                padding-left: 10px;
+            }
+
+            /* Zmniejszamy napisy "Dzień roku:", "Tydzień:" itd. */
+            #tabela-info-roczne {
+                font-size: 0.95rem; /* Było 1.1rem */
+                margin-bottom: 5px;
+            }
+            
+            /* KOMENTARZ (DLACZEGO?): Zegar segmentowy jest za duży.
+             Używamy 'transform: scale()' aby go proporcjonalnie
+             zmniejszyć do 80% oryginalnego rozmiaru.
+            */
+            .cyfra, .separator {
+                transform: scale(0.8);
+                /* Korekta marginesów po skalowaniu, by cyfry
+                   były bliżej siebie */
+                margin: 0 -3px;
+            }
+
+            /* Zmniejszamy też pustą przestrzeń między datą a godziną */
+            .separator-spacer {
+                width: 15px; /* Było 25px */
+            }
+            
+            /* Zmniejszamy odstęp pod zegarem */
+            #zegar-segmentowy-kontener {
+                margin-bottom: 5px;
+            }
+
+            /* Zmniejszamy czcionki dla sekcji Słońca */
+            #tabela-slonce, #tabela-slonce #odliczanie-slonca {
+                font-size: 1.0rem; /* Było 1.3rem */
+            }
+            #tabela-slonce td {
+                padding: 2px 5px;
+            }
+            
+            /* Zmniejszamy sekcję Astro (Zodiak, Księżyc) */
+            #astro {
+                font-size: 1.0rem; /* Było 1.3rem */
+                margin-top: 5px;
+            }
+            .zodiak-emoji, #faza-ksiezyca-obraz {
+                font-size: 2.0rem; /* Było 2.5rem */
+                margin-right: 5px;
+            }
+            
+            /* Zmniejszamy dolne odliczanie */
+            #astro-countdown {
+                font-size: 0.9rem; /* Było 1.1rem */
+                /* Ukrywamy separator na bardzo wąskich ekranach */
+                flex-direction: column; 
+            }
+            .astro-separator-maly {
+                display: none; /* Ukrywamy | między odliczaniem */
+            }
+        }
     </style>
 </head>
 <body>
@@ -592,3 +725,4 @@
 
 </body>
 </html>
+
