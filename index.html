@@ -1,804 +1,1555 @@
 <!DOCTYPE html>
+
 <html lang="pl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.json">
-    
-    <script src="suncalc.min.js"></script>
 
-    <title>Kompletne Centrum Informacyjne</title>
-    
-    <style>
-        /* Cała sekcja CSS pozostaje bez zmian - jest identyczna 
-          jak w Twoim pliku Zegar19seg.html 
-        */
-        :root {
-            --kolor-aktywny: #00FF00;
-            --kolor-tla: #1a1a1a;
-            --kolor-ramki: #000;
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: var(--kolor-tla);
-            font-family: 'Courier New', Courier, monospace;
-            color: var(--kolor-aktywny);
-            padding: 20px;
-            box-sizing: border-box; 
-        }
-        #kontener {
-            width: auto;
-            max-width: 1000px; 
-            padding: 20px 30px;
-            border: 4px solid var(--kolor-aktywny);
-            border-radius: 10px;
-            background-color: var(--kolor-ramki);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        /* ... reszta stylów CSS (identyczna jak w Twoim pliku) ... */
-        #tabela-naglowek { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-        #tabela-naglowek td { padding: 5px; border: none; vertical-align: middle; }
-        .komorka-dzien { font-size: 3.5rem; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 5px var(--kolor-aktywny); width: 40%; text-align: center; vertical-align: middle; }
-        .komorka-info { font-size: 1.1rem; text-align: left; padding-left: 15px; border-left: 1px dotted #008000; padding-bottom: 5px; padding-top: 5px; }
-        .komorka-swieto { color: #ffff00; min-height: 1.4rem; line-height: 1.5; }
-        .komorka-imieniny { color: #00c000; line-height: 1.4; }
-        .komorka-imieniny span { color: var(--kolor-aktywny); }
-        #tabela-info-roczne { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 1.1rem; color: #00c000; }
-        #tabela-info-roczne td { width: 50%; padding: 3px 0; border: none; vertical-align: top; }
-        #tabela-info-roczne .max { color: #008000; }
-        #tabela-info-roczne span span { color: var(--kolor-aktywny); font-weight: bold; }
-        #tabela-info-roczne td:nth-child(1) { text-align: right; padding-right: 10px; }
-        #tabela-info-roczne td:nth-child(2) { text-align: left; padding-left: 10px; border-left: 1px dotted #008000; }
-        #zegar-segmentowy-kontener { display: flex; flex-direction: column; align-items: center; margin-bottom: 10px; width: 100%; overflow-x: auto; }
-        .kontener-linii { display: flex; align-items: center; justify-content: center; flex-wrap: nowrap; white-space: nowrap; }
-        .cyfra { position: relative; width: 30px; height: 50px; margin: 0 2px; flex-shrink: 0; }
-        .segment { position: absolute; background-color: var(--kolor-aktywny); opacity: 0.1; transition: opacity 0.2s; border-radius: 2px; box-shadow: 0 0 5px var(--kolor-aktywny); }
-        .segment.active { opacity: 1; }
-        .segment.a, .segment.d, .segment.g { width: 20px; height: 4px; left: 5px; }
-        .segment.b, .segment.c, .segment.e, .segment.f { width: 4px; height: 20px; }
-        .segment.a { top: 0; }
-        .segment.d { top: 46px; }
-        .segment.g { top: 23px; }
-        .segment.b { top: 5px; left: 26px; }
-        .segment.c { top: 25px; left: 26px; }
-        .segment.f { top: 5px; left: 0; }
-        .segment.e { top: 25px; left: 0; }
-        .separator { height: 50px; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0; }
-        .separator-dwukropek { width: 20px; }
-        .separator-dwukropek::before, .separator-dwukropek::after { content: ''; display: block; width: 4px; height: 4px; background-color: var(--kolor-aktywny); border-radius: 50%; box-shadow: 0 0 5px var(--kolor-aktywny); transition: opacity 0.1s; }
-        .separator-dwukropek::before { margin-bottom: 8px; margin-top: 8px; }
-        .separator-dwukropek.wygaszony::before, .separator-dwukropek.wygaszony::after { opacity: 0.1; }
-        .separator-kreska { width: 30px; display: flex; justify-content: center; align-items: center; }
-        .separator-kreska::before { content: ''; display: block; width: 20px; height: 4px; background-color: var(--kolor-aktywny); box-shadow: 0 0 5px var(--kolor-aktywny); border-radius: 2px; }
-        .separator-spacer { width: 25px; height: 50px; flex-shrink: 0; }
-        #tabela-slonce { width: auto; border-collapse: collapse; }
-        #tabela-slonce td { padding: 4px 8px; border: none; text-align: left; font-size: 1.3rem; color: #00c000; vertical-align: top; }
-        #tabela-slonce span { font-weight: bold; color: var(--kolor-aktywny); }
-        #tabela-slonce #odliczanie-slonca { font-size: 1.3rem; color: #ffff00; text-shadow: 0 0 5px #ffff00; font-weight: normal; }
-        #astro { font-size: 1.3rem; color: #00c000; width: 100%; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 10px; }
-        #astro span { color: var(--kolor-aktywny); }
-        .astro-item { display: flex; align-items: center; margin: 5px 0; }
-        .zodiak-emoji { font-size: 2.5rem; margin-right: 10px; text-shadow: none; width: 40px; text-align: center; }
-        #faza-ksiezyca-obraz { font-size: 2.5rem; margin-right: 10px; text-shadow: none; width: 40px; text-align: center; }
-        .astro-separator { margin: 0 15px; font-size: 2rem; color: #008000; }
-        #astro-countdown { font-size: 1.1rem; color: #008000; width: 100%; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
-        #astro-countdown > span { color: #008000; margin: 3px 0; }
-        #astro-countdown span span { color: var(--kolor-aktywny); font-weight: bold; }
-        .astro-separator-maly { margin: 0 10px; font-size: 1.1rem; color: #008000; }
+    <meta charset="UTF-8">
 
-        /* --- SEKCJA RESPONSYWNA DLA TELEFONU W POZIOMIE --- 
-         
-         KOMENTARZ (DLACZEGO?): Poniższy blok @media to "magiczna" reguła,
-         która aktywuje zawarte w niej style CSS tylko wtedy, gdy
-         urządzenie jest w orientacji poziomej (landscape) ORAZ
-         jego wysokość jest mniejsza niż 500 pikseli.
-         
-         To pozwala nam precyzyjnie namierzyć telefony trzymane bokiem,
-         ignorując jednocześnie tablety i monitory komputerowe.
-        */
-        @media (orientation: landscape) and (max-height: 500px) {
-            
-            /* KOMENTARZ (DLACZEGO?): W trybie pełnoekranowym nie chcemy żadnych
-             marginesów ani paddingu na samym 'body'. 
-             Usuwamy 'padding: 20px', który był zdefiniowany w głównych
-             stylach, aby nasz kontener mógł dotykać krawędzi ekranu.
-            */
-            body {
-                padding: 0;
-            }
-            
-            /* KOMENTARZ (DLACZEGO?): To jest główna reguła. 
-             Rozciągamy kontener na 100% szerokości i wysokości ekranu.
-            */
-            #kontener {
-                /* Ustawia szerokość na 100% szerokości okna przeglądarki */
-                width: 100vw; 
-                /* Ustawia wysokość na 100% wysokości okna przeglądarki */
-                height: 100vh;
-                
-                /* Usuwa limit 'max-width: 1000px', który przeszkadzałby
-                   na szerszych telefonach. */
-                max-width: none;
-                
-                /* Usuwa zaokrąglone rogi, które wyglądałyby źle
-                   przy krawędziach ekranu. */
-                border-radius: 0;
-                
-                /* KOMENTARZ (DLACZEGO?): To jest kluczowa "magiczna" właściwość.
-                 Mówi ona przeglądarce, aby 'border' (4px) i 'padding' (10px)
-                 zostały wliczone DO WEWNĄTRZ wymiarów 100vw/100vh, 
-                 zamiast dodawane na zewnątrz. Bez tego kontener
-                 byłby za duży i pojawiłyby się paski przewijania.
-                */
-                box-sizing: border-box;
-                
-                /* Zmniejszamy wewnętrzne odstępy (padding), aby zmieścić
-                   więcej treści na bardzo niskim ekranie. */
-                padding: 10px 15px;
-                
-                /* Pozwala na przewijanie zawartości w pionie, jeśli
-                   treść mimo wszystko się nie zmieści (np. na bardzo
-                   małym telefonie). */
-                overflow-y: auto;
-            }
-            
-            /* --- ZMNIEJSZENIE CZCIONEK I ELEMENTÓW --- */
-            
-            /* KOMENTARZ (DLACZEGO?): Ekran w poziomie jest bardzo niski,
-             więc musimy drastycznie zmniejszyć czcionki, aby
-             zapobiec "rozpychaniu" układu.
-            */
-            
-            /* Zmniejszamy duży napis z dniem tygodnia */
-            .komorka-dzien {
-                font-size: 2.5rem; /* Było 3.5rem */
-                letter-spacing: 2px;
-                width: 35%; /* Dajemy trochę mniej miejsca */
-            }
-            
-            /* Zmniejszamy napisy "Imieniny:", "(Święto...)" */
-            .komorka-info {
-                font-size: 0.95rem; /* Było 1.1rem */
-                line-height: 1.3;
-                padding-left: 10px;
-            }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            /* Zmniejszamy napisy "Dzień roku:", "Tydzień:" itd. */
-            #tabela-info-roczne {
-                font-size: 0.95rem; /* Było 1.1rem */
-                margin-bottom: 5px;
-            }
-            
-            /* KOMENTARZ (POPRAWKA): To jest miejsce, które naprawiamy 
-              zgodnie z Twoją uwagą. 
-              Zamiast ujemnego marginesu '-3px', który sklejał cyfry,
-              ustawiamy mały, stały margines '1px'.
-              Daje to łącznie 2px odstępu między elementami (1px z lewej
-              i 1px z prawej), co zapewnia czytelność po przeskalowaniu.
+    <link rel="manifest" href="manifest.json">
+
+    
+
+    <script src="suncalc.min.js"></script>
+
+
+
+    <title>Kompletne Centrum Informacyjne</title>
+
+    
+
+    <style>
+
+        /* Cała sekcja CSS pozostaje bez zmian - jest identyczna 
+
+          jak w Twoim pliku Zegar19seg.html 
+
+        */
+
+        :root {
+
+            --kolor-aktywny: #00FF00;
+
+            --kolor-tla: #1a1a1a;
+
+            --kolor-ramki: #000;
+
+        }
+
+        body {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            min-height: 100vh;
+
+            margin: 0;
+
+            background-color: var(--kolor-tla);
+
+            font-family: 'Courier New', Courier, monospace;
+
+            color: var(--kolor-aktywny);
+
+            padding: 20px;
+
+            box-sizing: border-box; 
+
+        }
+
+        #kontener {
+
+            width: auto;
+
+            max-width: 1000px; 
+
+            padding: 20px 30px;
+
+            border: 4px solid var(--kolor-aktywny);
+
+            border-radius: 10px;
+
+            background-color: var(--kolor-ramki);
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            text-align: center;
+
+        }
+
+        /* ... reszta stylów CSS (identyczna jak w Twoim pliku) ... */
+
+        #tabela-naglowek { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+
+        #tabela-naglowek td { padding: 5px; border: none; vertical-align: middle; }
+
+        .komorka-dzien { font-size: 3.5rem; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 5px var(--kolor-aktywny); width: 40%; text-align: center; vertical-align: middle; }
+
+        .komorka-info { font-size: 1.1rem; text-align: left; padding-left: 15px; border-left: 1px dotted #008000; padding-bottom: 5px; padding-top: 5px; }
+
+        .komorka-swieto { color: #ffff00; min-height: 1.4rem; line-height: 1.5; }
+
+        .komorka-imieniny { color: #00c000; line-height: 1.4; }
+
+        .komorka-imieniny span { color: var(--kolor-aktywny); }
+
+        #tabela-info-roczne { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 1.1rem; color: #00c000; }
+
+        #tabela-info-roczne td { width: 50%; padding: 3px 0; border: none; vertical-align: top; }
+
+        #tabela-info-roczne .max { color: #008000; }
+
+        #tabela-info-roczne span span { color: var(--kolor-aktywny); font-weight: bold; }
+
+        #tabela-info-roczne td:nth-child(1) { text-align: right; padding-right: 10px; }
+
+        #tabela-info-roczne td:nth-child(2) { text-align: left; padding-left: 10px; border-left: 1px dotted #008000; }
+
+        #zegar-segmentowy-kontener { display: flex; flex-direction: column; align-items: center; margin-bottom: 10px; width: 100%; overflow-x: auto; }
+
+        .kontener-linii { display: flex; align-items: center; justify-content: center; flex-wrap: nowrap; white-space: nowrap; }
+
+        .cyfra { position: relative; width: 30px; height: 50px; margin: 0 2px; flex-shrink: 0; }
+
+        .segment { position: absolute; background-color: var(--kolor-aktywny); opacity: 0.1; transition: opacity 0.2s; border-radius: 2px; box-shadow: 0 0 5px var(--kolor-aktywny); }
+
+        .segment.active { opacity: 1; }
+
+        .segment.a, .segment.d, .segment.g { width: 20px; height: 4px; left: 5px; }
+
+        .segment.b, .segment.c, .segment.e, .segment.f { width: 4px; height: 20px; }
+
+        .segment.a { top: 0; }
+
+        .segment.d { top: 46px; }
+
+        .segment.g { top: 23px; }
+
+        .segment.b { top: 5px; left: 26px; }
+
+        .segment.c { top: 25px; left: 26px; }
+
+        .segment.f { top: 5px; left: 0; }
+
+        .segment.e { top: 25px; left: 0; }
+
+        .separator { height: 50px; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0; }
+
+        .separator-dwukropek { width: 20px; }
+
+        .separator-dwukropek::before, .separator-dwukropek::after { content: ''; display: block; width: 4px; height: 4px; background-color: var(--kolor-aktywny); border-radius: 50%; box-shadow: 0 0 5px var(--kolor-aktywny); transition: opacity 0.1s; }
+
+        .separator-dwukropek::before { margin-bottom: 8px; margin-top: 8px; }
+
+        .separator-dwukropek.wygaszony::before, .separator-dwukropek.wygaszony::after { opacity: 0.1; }
+
+        .separator-kreska { width: 30px; display: flex; justify-content: center; align-items: center; }
+
+        .separator-kreska::before { content: ''; display: block; width: 20px; height: 4px; background-color: var(--kolor-aktywny); box-shadow: 0 0 5px var(--kolor-aktywny); border-radius: 2px; }
+
+        .separator-spacer { width: 25px; height: 50px; flex-shrink: 0; }
+
+        #tabela-slonce { width: auto; border-collapse: collapse; }
+
+        #tabela-slonce td { padding: 4px 8px; border: none; text-align: left; font-size: 1.3rem; color: #00c000; vertical-align: top; }
+
+        #tabela-slonce span { font-weight: bold; color: var(--kolor-aktywny); }
+
+        #tabela-slonce #odliczanie-slonca { font-size: 1.3rem; color: #ffff00; text-shadow: 0 0 5px #ffff00; font-weight: normal; }
+
+        #astro { font-size: 1.3rem; color: #00c000; width: 100%; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+
+        #astro span { color: var(--kolor-aktywny); }
+
+        .astro-item { display: flex; align-items: center; margin: 5px 0; }
+
+        .zodiak-emoji { font-size: 2.5rem; margin-right: 10px; text-shadow: none; width: 40px; text-align: center; }
+
+        #faza-ksiezyca-obraz { font-size: 2.5rem; margin-right: 10px; text-shadow: none; width: 40px; text-align: center; }
+
+        .astro-separator { margin: 0 15px; font-size: 2rem; color: #008000; }
+
+        #astro-countdown { font-size: 1.1rem; color: #008000; width: 100%; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
+
+        #astro-countdown > span { color: #008000; margin: 3px 0; }
+
+        #astro-countdown span span { color: var(--kolor-aktywny); font-weight: bold; }
+
+        .astro-separator-maly { margin: 0 10px; font-size: 1.1rem; color: #008000; }
+
+
+
+        /* --- SEKCJA RESPONSYWNA DLA TELEFONU W POZIOMIE --- 
+
+         
+
+         KOMENTARZ (DLACZEGO?): Poniższy blok @media to "magiczna" reguła,
+
+         która aktywuje zawarte w niej style CSS tylko wtedy, gdy
+
+         urządzenie jest w orientacji poziomej (landscape) ORAZ
+
+         jego wysokość jest mniejsza niż 500 pikseli.
+
+         
+
+         To pozwala nam precyzyjnie namierzyć telefony trzymane bokiem,
+
+         ignorując jednocześnie tablety i monitory komputerowe.
+
+        */
+
+        @media (orientation: landscape) and (max-height: 500px) {
+
+            
+
+            /* KOMENTARZ (DLACZEGO?): W trybie pełnoekranowym nie chcemy żadnych
+
+             marginesów ani paddingu na samym 'body'. 
+
+             Usuwamy 'padding: 20px', który był zdefiniowany w głównych
+
+             stylach, aby nasz kontener mógł dotykać krawędzi ekranu.
+
             */
-            .cyfra, .separator {
-                transform: scale(0.8);
-                margin: 0 1px; /* BYŁO: margin: 0 -3px; */
-            }
 
-            /* Zmniejszamy też pustą przestrzeń między datą a godziną */
-            .separator-spacer {
-                width: 15px; /* Było 25px */
-            }
-            
-            /* Zmniejszamy odstęp pod zegarem */
-            #zegar-segmentowy-kontener {
-                margin-bottom: 5px;
-            }
+            body {
 
-            /* Zmniejszamy czcionki dla sekcji Słońca */
-            #tabela-slonce, #tabela-slonce #odliczanie-slonca {
-                font-size: 1.0rem; /* Było 1.3rem */
-            }
-            #tabela-slonce td {
-                padding: 2px 5px;
-            }
-            
-            /* Zmniejszamy sekcję Astro (Zodiak, Księżyc) */
-            #astro {
-                font-size: 1.0rem; /* Było 1.3rem */
-                margin-top: 5px;
-            }
-            .zodiak-emoji, #faza-ksiezyca-obraz {
-                font-size: 2.0rem; /* Było 2.5rem */
-                margin-right: 5px;
-            }
-            
-            /* Zmniejszamy dolne odliczanie */
-            #astro-countdown {
-                font-size: 0.9rem; /* Było 1.1rem */
-                /* Ukrywamy separator na bardzo wąskich ekranach */
-                flex-direction: column; 
-            }
-            .astro-separator-maly {
-                display: none; /* Ukrywamy | między odliczaniem */
-          }
-        }
-        /* --- SEKCJA BLOKADY ORIENTACJI --- */
+                padding: 0;
 
-        /* KOMENTARZ (DLACZEGO?): Domyślnie ukrywamy komunikat
-          o obrócenie telefonu.
-        */
-        #obroc-urzadzenie {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--kolor-ramki);
-            color: var(--kolor-aktywny);
-            z-index: 9999;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-        #obroc-urzadzenie .ikona {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            /* Prosta animacja obrotu */
-            animation: obrot-ikony 2s linear infinite;
-        }
-        
-        @keyframes obrot-ikony {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+            }
 
-        /* KOMENTARZ (DLACZEGO?): To jest "magiczna" reguła blokująca.
-          Aktywuje się, gdy urządzenie jest w orientacji pionowej.
-        */
-        @media (orientation: portrait) {
-            /* 1. Ukrywamy główną treść aplikacji */
-            #kontener {
-                display: none;
-            }
-            
-            /* 2. Pokazujemy (jako flex) nasz komunikat blokady */
-            #obroc-urzadzenie {
-                display: flex;
-            }
-        }
-    </style>
+            
+
+            /* KOMENTARZ (DLACZEGO?): To jest główna reguła. 
+
+             Rozciągamy kontener na 100% szerokości i wysokości ekranu.
+
+            */
+
+            #kontener {
+
+                /* Ustawia szerokość na 100% szerokości okna przeglądarki */
+
+                width: 100vw; 
+
+                /* Ustawia wysokość na 100% wysokości okna przeglądarki */
+
+                height: 100vh;
+
+                
+
+                /* Usuwa limit 'max-width: 1000px', który przeszkadzałby
+
+                   na szerszych telefonach. */
+
+                max-width: none;
+
+                
+
+                /* Usuwa zaokrąglone rogi, które wyglądałyby źle
+
+                   przy krawędziach ekranu. */
+
+                border-radius: 0;
+
+                
+
+                /* KOMENTARZ (DLACZEGO?): To jest kluczowa "magiczna" właściwość.
+
+                 Mówi ona przeglądarce, aby 'border' (4px) i 'padding' (10px)
+
+                 zostały wliczone DO WEWNĄTRZ wymiarów 100vw/100vh, 
+
+                 zamiast dodawane na zewnątrz. Bez tego kontener
+
+                 byłby za duży i pojawiłyby się paski przewijania.
+
+                */
+
+                box-sizing: border-box;
+
+                
+
+                /* Zmniejszamy wewnętrzne odstępy (padding), aby zmieścić
+
+                   więcej treści na bardzo niskim ekranie. */
+
+                padding: 10px 15px;
+
+                
+
+                /* Pozwala na przewijanie zawartości w pionie, jeśli
+
+                   treść mimo wszystko się nie zmieści (np. na bardzo
+
+                   małym telefonie). */
+
+                overflow-y: auto;
+
+            }
+
+            
+
+            /* --- ZMNIEJSZENIE CZCIONEK I ELEMENTÓW --- */
+
+            
+
+            /* KOMENTARZ (DLACZEGO?): Ekran w poziomie jest bardzo niski,
+
+             więc musimy drastycznie zmniejszyć czcionki, aby
+
+             zapobiec "rozpychaniu" układu.
+
+            */
+
+            
+
+            /* Zmniejszamy duży napis z dniem tygodnia */
+
+            .komorka-dzien {
+
+                font-size: 2.5rem; /* Było 3.5rem */
+
+                letter-spacing: 2px;
+
+                width: 35%; /* Dajemy trochę mniej miejsca */
+
+            }
+
+            
+
+            /* Zmniejszamy napisy "Imieniny:", "(Święto...)" */
+
+            .komorka-info {
+
+                font-size: 0.95rem; /* Było 1.1rem */
+
+                line-height: 1.3;
+
+                padding-left: 10px;
+
+            }
+
+
+
+            /* Zmniejszamy napisy "Dzień roku:", "Tydzień:" itd. */
+
+            #tabela-info-roczne {
+
+                font-size: 0.95rem; /* Było 1.1rem */
+
+                margin-bottom: 5px;
+
+            }
+
+            
+
+            /* KOMENTARZ (DLACZEGO?): Zegar segmentowy jest za duży.
+
+             Używamy 'transform: scale()' aby go proporcjonalnie
+
+             zmniejszyć do 80% oryginalnego rozmiaru.
+
+            */
+
+            .cyfra, .separator {
+
+                transform: scale(0.8);
+
+                /* Korekta marginesów po skalowaniu, by cyfry
+
+                   były bliżej siebie */
+
+                margin: 0 -3px;
+
+            }
+
+
+
+            /* Zmniejszamy też pustą przestrzeń między datą a godziną */
+
+            .separator-spacer {
+
+                width: 15px; /* Było 25px */
+
+            }
+
+            
+
+            /* Zmniejszamy odstęp pod zegarem */
+
+            #zegar-segmentowy-kontener {
+
+                margin-bottom: 5px;
+
+            }
+
+
+
+            /* Zmniejszamy czcionki dla sekcji Słońca */
+
+            #tabela-slonce, #tabela-slonce #odliczanie-slonca {
+
+                font-size: 1.0rem; /* Było 1.3rem */
+
+            }
+
+            #tabela-slonce td {
+
+                padding: 2px 5px;
+
+            }
+
+            
+
+            /* Zmniejszamy sekcję Astro (Zodiak, Księżyc) */
+
+            #astro {
+
+                font-size: 1.0rem; /* Było 1.3rem */
+
+                margin-top: 5px;
+
+            }
+
+            .zodiak-emoji, #faza-ksiezyca-obraz {
+
+                font-size: 2.0rem; /* Było 2.5rem */
+
+                margin-right: 5px;
+
+            }
+
+            
+
+            /* Zmniejszamy dolne odliczanie */
+
+            #astro-countdown {
+
+                font-size: 0.9rem; /* Było 1.1rem */
+
+                /* Ukrywamy separator na bardzo wąskich ekranach */
+
+                flex-direction: column; 
+
+            }
+
+            .astro-separator-maly {
+
+                display: none; /* Ukrywamy | między odliczaniem */
+
+            }
+
+        }
+
+        /* --- SEKCJA BLOKADY ORIENTACJI --- */
+
+
+
+        /* KOMENTARZ (DLACZEGO?): Domyślnie ukrywamy komunikat
+
+          o obrócenie telefonu.
+
+        */
+
+        #obroc-urzadzenie {
+
+            display: none;
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100vw;
+
+            height: 100vh;
+
+            background-color: var(--kolor-ramki);
+
+            color: var(--kolor-aktywny);
+
+            z-index: 9999;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            font-size: 1.5rem;
+
+        }
+
+        #obroc-urzadzenie .ikona {
+
+            font-size: 5rem;
+
+            margin-bottom: 20px;
+
+            /* Prosta animacja obrotu */
+
+            animation: obrot-ikony 2s linear infinite;
+
+        }
+
+        
+
+        @keyframes obrot-ikony {
+
+            from { transform: rotate(0deg); }
+
+            to { transform: rotate(360deg); }
+
+        }
+
+
+
+        /* KOMENTARZ (DLACZEGO?): To jest "magiczna" reguła blokująca.
+
+          Aktywuje się, gdy urządzenie jest w orientacji pionowej.
+
+        */
+
+        @media (orientation: portrait) {
+
+            /* 1. Ukrywamy główną treść aplikacji */
+
+            #kontener {
+
+                display: none;
+
+            }
+
+            
+
+            /* 2. Pokazujemy (jako flex) nasz komunikat blokady */
+
+            #obroc-urzadzenie {
+
+                display: flex;
+
+            }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <div id="obroc-urzadzenie">
-        <div class="ikona">📱🔄</div>
-        <p>Proszę obrócić urządzenie do pozycji poziomej.</p>
-    </div>
 
-    <div id="kontener">
-                <table id="tabela-naglowek">
-            <tr>
-                <td class="komorka-dzien" rowspan="2">
-                    <span id="dzien">...</span>
-                </td>
-                <td class="komorka-info komorka-swieto">
-                    <span id="swieto">...</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="komorka-info komorka-imieniny">
-                    Imieniny: <span id="imiona">...</span>
-                </td>
-            </tr>
-        </table>
+    <div id="obroc-urzadzenie">
 
-        <table id="tabela-info-roczne">
-            <tr>
-                <td>
-                    Dzień roku: <span><span id="dzien-roku">...</span><span class="max">/<span id="max-dzien-roku">...</span></span></span>
-                </td>
-                <td>
-                    Tydzień: <span><span id="tydzien-roku">...</span><span class="max">/<span id="max-tydzien-roku">...</span></span></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Sylwester za: <span><span id="dni-do-konca">...</span></span> dni
-                </td>
-                <td>
-                    Kwartał: <span><span id="kwartal">...</span><span class="max">/4</span></span>
-                </td>
-            </tr>
-        </table>
-        
-        <div id="zegar-segmentowy-kontener"></div>
-        
-        
-        <table id="tabela-slonce">
-            <tr>
-                <td>
-                    ☀️ Wschód: <span id="wschod">...</span>
-                </td>
-                <td>
-                    Długość dnia: <span id="czas-dnia">...</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    🌙 Zachód: <span id="zachod">...</span>
-                </td>
-                <td id="odliczanie-slonca">
-                    Ładowanie...
-                </td>
-            </tr>
-        </table>
+        <div class="ikona">📱🔄</div>
 
-        <div id="astro">
-            <div class="astro-item">
-                <span id="zodiak-obraz" class="zodiak-emoji">...</span>
-                <span>Znak: <span id="zodiak-nazwa">...</span></span>
-            </div>
-            <span class="astro-separator">|</span>
-            <div class="astro-item">
-                <span id="faza-ksiezyca-obraz">...</span>
-                <span>
-                    Faza (<span id="faza-ksiezyca-numer">...</span>/8): 
-                    <span id="faza-ksiezyca-nazwa">...</span>
-                </span>
-            </div>
-        </div>
-        
-        <div id="astro-countdown" class="astro-countdown">
-            <span>
-                Zmiana zodiaku na: <span id="zodiak-countdown-nazwa">...</span> 
-                za: <span id="zodiak-countdown-dni">...</span> dni
-            </span>
-            <span class="astro-separator-maly">|</span>
-            <span>
-          _Pełnia księżyca za: <span id="pelnia-countdown-dni">...</span> dni
-            </span>
-        </div>
-    </div>
+        <p>Proszę obrócić urządzenie do pozycji poziomej.</p>
 
-    <script src="imieniny.js"></script>
-    <script src="swieta.js"></script>
+    </div>
 
-    <script>
-        /* Cały główny skrypt JS pozostaje bez zmian */
-        
-        // --- SEKCJA KONFIGURACYJNA I STAŁE ---
-        const DNI_TYGODNIA = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
-        const PABIANICE_LAT = 51.6567;
-        const PABIANICE_LON = 19.3578;
-        const SWIETA_STALE = {
-            '01-01': 'Nowy Rok', '01-06': 'Trzech Króli', '05-01': 'Święto Pracy',
-            '05-03': 'Święto Konstyt. 3 Maja', '08-15': 'Święto Wojska Polskiego, Wniebowzięcie NMP',
-            '11-01': 'Wszystkich Świętych', '11-11': 'Narodowe Święto Niepodległości',
-            '12-25': 'Boże Narodzenie (I dzień)', '12-26': 'Boże Narodzenie (II dzień)'
-        };
-        const ZNAKI_ZODIAKU = [
-            { nazwa: 'Koziorożec', start: [12, 22], emoji: '♑' },
-            { nazwa: 'Wodnik', start: [1, 20], emoji: '♒' },
-            { nazwa: 'Ryby', start: [2, 19], emoji: '♓' },
-            { nazwa: 'Baran', start: [3, 21], emoji: '♈' },
-            { nazwa: 'Byk', start: [4, 20], emoji: '♉' },
-            { nazwa: 'Bliźnięta', start: [5, 21], emoji: '♊' },
-            { nazwa: 'Rak', start: [6, 21], emoji: '♋' },
-            { nazwa: 'Lew', start: [7, 23], emoji: '♌' },
-            { nazwa: 'Panna', start: [8, 23], emoji: '♍' },
-            { nazwa: 'Waga', start: [9, 23], emoji: '♎' },
-            { nazwa: 'Skorpion', start: [10, 23], emoji: '♏' },
-            { nazwa: 'Strzelec', start: [11, 22], emoji: '♐' }
-        ];
-        const MAPA_SEGMENTOW = {
-            '0': ['a', 'b', 'c', 'd', 'e', 'f'],
-            '1': ['b', 'c'],
-            '2': ['a', 'b', 'g', 'e', 'd'],
-            '3': ['a', 'b', 'g', 'c', 'd'],
-            '4': ['f', 'g', 'b', 'c'],
-            '5': ['a', 'f', 'g', 'c', 'd'],
-            '6': ['a', 'f', 'g', 'e', 'c', 'd'],
-            '7': ['a', 'b', 'c'],
-            '8': ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
-            '9': ['a', 'b', 'c', 'd', 'f', 'g'],
-            ' ': []
-        };
-        const STRUKTURA_DATY = [
-            { typ: 'cyfra', id: 'data-d1' }, { typ: 'cyfra', id: 'data-d2' },
-            { typ: 'separator', 'rodzaj': 'kreska' },
-            { typ: 'cyfra', id: 'data-m1' }, { typ: 'cyfra', id: 'data-m2' },
-            { typ: 'separator', 'rodzaj': 'kreska' },
-            { typ: 'cyfra', id: 'data-r1' }, { typ: 'cyfra', id: 'data-r2' },
-            { typ: 'cyfra', id: 'data-r3' }, { typ: 'cyfra', id: 'data-r4' }
-        ];
-        const STRUKTURA_CZASU = [
-            { typ: 'cyfra', id: 'czas-h1' }, { typ: 'cyfra', id: 'czas-h2' },
-            { typ: 'separator', 'rodzaj': 'dwukropek' },
-            { typ: 'cyfra', id: 'czas-m1' }, { typ: 'cyfra', id: 'czas-m2' },
-            { typ: 'separator', 'rodzaj': 'dwukropek' },
-            { typ: 'cyfra', id: 'czas-s1' }, { typ: 'cyfra', id: 'czas-s2' }
-        ];
-        
-        // --- ZMIENNE GLOBALNE (CACHE) ---
-        window.ostatniDzien = null; 
-        window.wschodDzis = null;
-        window.zachodDzis = null;
-        window.wschodJutro = null;
-        window.swietaRuchomeCache = {};
 
-        // --- FUNKCJE POMOCNICZE ---
-        /* ... cały (długi) blok funkcji pomocniczych ... */
-        function stworzCyfre(id) {
-            const cyfraDiv = document.createElement('div');
-            cyfraDiv.classList.add('cyfra');
-            cyfraDiv.id = id;
-            const segmenty = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
-            segmenty.forEach(seg => {
-                const segmentDiv = document.createElement('div');
-                segmentDiv.classList.add('segment', seg);
-                cyfraDiv.appendChild(segmentDiv);
-            });
-            return cyfraDiv;
-        }
-        function stworzSeparator(rodzaj) {
-            const separatorDiv = document.createElement('div');
-            separatorDiv.classList.add('separator', `separator-${rodzaj}`);
-            if (rodzaj === 'dwukropek') {
-                separatorDiv.classList.add('mrugajacy');
-            }
-            return separatorDiv;
-        }
-        function inicjalizujZegar() {
-            const kontenerGlowny = document.getElementById('zegar-segmentowy-kontener');
-            if (!kontenerGlowny) return;
-            const kontenerLinii = document.createElement('div');
-            kontenerLinii.classList.add('kontener-linii');
-            STRUKTURA_DATY.forEach(el => {
-                if (el.typ === 'cyfra') {
-                    kontenerLinii.appendChild(stworzCyfre(el.id));
-                } else if (el.typ === 'separator') {
-                    kontenerLinii.appendChild(stworzSeparator(el.rodzaj));
-                }
-            });
-            const spacer = document.createElement('div');
-            spacer.classList.add('separator-spacer'); 
-            kontenerLinii.appendChild(spacer);
-            STRUKTURA_CZASU.forEach(el => {
-                if (el.typ === 'cyfra') {
-                    kontenerLinii.appendChild(stworzCyfre(el.id));
-                } else if (el.typ === 'separator') {
-                    kontenerLinii.appendChild(stworzSeparator(el.rodzaj));
-section>
-                }
-            });
-            kontenerGlowny.appendChild(kontenerLinii);
-        }
-        function ustawCyfre(elementId, cyfra) {
-            const el = document.getElementById(elementId);
-          _if (!el) return;
-            const cyfraStr = String(cyfra); 
-            const segmentyDoWlaczenia = MAPA_SEGMENTOW[cyfraStr];
-            el.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
-            if (segmentyDoWlaczenia) {
-                segmentyDoWlaczenia.forEach(seg => {
-                    const segmentElement = el.querySelector(`.segment.${seg}`);
-                    if (segmentElement) {
-                        segmentElement.classList.add('active');
-                    }
-                });
-            }
-        }
-        function formatujLiczbe(liczba) { return String(liczba).padStart(2, '0'); }
-        function formatujGodzine(data) {
-            if (data && typeof data.getHours === 'function') {
-                const godzina = formatujLiczbe(data.getHours());
-                const minuta = formatujLiczbe(data.getMinutes());
-                return `${godzina}:${minuta}`;
-            }
-            return 'b/d';
-        }
-        function obliczDzienRoku(data) {
-            const startRoku = new Date(data.getFullYear(), 0, 0);
-            const diff = data - startRoku;
-            const jedenDzienMs = 1000 * 60 * 60 * 24;
-            return Math.floor(diff / jedenDzienMs);
-        }
-        function obliczNumerTygodnia(d) {
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-            var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-            return weekNo;
-        }
-        function obliczKwartal(data) {
-            const miesiac = data.getMonth(); 
-            return Math.floor(miesiac / 3) + 1;
-        }
-        function formatujDelteCzasu(ms) {
-            let totalSeconds = Math.floor(Math.max(ms, 0) / 1000);
-            let hours = Math.floor(totalSeconds / 3600);
-            totalSeconds %= 3600;
-            let minutes = Math.floor(totalSeconds / 60);
-section>
-            let seconds = totalSeconds % 60;
-            return `${formatujLiczbe(hours)}:${formatujLiczbe(minutes)}:${formatujLiczbe(seconds)}`;
-        }
-        function formatujDlugoscDnia(ms) {
-            let totalMinutes = Math.floor(Math.max(ms, 0) / (1000 * 60));
-            let hours = Math.floor(totalMinutes / 60);
-            let minutes = totalMinutes % 60;
-            return `${hours} godz. ${minutes} min.`;
-        }
-        function czyRokPrzestepny(rok) {
-section>
-            return (rok % 4 === 0 && rok % 100 !== 0) || rok % 400 === 0;
-        }
-        function iloscTygodniWRoku(rok) {
-            return obliczNumerTygodnia(new Date(rok, 11, 28));
-        }
-        function obliczWielkanoc(rok) {
-            const a = rok % 19, b = Math.floor(rok / 100), c = rok % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451), miesiac = Math.floor((h + l - 7 * m + 114) / 31), dzien = ((h + l - 7 * m + 114) % 31) + 1;
-            return new Date(rok, miesiac - 1, dzien);
-        }
-        function dodajDniDoDaty(data, dni) {
-            const nowaData = new Date(data);
-            nowaData.setDate(nowaData.getDate() + dni);
-            return nowaData;
-        }
-        function formatujDateNaKlucz(data) {
-section>
-            return `${formatujLiczbe(data.getMonth() + 1)}-${formatujLiczbe(data.getDate())}`;
-        }
-        function pobierzInfoZodiaku(data) {
-            const dzien = data.getDate(), miesiac = data.getMonth() + 1;
-            let biezacyZnak = ZNAKI_ZODIAKU.find(znak => { return miesiac > znak.start[0] || (miesiac === znak.start[0] && dzien >= znak.start[1]); });
-            if (!biezacyZnak) { return ZNAKI_ZODIAKU[0]; }
-            return biezacyZnak;
-        }
-        function pobierzInfoKsiezyca(f) {
-            if (f <= 0.03 || f > 0.97) return { nazwa: 'Nów', emoji: '🌑', index: 1 };
-            if (f <= 0.22) return { nazwa: 'Sierp przybywający', emoji: '🌒', index: 2 };
-            if (f <= 0.28) return { nazwa: 'Pierwsza Kwadra', emoji: '🌓', index: 3 };
-            if (f <= 0.47) return { nazwa: 'Garbaty przybywający', emoji: '🌔', index: 4 };
-            if (f <= 0.53) return { nazwa: 'Pełnia', emoji: '🌕', index: 5 };
-            if (f <= 0.72) return { nazwa: 'Garbaty ubywający', emoji: '🌖', index: 6 };
-            if (f <= 0.78) return { nazwa: 'Ostatnia Kwadra', emoji: '🌗', index: 7 };
-            return { nazwa: 'Sierp ubywający', emoji: '🌘', index: 8 };
-        }
-        function obliczNastepnyZnak(teraz) {
-            const infoZodiaku = pobierzInfoZodiaku(teraz);
-            const obecnyIndex = ZNAKI_ZODIAKU.findIndex(z => z.nazwa === infoZodiaku.nazwa);
-            const nastepnyIndex = (obecnyIndex + 1) % ZNAKI_ZODIAKU.length;
-            const nastepnyZnak = ZNAKI_ZODIAKU[nastepnyIndex];
-            const rok = teraz.getFullYear();
-            let dataStartu = new Date(rok, nastepnyZnak.start[0] - 1, nastepnyZnak.start[1]);
-            if (dataStartu < teraz) {
-                dataStartu.setFullYear(rok + 1);
-section>
-            }
-            const diffMs = dataStartu.getTime() - teraz.getTime();
-            const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-            return { nazwa: nastepnyZnak.nazwa, dni: diffDni };
-        }
-        function obliczNastepnaPelnie(teraz) {
-            if (typeof SunCalc === 'undefined') return 'b/d';
-            let fazaPoprzednia = SunCalc.getMoonIllumination(teraz).phase;
-            let dataPetli = new Date(teraz.getTime());
-            for (let i = 0; i < 720; i++) {
-                dataPetli.setHours(dataPetli.getHours() + 1);
-                let fazaNowa = SunCalc.getMoonIllumination(dataPetli).phase;
-                if (fazaPoprzednia < 0.5 && fazaNowa >= 0.5) {
-                    const diffMs = dataPetli.getTime() - teraz.getTime();
-section>
-                    const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-                    return diffDni;
-                }
-                fazaPoprzednia = fazaNowa;
-            }
-            return 'b/d';
-        }
 
-        // --- GŁÓWNE FUNKCJE APLIKACJI ---
-section>
-        /* ... cały (długi) blok głównych funkcji aplikacji ... */
-        function aktualizujDaneCodzienne(teraz) {
-            console.log("AKTUALIZACJA DANYCH CODZIENNYCH o " + teraz);
-            const rok = teraz.getFullYear();
-            let sunCalcDostepny = typeof SunCalc !== 'undefined';
-            if (sunCalcDostepny) {
-                const jutro = new Date(teraz);
-                jutro.setDate(teraz.getDate() + 1);
-                const daneDzis = SunCalc.getTimes(teraz, PABIANICE_LAT, PABIANICE_LON);
-section>
-                const daneJutro = SunCalc.getTimes(jutro, PABIANICE_LAT, PABIANICE_LON);
-                window.wschodDzis = daneDzis.sunrise;
-                window.zachodDzis = daneDzis.sunset;
-                window.wschodJutro = daneJutro.sunrise;
-                if (window.wschodDzis && window.zachodDzis) {
-                    const poprawnaDlugoscDniaMs = window.zachodDzis.getTime() - window.wschodDzis.getTime();
-                    document.getElementById('czas-dnia').textContent = formatujDlugoscDnia(poprawnaDlugoscDniaMs);
-                } else {
-                    document.getElementById('czas-dnia').textContent = "b/d";
-section>
-                }
-                document.getElementById('wschod').textContent = formatujGodzine(window.wschodDzis);
-                document.getElementById('zachod').textContent = formatujGodzine(window.zachodDzis);
-            } else {
-                document.getElementById('wschod').textContent = "b/d";
-                document.getElementById('zachod').textContent = "b/d";
-                document.getElementById('czas-dnia').textContent = "b/d";
-            }
-            const dzienRoku = obliczDzienRoku(teraz);
-            const maxDniWRoku = czyRokPrzestepny(rok) ? 366 : 365;
-            const dniDoKonca = maxDniWRoku - dzienRoku;
-            const kwartal = obliczKwartal(teraz);
-            document.getElementById('dzien-roku').textContent = dzienRoku;
-            document.getElementById('max-dzien-roku').textContent = maxDniWRoku;
-            document.getElementById('dni-do-konca').textContent = dniDoKonca;
-            document.getElementById('tydzien-roku').textContent = obliczNumerTygodnia(teraz);
-section>
-            document.getElementById('max-tydzien-roku').textContent = iloscTygodniWRoku(rok);
-            document.getElementById('kwartal').textContent = kwartal;
-            const dzisKlucz = formatujDateNaKlucz(teraz);
-            const wszystkieSwieta = [];
-            const swietoStale = SWIETA_STALE[dzisKlucz];
-            if (swietoStale) wszystkieSwieta.push(swietoStale);
-            if (!window.swietaRuchomeCache[rok]) {
-                const wielkanoc = obliczWielkanoc(rok);
-section>
-                const ponWielkanocny = dodajDniDoDaty(wielkanoc, 1);
-                const zieloneSwiatki = dodajDniDoDaty(wielkanoc, 49);
-                const bozeCialo = dodajDniDoDaty(wielkanoc, 60);
-                window.swietaRuchomeCache[rok] = {};
-                window.swietaRuchomeCache[rok][formatujDateNaKlucz(wielkanoc)] = 'Niedziela Wielkanocna';
-                window.swietaRuchomeCache[rok][formatujDateNaKlucz(ponWielkanocny)] = 'Poniedziałek Wielkanocny';
-                window.swietaRuchomeCache[rok][formatujDateNaKlucz(zieloneSwiatki)] = 'Zielone Świątki';
-s<section>
-                window.swietaRuchomeCache[rok][formatujDateNaKlucz(bozeCialo)] = 'Boże Ciało';
-            }
-            const swietoRuchome = window.swietaRuchomeCache[rok][dzisKlucz];
-            if (swietoRuchome) wszystkieSwieta.push(swietoRuchome);
-            if(typeof SWIETA_NIETYPOWE_BAZA !== 'undefined') {
-Section
-                const swietoNietypowe = SWIETA_NIETYPOWE_BAZA[dzisKlucz];
-                if (swietoNietypowe) wszystkieSwieta.push(swietoNietypowe);
-            }
-            document.getElementById('swieto').textContent = 
-                wszystkieSwieta.length ? `(${wszystkieSwieta.join(', ')})` : "";
-            let imieniny = "b/d";
-            if (typeof IMIENINY_BAZA !== 'undefined') {
-                imieniny = IMIENINY_BAZA[dzisKlucz] || "brak";
-section>
-            }
-            document.getElementById('imiona').textContent = imieniny;
-            const infoZodiaku = pobierzInfoZodiaku(teraz);
-            document.getElementById('zodiak-nazwa').textContent = infoZodiaku.nazwa;
-section>
-            document.getElementById('zodiak-obraz').textContent = infoZodiaku.emoji;
-            if (sunCalcDostepny) {
-                const moonInfo = SunCalc.getMoonIllumination(teraz);
-                const infoKsiezyca = pobierzInfoKsiezyca(moonInfo.phase);
-                document.getElementById('faza-ksiezyca-nazwa').textContent = infoKsiezyca.nazwa;
-                document.getElementById('faza-ksiezyca-obraz').textContent = infoKsiezyca.emoji;
-                document.getElementById('faza-ksiezyca-numer').textContent = infoKsiezyca.index;
-section>
-            } else {
-                document.getElementById('faza-ksiezyca-nazwa').textContent = "b/d";
-                document.getElementById('faza-ksiezyca-obraz').textContent = "🛰️";
-                document.getElementById('faza-ksiezyca-numer').textContent = "?";
-section>
-            }
-  _         const infoNastepnegoZnaku = obliczNastepnyZnak(teraz);
-            document.getElementById('zodiak-countdown-nazwa').textContent = infoNastepnegoZnaku.nazwa;
-            document.getElementById('zodiak-countdown-dni').textContent = infoNastepnegoZnaku.dni;
-            const dniDoPelni = obliczNastepnaPelnie(teraz);
-            document.getElementById('pelnia-countdown-dni').textContent = dniDoPelni;
-        }
+    <div id="kontener">
 
-        function aktualizujZegar() {
-            const teraz = new Date();
-            const dzienNumer = teraz.getDate();
-            if (dzienNumer !== window.ostatniDzien) {
-section>
-                aktualizujDaneCodzienne(teraz);
-                window.ostatniDzien = dzienNumer;
-            }
-            const nazwaDnia = DNI_TYGODNIA[teraz.getDay()];
-            document.getElementById('dzien').textContent = nazwaDnia;
-            const godzina = formatujLiczbe(teraz.getHours());
-section>
-            const minuta = formatujLiczbe(teraz.getMinutes());
-            const sekunda = formatujLiczbe(teraz.getSeconds());
-section>
-            const dzien = formatujLiczbe(teraz.getDate());
-            const miesiac = formatujLiczbe(teraz.getMonth() + 1);
-            const rok = String(teraz.getFullYear());
-            ustawCyfre('data-d1', dzien[0]);
-            ustawCyfre('data-d2', dzien[1]);
-            ustawCyfre('data-m1', miesiac[0]);
-    ba       ustawCyfre('data-m2', miesiac[1]);
-            ustawCyfre('data-r1', rok[0]);
-            ustawCyfre('data-r2', rok[1]);
-            ustawCyfre('data-r3', rok[2]);
-            ustawCyfre('data-r4', rok[3]);
-            ustawCyfre('czas-h1', godzina[0]);
-  section>
-            ustawCyfre('czas-h2', godzina[1]);
-            ustawCyfre('czas-m1', minuta[0]);
-            ustawCyfre('czas-m2', minuta[1]);
-            ustawCyfre('czas-s1', sekunda[0]);
-            ustawCyfre('czas-s2', sekunda[1]);
-            const sekundaParzysta = teraz.getSeconds() % 2 === 0;
-            document.querySelectorAll('.mrugajacy').forEach(el => {
-                el.classList.toggle('wygaszony', sekundaParzysta);
-            });
-            let celCzasu, celTekst;
-            if (!window.wschodDzis || !window.zachodDzis || !window.wschodJutro) {
-                document.getElementById('odliczanie-slonca').textContent = (typeof SunCalc === 'undefined') ? "Brak SunCalc..." : "Inicjalizacja...";
-                return;
-  s         }
-            if (teraz < window.wschodDzis) {
-                celCzasu = window.wschodDzis;
-                celTekst = "Wschód słońca za:";
-            } else if (teraz < window.zachodDzis) {
-                celCzasu = window.zachodDzis;
-s
-                celTekst = "Zachód słońca za:";
-            } else {
-                celCzasu = window.wschodJutro;
-                celTekst = "Wschód słońca za:";
-            }
-            if (celCzasu && typeof celCzasu.getTime === 'function') {
-ba
-                const deltaMs = celCzasu.getTime() - teraz.getTime();
-                document.getElementById('odliczanie-slonca').textContent = 
-                    `${celTekst} ${formatujDelteCzasu(deltaMs)}`;
-            } else {
-                 document.getElementById('odliczanie-slonca').textContent = "Błąd czasu słońca...";
-section>
-            }
-        }
+        <table id="tabela-naglowek">
 
-        // --- SEKCJA URUCHOMIENIOWA ---
-        inicjalizujZegar(); 
-        setTimeout(() => {
-            aktualizujZegar(); 
-            setInterval(aktualizujZegar, 1000); 
-        }, 100);
+            <tr>
 
-        
-        /* KOMENTARZ (DLACZEGO?): Ten blok kodu jest NOWY.
-section
-          Jego zadaniem jest zarejestrowanie pliku 'sw.js' (Service Worker).
-          
-          1. Sprawdza, czy przeglądarka w ogóle wspiera Service Workery 
-      s       ('serviceWorker' in navigator).
-          2. Jeśli tak, czeka aż strona się załaduje ('load').
-          3. Następnie próbuje zarejestrować plik 'sw.js'.
-          4. Jeśli się uda, wypisuje w konsoli sukces, jeśli nie - błąd.
-s
-          
-          Ten kod jest kluczowy, by aplikacja mogła działać offline.
-        */
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-              .then(registration => {
-                console.log('Service Worker zarejestrowany pomyślnie:', registration);
-section>
-              })
-              .catch(error => {
-                console.log('Rejestracja Service Workera nie powiodła się:', error);
-              });
-          });
-        }
-    </script>
+                <td class="komorka-dzien" rowspan="2">
+
+                    <span id="dzien">...</span>
+
+                </td>
+
+                <td class="komorka-info komorka-swieto">
+
+                    <span id="swieto">...</span>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td class="komorka-info komorka-imieniny">
+
+                    Imieniny: <span id="imiona">...</span>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+        <table id="tabela-info-roczne">
+
+            <tr>
+
+                <td>
+
+                    Dzień roku: <span><span id="dzien-roku">...</span><span class="max">/<span id="max-dzien-roku">...</span></span></span>
+
+                </td>
+
+                <td>
+
+                    Tydzień: <span><span id="tydzien-roku">...</span><span class="max">/<span id="max-tydzien-roku">...</span></span></span>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+
+                    Sylwester za: <span><span id="dni-do-konca">...</span></span> dni
+
+                </td>
+
+                <td>
+
+                    Kwartał: <span><span id="kwartal">...</span><span class="max">/4</span></span>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+        
+
+        <div id="zegar-segmentowy-kontener"></div>
+
+        
+
+        
+
+        <table id="tabela-slonce">
+
+            <tr>
+
+                <td>
+
+                    ☀️ Wschód: <span id="wschod">...</span>
+
+                </td>
+
+                <td>
+
+                    Długość dnia: <span id="czas-dnia">...</span>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+
+                    🌙 Zachód: <span id="zachod">...</span>
+
+                </td>
+
+                <td id="odliczanie-slonca">
+
+                    Ładowanie...
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+        <div id="astro">
+
+            <div class="astro-item">
+
+                <span id="zodiak-obraz" class="zodiak-emoji">...</span>
+
+                <span>Znak: <span id="zodiak-nazwa">...</span></span>
+
+            </div>
+
+            <span class="astro-separator">|</span>
+
+            <div class="astro-item">
+
+                <span id="faza-ksiezyca-obraz">...</span>
+
+                <span>
+
+                    Faza (<span id="faza-ksiezyca-numer">...</span>/8): 
+
+                    <span id="faza-ksiezyca-nazwa">...</span>
+
+                </span>
+
+            </div>
+
+        </div>
+
+        
+
+        <div id="astro-countdown" class="astro-countdown">
+
+            <span>
+
+                Zmiana zodiaku na: <span id="zodiak-countdown-nazwa">...</span> 
+
+                za: <span id="zodiak-countdown-dni">...</span> dni
+
+            </span>
+
+            <span class="astro-separator-maly">|</span>
+
+            <span>
+
+                Pełnia księżyca za: <span id="pelnia-countdown-dni">...</span> dni
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="imieniny.js"></script>
+
+    <script src="swieta.js"></script>
+
+
+
+    <script>
+
+        /* Cały główny skrypt JS pozostaje bez zmian - jest identyczny 
+
+          jak w Twoim pliku Zegar19seg.html 
+
+        */
+
+        
+
+        // --- SEKCJA KONFIGURACYJNA I STAŁE ---
+
+        const DNI_TYGODNIA = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+
+        const PABIANICE_LAT = 51.6567;
+
+        const PABIANICE_LON = 19.3578;
+
+        const SWIETA_STALE = {
+
+            '01-01': 'Nowy Rok', '01-06': 'Trzech Króli', '05-01': 'Święto Pracy',
+
+            '05-03': 'Święto Konstyt. 3 Maja', '08-15': 'Święto Wojska Polskiego, Wniebowzięcie NMP',
+
+            '11-01': 'Wszystkich Świętych', '11-11': 'Narodowe Święto Niepodległości',
+
+            '12-25': 'Boże Narodzenie (I dzień)', '12-26': 'Boże Narodzenie (II dzień)'
+
+        };
+
+        const ZNAKI_ZODIAKU = [
+
+            { nazwa: 'Koziorożec', start: [12, 22], emoji: '♑' },
+
+            { nazwa: 'Wodnik', start: [1, 20], emoji: '♒' },
+
+            { nazwa: 'Ryby', start: [2, 19], emoji: '♓' },
+
+            { nazwa: 'Baran', start: [3, 21], emoji: '♈' },
+
+            { nazwa: 'Byk', start: [4, 20], emoji: '♉' },
+
+            { nazwa: 'Bliźnięta', start: [5, 21], emoji: '♊' },
+
+            { nazwa: 'Rak', start: [6, 21], emoji: '♋' },
+
+            { nazwa: 'Lew', start: [7, 23], emoji: '♌' },
+
+            { nazwa: 'Panna', start: [8, 23], emoji: '♍' },
+
+            { nazwa: 'Waga', start: [9, 23], emoji: '♎' },
+
+            { nazwa: 'Skorpion', start: [10, 23], emoji: '♏' },
+
+            { nazwa: 'Strzelec', start: [11, 22], emoji: '♐' }
+
+        ];
+
+        const MAPA_SEGMENTOW = {
+
+            '0': ['a', 'b', 'c', 'd', 'e', 'f'],
+
+            '1': ['b', 'c'],
+
+            '2': ['a', 'b', 'g', 'e', 'd'],
+
+            '3': ['a', 'b', 'g', 'c', 'd'],
+
+            '4': ['f', 'g', 'b', 'c'],
+
+            '5': ['a', 'f', 'g', 'c', 'd'],
+
+            '6': ['a', 'f', 'g', 'e', 'c', 'd'],
+
+            '7': ['a', 'b', 'c'],
+
+            '8': ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
+
+            '9': ['a', 'b', 'c', 'd', 'f', 'g'],
+
+            ' ': []
+
+        };
+
+        const STRUKTURA_DATY = [
+
+            { typ: 'cyfra', id: 'data-d1' }, { typ: 'cyfra', id: 'data-d2' },
+
+            { typ: 'separator', 'rodzaj': 'kreska' },
+
+            { typ: 'cyfra', id: 'data-m1' }, { typ: 'cyfra', id: 'data-m2' },
+
+            { typ: 'separator', 'rodzaj': 'kreska' },
+
+            { typ: 'cyfra', id: 'data-r1' }, { typ: 'cyfra', id: 'data-r2' },
+
+            { typ: 'cyfra', id: 'data-r3' }, { typ: 'cyfra', id: 'data-r4' }
+
+        ];
+
+        const STRUKTURA_CZASU = [
+
+            { typ: 'cyfra', id: 'czas-h1' }, { typ: 'cyfra', id: 'czas-h2' },
+
+            { typ: 'separator', 'rodzaj': 'dwukropek' },
+
+            { typ: 'cyfra', id: 'czas-m1' }, { typ: 'cyfra', id: 'czas-m2' },
+
+            { typ: 'separator', 'rodzaj': 'dwukropek' },
+
+            { typ: 'cyfra', id: 'czas-s1' }, { typ: 'cyfra', id: 'czas-s2' }
+
+        ];
+
+        
+
+        // --- ZMIENNE GLOBALNE (CACHE) ---
+
+        window.ostatniDzien = null; 
+
+        window.wschodDzis = null;
+
+        window.zachodDzis = null;
+
+        window.wschodJutro = null;
+
+        window.swietaRuchomeCache = {};
+
+
+
+        // --- FUNKCJE POMOCNICZE ---
+
+        /* ... cały (długi) blok funkcji pomocniczych ... */
+
+        function stworzCyfre(id) {
+
+            const cyfraDiv = document.createElement('div');
+
+            cyfraDiv.classList.add('cyfra');
+
+            cyfraDiv.id = id;
+
+            const segmenty = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+
+            segmenty.forEach(seg => {
+
+                const segmentDiv = document.createElement('div');
+
+                segmentDiv.classList.add('segment', seg);
+
+                cyfraDiv.appendChild(segmentDiv);
+
+            });
+
+            return cyfraDiv;
+
+        }
+
+        function stworzSeparator(rodzaj) {
+
+            const separatorDiv = document.createElement('div');
+
+            separatorDiv.classList.add('separator', `separator-${rodzaj}`);
+
+            if (rodzaj === 'dwukropek') {
+
+                separatorDiv.classList.add('mrugajacy');
+
+            }
+
+            return separatorDiv;
+
+        }
+
+        function inicjalizujZegar() {
+
+            const kontenerGlowny = document.getElementById('zegar-segmentowy-kontener');
+
+            if (!kontenerGlowny) return;
+
+            const kontenerLinii = document.createElement('div');
+
+            kontenerLinii.classList.add('kontener-linii');
+
+            STRUKTURA_DATY.forEach(el => {
+
+                if (el.typ === 'cyfra') {
+
+                    kontenerLinii.appendChild(stworzCyfre(el.id));
+
+                } else if (el.typ === 'separator') {
+
+                    kontenerLinii.appendChild(stworzSeparator(el.rodzaj));
+
+                }
+
+            });
+
+            const spacer = document.createElement('div');
+
+            spacer.classList.add('separator-spacer'); 
+
+            kontenerLinii.appendChild(spacer);
+
+            STRUKTURA_CZASU.forEach(el => {
+
+                if (el.typ === 'cyfra') {
+
+                    kontenerLinii.appendChild(stworzCyfre(el.id));
+
+                } else if (el.typ === 'separator') {
+
+                    kontenerLinii.appendChild(stworzSeparator(el.rodzaj));
+
+                }
+
+            });
+
+            kontenerGlowny.appendChild(kontenerLinii);
+
+        }
+
+        function ustawCyfre(elementId, cyfra) {
+
+            const el = document.getElementById(elementId);
+
+            if (!el) return;
+
+            const cyfraStr = String(cyfra); 
+
+            const segmentyDoWlaczenia = MAPA_SEGMENTOW[cyfraStr];
+
+            el.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
+
+            if (segmentyDoWlaczenia) {
+
+                segmentyDoWlaczenia.forEach(seg => {
+
+                    const segmentElement = el.querySelector(`.segment.${seg}`);
+
+                    if (segmentElement) {
+
+                        segmentElement.classList.add('active');
+
+                    }
+
+                });
+
+            }
+
+        }
+
+        function formatujLiczbe(liczba) { return String(liczba).padStart(2, '0'); }
+
+        function formatujGodzine(data) {
+
+            if (data && typeof data.getHours === 'function') {
+
+                const godzina = formatujLiczbe(data.getHours());
+
+                const minuta = formatujLiczbe(data.getMinutes());
+
+                return `${godzina}:${minuta}`;
+
+            }
+
+            return 'b/d';
+
+        }
+
+        function obliczDzienRoku(data) {
+
+            const startRoku = new Date(data.getFullYear(), 0, 0);
+
+            const diff = data - startRoku;
+
+            const jedenDzienMs = 1000 * 60 * 60 * 24;
+
+            return Math.floor(diff / jedenDzienMs);
+
+        }
+
+        function obliczNumerTygodnia(d) {
+
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+
+            var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+
+            var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+
+            return weekNo;
+
+        }
+
+        function obliczKwartal(data) {
+
+            const miesiac = data.getMonth(); 
+
+            return Math.floor(miesiac / 3) + 1;
+
+        }
+
+        function formatujDelteCzasu(ms) {
+
+            let totalSeconds = Math.floor(Math.max(ms, 0) / 1000);
+
+            let hours = Math.floor(totalSeconds / 3600);
+
+            totalSeconds %= 3600;
+
+            let minutes = Math.floor(totalSeconds / 60);
+
+            let seconds = totalSeconds % 60;
+
+            return `${formatujLiczbe(hours)}:${formatujLiczbe(minutes)}:${formatujLiczbe(seconds)}`;
+
+        }
+
+        function formatujDlugoscDnia(ms) {
+
+            let totalMinutes = Math.floor(Math.max(ms, 0) / (1000 * 60));
+
+            let hours = Math.floor(totalMinutes / 60);
+
+            let minutes = totalMinutes % 60;
+
+            return `${hours} godz. ${minutes} min.`;
+
+        }
+
+        function czyRokPrzestepny(rok) {
+
+            return (rok % 4 === 0 && rok % 100 !== 0) || rok % 400 === 0;
+
+        }
+
+        function iloscTygodniWRoku(rok) {
+
+            return obliczNumerTygodnia(new Date(rok, 11, 28));
+
+        }
+
+        function obliczWielkanoc(rok) {
+
+            const a = rok % 19, b = Math.floor(rok / 100), c = rok % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451), miesiac = Math.floor((h + l - 7 * m + 114) / 31), dzien = ((h + l - 7 * m + 114) % 31) + 1;
+
+            return new Date(rok, miesiac - 1, dzien);
+
+        }
+
+        function dodajDniDoDaty(data, dni) {
+
+            const nowaData = new Date(data);
+
+            nowaData.setDate(nowaData.getDate() + dni);
+
+            return nowaData;
+
+        }
+
+        function formatujDateNaKlucz(data) {
+
+            return `${formatujLiczbe(data.getMonth() + 1)}-${formatujLiczbe(data.getDate())}`;
+
+        }
+
+        function pobierzInfoZodiaku(data) {
+
+            const dzien = data.getDate(), miesiac = data.getMonth() + 1;
+
+            let biezacyZnak = ZNAKI_ZODIAKU.find(znak => { return miesiac > znak.start[0] || (miesiac === znak.start[0] && dzien >= znak.start[1]); });
+
+            if (!biezacyZnak) { return ZNAKI_ZODIAKU[0]; }
+
+            return biezacyZnak;
+
+        }
+
+        function pobierzInfoKsiezyca(f) {
+
+            if (f <= 0.03 || f > 0.97) return { nazwa: 'Nów', emoji: '🌑', index: 1 };
+
+            if (f <= 0.22) return { nazwa: 'Sierp przybywający', emoji: '🌒', index: 2 };
+
+            if (f <= 0.28) return { nazwa: 'Pierwsza Kwadra', emoji: '🌓', index: 3 };
+
+            if (f <= 0.47) return { nazwa: 'Garbaty przybywający', emoji: '🌔', index: 4 };
+
+            if (f <= 0.53) return { nazwa: 'Pełnia', emoji: '🌕', index: 5 };
+
+            if (f <= 0.72) return { nazwa: 'Garbaty ubywający', emoji: '🌖', index: 6 };
+
+            if (f <= 0.78) return { nazwa: 'Ostatnia Kwadra', emoji: '🌗', index: 7 };
+
+            return { nazwa: 'Sierp ubywający', emoji: '🌘', index: 8 };
+
+        }
+
+        function obliczNastepnyZnak(teraz) {
+
+            const infoZodiaku = pobierzInfoZodiaku(teraz);
+
+            const obecnyIndex = ZNAKI_ZODIAKU.findIndex(z => z.nazwa === infoZodiaku.nazwa);
+
+            const nastepnyIndex = (obecnyIndex + 1) % ZNAKI_ZODIAKU.length;
+
+            const nastepnyZnak = ZNAKI_ZODIAKU[nastepnyIndex];
+
+            const rok = teraz.getFullYear();
+
+            let dataStartu = new Date(rok, nastepnyZnak.start[0] - 1, nastepnyZnak.start[1]);
+
+            if (dataStartu < teraz) {
+
+                dataStartu.setFullYear(rok + 1);
+
+            }
+
+            const diffMs = dataStartu.getTime() - teraz.getTime();
+
+            const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+            return { nazwa: nastepnyZnak.nazwa, dni: diffDni };
+
+        }
+
+        function obliczNastepnaPelnie(teraz) {
+
+            if (typeof SunCalc === 'undefined') return 'b/d';
+
+            let fazaPoprzednia = SunCalc.getMoonIllumination(teraz).phase;
+
+            let dataPetli = new Date(teraz.getTime());
+
+            for (let i = 0; i < 720; i++) {
+
+                dataPetli.setHours(dataPetli.getHours() + 1);
+
+                let fazaNowa = SunCalc.getMoonIllumination(dataPetli).phase;
+
+                if (fazaPoprzednia < 0.5 && fazaNowa >= 0.5) {
+
+                    const diffMs = dataPetli.getTime() - teraz.getTime();
+
+                    const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+                    return diffDni;
+
+                }
+
+                fazaPoprzednia = fazaNowa;
+
+            }
+
+            return 'b/d';
+
+        }
+
+
+
+        // --- GŁÓWNE FUNKCJE APLIKACJI ---
+
+        /* ... cały (długi) blok głównych funkcji aplikacji ... */
+
+        function aktualizujDaneCodzienne(teraz) {
+
+            console.log("AKTUALIZACJA DANYCH CODZIENNYCH o " + teraz);
+
+            const rok = teraz.getFullYear();
+
+            let sunCalcDostepny = typeof SunCalc !== 'undefined';
+
+            if (sunCalcDostepny) {
+
+                const jutro = new Date(teraz);
+
+                jutro.setDate(teraz.getDate() + 1);
+
+                const daneDzis = SunCalc.getTimes(teraz, PABIANICE_LAT, PABIANICE_LON);
+
+                const daneJutro = SunCalc.getTimes(jutro, PABIANICE_LAT, PABIANICE_LON);
+
+                window.wschodDzis = daneDzis.sunrise;
+
+                window.zachodDzis = daneDzis.sunset;
+
+                window.wschodJutro = daneJutro.sunrise;
+
+                if (window.wschodDzis && window.zachodDzis) {
+
+                    const poprawnaDlugoscDniaMs = window.zachodDzis.getTime() - window.wschodDzis.getTime();
+
+                    document.getElementById('czas-dnia').textContent = formatujDlugoscDnia(poprawnaDlugoscDniaMs);
+
+                } else {
+
+                    document.getElementById('czas-dnia').textContent = "b/d";
+
+                }
+
+                document.getElementById('wschod').textContent = formatujGodzine(window.wschodDzis);
+
+                document.getElementById('zachod').textContent = formatujGodzine(window.zachodDzis);
+
+            } else {
+
+                document.getElementById('wschod').textContent = "b/d";
+
+                document.getElementById('zachod').textContent = "b/d";
+
+                document.getElementById('czas-dnia').textContent = "b/d";
+
+            }
+
+            const dzienRoku = obliczDzienRoku(teraz);
+
+            const maxDniWRoku = czyRokPrzestepny(rok) ? 366 : 365;
+
+            const dniDoKonca = maxDniWRoku - dzienRoku;
+
+            const kwartal = obliczKwartal(teraz);
+
+            document.getElementById('dzien-roku').textContent = dzienRoku;
+
+            document.getElementById('max-dzien-roku').textContent = maxDniWRoku;
+
+            document.getElementById('dni-do-konca').textContent = dniDoKonca;
+
+            document.getElementById('tydzien-roku').textContent = obliczNumerTygodnia(teraz);
+
+            document.getElementById('max-tydzien-roku').textContent = iloscTygodniWRoku(rok);
+
+            document.getElementById('kwartal').textContent = kwartal;
+
+            const dzisKlucz = formatujDateNaKlucz(teraz);
+
+            const wszystkieSwieta = [];
+
+            const swietoStale = SWIETA_STALE[dzisKlucz];
+
+            if (swietoStale) wszystkieSwieta.push(swietoStale);
+
+            if (!window.swietaRuchomeCache[rok]) {
+
+                const wielkanoc = obliczWielkanoc(rok);
+
+                const ponWielkanocny = dodajDniDoDaty(wielkanoc, 1);
+
+                const zieloneSwiatki = dodajDniDoDaty(wielkanoc, 49);
+
+                const bozeCialo = dodajDniDoDaty(wielkanoc, 60);
+
+                window.swietaRuchomeCache[rok] = {};
+
+                window.swietaRuchomeCache[rok][formatujDateNaKlucz(wielkanoc)] = 'Niedziela Wielkanocna';
+
+                window.swietaRuchomeCache[rok][formatujDateNaKlucz(ponWielkanocny)] = 'Poniedziałek Wielkanocny';
+
+                window.swietaRuchomeCache[rok][formatujDateNaKlucz(zieloneSwiatki)] = 'Zielone Świątki';
+
+                window.swietaRuchomeCache[rok][formatujDateNaKlucz(bozeCialo)] = 'Boże Ciało';
+
+            }
+
+            const swietoRuchome = window.swietaRuchomeCache[rok][dzisKlucz];
+
+            if (swietoRuchome) wszystkieSwieta.push(swietoRuchome);
+
+            if(typeof SWIETA_NIETYPOWE_BAZA !== 'undefined') {
+
+                const swietoNietypowe = SWIETA_NIETYPOWE_BAZA[dzisKlucz];
+
+                if (swietoNietypowe) wszystkieSwieta.push(swietoNietypowe);
+
+            }
+
+            document.getElementById('swieto').textContent = 
+
+                wszystkieSwieta.length ? `(${wszystkieSwieta.join(', ')})` : "";
+
+            let imieniny = "b/d";
+
+            if (typeof IMIENINY_BAZA !== 'undefined') {
+
+                imieniny = IMIENINY_BAZA[dzisKlucz] || "brak";
+
+            }
+
+            document.getElementById('imiona').textContent = imieniny;
+
+            const infoZodiaku = pobierzInfoZodiaku(teraz);
+
+            document.getElementById('zodiak-nazwa').textContent = infoZodiaku.nazwa;
+
+            document.getElementById('zodiak-obraz').textContent = infoZodiaku.emoji;
+
+            if (sunCalcDostepny) {
+
+                const moonInfo = SunCalc.getMoonIllumination(teraz);
+
+                const infoKsiezyca = pobierzInfoKsiezyca(moonInfo.phase);
+
+                document.getElementById('faza-ksiezyca-nazwa').textContent = infoKsiezyca.nazwa;
+
+                document.getElementById('faza-ksiezyca-obraz').textContent = infoKsiezyca.emoji;
+
+                document.getElementById('faza-ksiezyca-numer').textContent = infoKsiezyca.index;
+
+            } else {
+
+                document.getElementById('faza-ksiezyca-nazwa').textContent = "b/d";
+
+                document.getElementById('faza-ksiezyca-obraz').textContent = "🛰️";
+
+                document.getElementById('faza-ksiezyca-numer').textContent = "?";
+
+            }
+
+            const infoNastepnegoZnaku = obliczNastepnyZnak(teraz);
+
+            document.getElementById('zodiak-countdown-nazwa').textContent = infoNastepnegoZnaku.nazwa;
+
+            document.getElementById('zodiak-countdown-dni').textContent = infoNastepnegoZnaku.dni;
+
+            const dniDoPelni = obliczNastepnaPelnie(teraz);
+
+            document.getElementById('pelnia-countdown-dni').textContent = dniDoPelni;
+
+        }
+
+
+
+        function aktualizujZegar() {
+
+            const teraz = new Date();
+
+            const dzienNumer = teraz.getDate();
+
+            if (dzienNumer !== window.ostatniDzien) {
+
+                aktualizujDaneCodzienne(teraz);
+
+                window.ostatniDzien = dzienNumer;
+
+            }
+
+            const nazwaDnia = DNI_TYGODNIA[teraz.getDay()];
+
+            document.getElementById('dzien').textContent = nazwaDnia;
+
+            const godzina = formatujLiczbe(teraz.getHours());
+
+            const minuta = formatujLiczbe(teraz.getMinutes());
+
+            const sekunda = formatujLiczbe(teraz.getSeconds());
+
+            const dzien = formatujLiczbe(teraz.getDate());
+
+            const miesiac = formatujLiczbe(teraz.getMonth() + 1);
+
+            const rok = String(teraz.getFullYear());
+
+            ustawCyfre('data-d1', dzien[0]);
+
+            ustawCyfre('data-d2', dzien[1]);
+
+            ustawCyfre('data-m1', miesiac[0]);
+
+            ustawCyfre('data-m2', miesiac[1]);
+
+            ustawCyfre('data-r1', rok[0]);
+
+            ustawCyfre('data-r2', rok[1]);
+
+            ustawCyfre('data-r3', rok[2]);
+
+            ustawCyfre('data-r4', rok[3]);
+
+            ustawCyfre('czas-h1', godzina[0]);
+
+            ustawCyfre('czas-h2', godzina[1]);
+
+            ustawCyfre('czas-m1', minuta[0]);
+
+            ustawCyfre('czas-m2', minuta[1]);
+
+            ustawCyfre('czas-s1', sekunda[0]);
+
+            ustawCyfre('czas-s2', sekunda[1]);
+
+            const sekundaParzysta = teraz.getSeconds() % 2 === 0;
+
+            document.querySelectorAll('.mrugajacy').forEach(el => {
+
+                el.classList.toggle('wygaszony', sekundaParzysta);
+
+            });
+
+            let celCzasu, celTekst;
+
+            if (!window.wschodDzis || !window.zachodDzis || !window.wschodJutro) {
+
+                document.getElementById('odliczanie-slonca').textContent = (typeof SunCalc === 'undefined') ? "Brak SunCalc..." : "Inicjalizacja...";
+
+                return;
+
+            }
+
+            if (teraz < window.wschodDzis) {
+
+                celCzasu = window.wschodDzis;
+
+                celTekst = "Wschód słońca za:";
+
+            } else if (teraz < window.zachodDzis) {
+
+                celCzasu = window.zachodDzis;
+
+                celTekst = "Zachód słońca za:";
+
+            } else {
+
+                celCzasu = window.wschodJutro;
+
+                celTekst = "Wschód słońca za:";
+
+            }
+
+            if (celCzasu && typeof celCzasu.getTime === 'function') {
+
+                const deltaMs = celCzasu.getTime() - teraz.getTime();
+
+                document.getElementById('odliczanie-slonca').textContent = 
+
+                    `${celTekst} ${formatujDelteCzasu(deltaMs)}`;
+
+            } else {
+
+                 document.getElementById('odliczanie-slonca').textContent = "Błąd czasu słońca...";
+
+            }
+
+        }
+
+
+
+        // --- SEKCJA URUCHOMIENIOWA ---
+
+        inicjalizujZegar(); 
+
+        setTimeout(() => {
+
+            aktualizujZegar(); 
+
+            setInterval(aktualizujZegar, 1000); 
+
+        }, 100);
+
+
+
+        
+
+        /* KOMENTARZ (DLACZEGO?): Ten blok kodu jest NOWY.
+
+          Jego zadaniem jest zarejestrowanie pliku 'sw.js' (Service Worker).
+
+          
+
+          1. Sprawdza, czy przeglądarka w ogóle wspiera Service Workery 
+
+             ('serviceWorker' in navigator).
+
+          2. Jeśli tak, czeka aż strona się załaduje ('load').
+
+          3. Następnie próbuje zarejestrować plik 'sw.js'.
+
+          4. Jeśli się uda, wypisuje w konsoli sukces, jeśli nie - błąd.
+
+          
+
+          Ten kod jest kluczowy, by aplikacja mogła działać offline.
+
+        */
+
+        if ('serviceWorker' in navigator) {
+
+          window.addEventListener('load', () => {
+
+            navigator.serviceWorker.register('/sw.js')
+
+              .then(registration => {
+
+                console.log('Service Worker zarejestrowany pomyślnie:', registration);
+
+              })
+
+              .catch(error => {
+
+                console.log('Rejestracja Service Workera nie powiodła się:', error);
+
+              });
+
+          });
+
+        }
+
+    </script>
+
+
 
 </body>
+
 </html>
