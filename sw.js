@@ -1,23 +1,22 @@
 /*
-  KOMENTARZ (DLACZEGO?): To jest Service Worker. Jego celem jest
-  przechwycenie wszystkich żądań sieciowych i dostarczenie plików
-  z pamięci podręcznej (cache), jeśli są dostępne.
+  KOMENTARZ (POPRAWKA): Poniższa lista została zmieniona.
+  Usunięto wszystkie ukośniki (/) z początku ścieżek,
+  aby działały poprawnie (jako ścieżki względne) na GitHub Pages.
 */
-
-// Nazwa naszej pamięci podręcznej. Zmiana tej nazwy (np. na v2) 
-// spowoduje odświeżenie cache przy następnej wizycie.
-const CACHE_NAME = 'zegar-info-cache-v1';
-
-// Lista plików, które MUSZĄ zostać zapisane w cache podczas instalacji.
-// To jest "szkielet" naszej aplikacji.
 const PLIKI_DO_CACHE = [
-  '/index.html', // Główny plik HTML
-  '/imieniny.js',     // Baza imienin
-  '/swieta.js',       // Baza świąt
-  '/suncalc.min.js',  // Biblioteka SunCalc (teraz lokalna)
-  '/icon-192x192.png',   // Ikona dla manifestu
-  '/icon-512x512.png'    // Ikona dla manifestu
+  'index.html',        // Ścieżka względna (POPRAWNIE)
+  'imieniny.js',       // Ścieżka względna (POPRAWNIE)
+  'swieta.js',         // Ścieżka względna (POPRAWNIE)
+  'suncalc.min.js',   // Ścieżka względna (POPRAWNIE)
+  'icon-192x192.png',  // Ścieżka względna (POPRAWNIE)
+  'icon-512x512.png',  // Ścieżka względna (POPRAWNIE)
+  'manifest.json'      // Dodany manifest (POPRAWNIE)
 ];
+
+/* Cała reszta Twojego pliku sw.js 
+  (addEventListener 'install', 'activate', 'fetch'...)
+  jest już poprawna i może pozostać bez zmian.
+*/
 
 // --- ETAP 1: INSTALACJA ---
 // To się dzieje tylko raz, gdy Service Worker jest instalowany.
@@ -85,4 +84,5 @@ self.addEventListener('fetch', (event) => {
     )
   );
 });
+
 
