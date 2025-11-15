@@ -225,9 +225,60 @@
                 display: none; /* Ukrywamy | między odliczaniem */
             }
         }
+        /* --- SEKCJA BLOKADY ORIENTACJI --- */
+
+        /* KOMENTARZ (DLACZEGO?): Domyślnie ukrywamy komunikat
+          o obrócenie telefonu.
+        */
+        #obroc-urzadzenie {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--kolor-ramki);
+            color: var(--kolor-aktywny);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        #obroc-urzadzenie .ikona {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            /* Prosta animacja obrotu */
+            animation: obrot-ikony 2s linear infinite;
+        }
+        
+        @keyframes obrot-ikony {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* KOMENTARZ (DLACZEGO?): To jest "magiczna" reguła blokująca.
+          Aktywuje się, gdy urządzenie jest w orientacji pionowej.
+        */
+        @media (orientation: portrait) {
+            /* 1. Ukrywamy główną treść aplikacji */
+            #kontener {
+                display: none;
+            }
+            
+            /* 2. Pokazujemy (jako flex) nasz komunikat blokady */
+            #obroc-urzadzenie {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="obroc-urzadzenie">
+        <div class="ikona">📱🔄</div>
+        <p>Proszę obrócić urządzenie do pozycji poziomej.</p>
+    </div>
 
     <div id="kontener">
         <table id="tabela-naglowek">
@@ -725,4 +776,5 @@
 
 </body>
 </html>
+
 
