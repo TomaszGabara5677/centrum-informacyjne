@@ -14,7 +14,7 @@
             Definicja głównych zmiennych CSS (CSS variables) w :root.
             POWÓD: Umożliwia to łatwą zmianę kolorystyki całej aplikacji
             w jednym miejscu. Zamiast szukać i zmieniać '#00FF00'
-            w wielu miejscach, zmieniamy tylko '--kolor-aktywny'.
+            w wielu miejscach, zmieniamy only '--kolor-aktywny'.
         */
         :root {
             --kolor-aktywny: #00FF00;
@@ -64,7 +64,7 @@
             text-align: center;
         }
 
-        /* --- Style tabeli nagłówkowej (Dzień, Święto, Imieniny) --- */
+        /* --- Style tabeli nagłówkowej (Dzień, Lokalizacja, Pogoda) --- */
         #tabela-naglowek {
             width: 100%;
             border-collapse: collapse;
@@ -81,33 +81,44 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             text-shadow: 0 0 5px var(--kolor-aktywny);
-            width: 40%;
+            width: auto; /* Zmieniono z 40% */
             text-align: center;
             vertical-align: middle;
+            padding-right: 20px;
         }
-        /* Komórki z informacjami (Święto, Imieniny) */
-        .komorka-info {
-            font-size: 1.1rem;
+        
+        /* ZMIANA: Komórka z lokalizacją i pogodą */
+        .komorka-lokalizacja-pogoda {
             text-align: left;
-            padding-left: 15px;
+            vertical-align: middle;
             border-left: 1px dotted #008000;
-            padding-bottom: 5px;
-            padding-top: 5px;
+            padding-left: 15px;
+            width: 60%; /* Zajmuje resztę miejsca */
         }
-        .komorka-swieto {
-            color: #ffff00;
-            min-height: 1.4rem;
-            line-height: 1.5;
-        }
-        .komorka-imieniny {
+        #lokalizacja {
+            font-size: 1.3rem;
             color: #00c000;
-            line-height: 1.4;
+            font-weight: bold;
+            /* ZMIANA: Minimalna wysokość, aby uniknąć "skakania" układu podczas ładowania */
+            min-height: 1.5rem;
         }
-        .komorka-imieniny span {
-            color: var(--kolor-aktywny); /* Podświetlenie samych imion */
+        #pogoda {
+            font-size: 1.1rem;
+            color: var(--kolor-aktywny);
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        #pogoda-ikona {
+            font-size: 1.8rem; /* Większe emoji pogody */
+            margin-right: 10px;
+        }
+        #pogoda-info {
+            line-height: 1.4;
         }
 
         /* --- Style tabeli z informacjami rocznymi --- */
+        /* ZMIANA: Tabela ma teraz 3 kolumny */
         #tabela-info-roczne {
             width: 100%;
             border-collapse: collapse;
@@ -116,7 +127,7 @@
             color: #00c000;
         }
         #tabela-info-roczne td {
-            width: 50%;
+            width: 33.33%; /* Domyślna szerokość */
             padding: 3px 0;
             border: none;
             vertical-align: top;
@@ -126,19 +137,34 @@
             color: #008000;
         }
         /* Podświetlenie bieżących wartości */
-        #tabela-info-roczne span span {
+        #tabela-info-roczne span span,
+        #tabela-info-roczne span#swieto-nowe,
+        #tabela-info-roczne span#imiona-nowe {
             color: var(--kolor-aktywny);
             font-weight: bold;
         }
-        /* Wyrównanie kolumn (prawa do prawej, lewa do lewej) */
+        
+        /* ZMIANA: Zaktualizowano wyrównanie dla 3 kolumn */
+        /* Kolumna 1: Dzień roku, Sylwester */
         #tabela-info-roczne td:nth-child(1) {
             text-align: right;
             padding-right: 10px;
+            width: 30%; /* Mniejsza */
         }
+        /* Kolumna 2: Tydzień, Kwartał */
         #tabela-info-roczne td:nth-child(2) {
             text-align: left;
             padding-left: 10px;
             border-left: 1px dotted #008000;
+            width: 30%; /* Mniejsza */
+        }
+        /* Kolumna 3: Święto, Imieniny */
+        #tabela-info-roczne td:nth-child(3) {
+            text-align: left;
+            padding-left: 10px;
+            border-left: 1px dotted #008000;
+            width: 40%; /* Większa, na długie nazwy */
+            line-height: 1.4;
         }
 
         /* --- Style Zegara Segmentowego --- */
@@ -355,7 +381,7 @@
             --- SEKCJA RESPONSYWNA (RWD) DLA TELEFONU W POZIOMIE ---
             ==================================================================
 
-            POWÓD: Ta "magiczna" reguła @media aktywuje się tylko wtedy,
+            POWÓD: Ta "magiczna" reguła @media aktywuje się only wtedy,
             gdy urządzenie jest w orientacji poziomej (landscape) ORAZ
             jego wysokość jest bardzo mała (max-height: 500px).
             
@@ -411,19 +437,34 @@
             .komorka-dzien {
                 font-size: 2.5rem; /* Było 3.5rem */
                 letter-spacing: 2px;
-                width: 35%;
+                padding-right: 10px;
             }
 
-            .komorka-info {
-                font-size: 0.95rem; /* Było 1.1rem */
-                line-height: 1.3;
+            /* ZMIANA: Style RWD dla pogody */
+            .komorka-lokalizacja-pogoda {
                 padding-left: 10px;
             }
+            #lokalizacja {
+                font-size: 1.0rem; /* Było 1.3rem */
+            }
+            #pogoda {
+                font-size: 0.9rem; /* Było 1.1rem */
+                margin-top: 2px;
+            }
+            #pogoda-ikona {
+                font-size: 1.3rem; /* Było 1.8rem */
+                margin-right: 5px;
+            }
+            
 
             #tabela-info-roczne {
                 font-size: 0.95rem; /* Było 1.1rem */
                 margin-bottom: 5px;
             }
+            /* ZMIANA: Mniejszy padding dla 3 kolumn */
+            #tabela-info-roczne td:nth-child(1) { padding-right: 5px; }
+            #tabela-info-roczne td:nth-child(2) { padding-left: 5px; }
+            #tabela-info-roczne td:nth-child(3) { padding-left: 5px; }
 
             /*
                 POWÓD: Skalujemy cały zegar (cyfry i separatory) do 80%.
@@ -551,16 +592,15 @@
 
         <table id="tabela-naglowek">
             <tr>
-                <td class="komorka-dzien" rowspan="2">
+                <td class="komorka-dzien">
                     <span id="dzien">...</span>
                 </td>
-                <td class="komorka-info komorka-swieto">
-                    <span id="swieto">...</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="komorka-info komorka-imieniny">
-                    Imieniny: <span id="imiona">...</span>
+                <td class="komorka-lokalizacja-pogoda">
+                    <div id="lokalizacja">Ustalanie lokalizacji...</div>
+                    <div id="pogoda">
+                        <span id="pogoda-ikona">...</span>
+                        <span id="pogoda-info">Ładowanie pogody...</span>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -573,6 +613,9 @@
                 <td>
                     Tydzień: <span><span id="tydzien-roku">...</span><span class="max">/<span id="max-tydzien-roku">...</span></span></span>
                 </td>
+                <td>
+                    Święto: <span id="swieto-nowe">...</span>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -580,6 +623,9 @@
                 </td>
                 <td>
                     Kwartał: <span><span id="kwartal">...</span><span class="max">/4</span></span>
+                </td>
+                <td>
+                    Imieniny: <span id="imiona-nowe">...</span>
                 </td>
             </tr>
         </table>
@@ -614,7 +660,7 @@
             <div class="astro-item">
                 <span id="faza-ksiezyca-obraz">...</span>
                 <span>
-                    Faza (<span id="faza-ksiezyca-numer">...</span>/8):
+                    Faza księżyca (<span id="faza-ksiezyca-numer">...</span>/8):
                     <span id="faza-ksiezyca-nazwa">...</span>
                 </span>
             </div>
@@ -645,9 +691,11 @@
         // Tablica do mapowania numeru dnia (0=Niedziela) na polską nazwę.
         const DNI_TYGODNIA = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
 
-        // Współrzędne geograficzne (dla biblioteki SunCalc).
-        const PABIANICE_LAT = 51.6567;
-        const PABIANICE_LON = 19.3578;
+        // ZMIANA: Domyślne współrzędne (fallback). Zmienione z 'const' na 'let',
+        // aby można je było nadpisać danymi z geolokalizacji.
+        let BIEZACA_LAT = 51.6567; // Domyślnie Pabianice
+        let BIEZACA_LON = 19.3578; // Domyślnie Pabianice
+        let BIEZACA_LOKALIZACJA_NAZWA = "Pabianice, woj. Łódzkie"; // Domyślna nazwa
 
         // Obiekt (mapa) przechowujący stałe, ustawowe święta.
         // Klucz "MM-DD" pozwala na bardzo szybkie wyszukiwanie.
@@ -679,7 +727,7 @@
             POWÓD: To jest "serce" wyświetlacza 7-segmentowego.
             Definiuje, które segmenty (a, b, c, d, e, f, g) muszą
             być aktywne ('active'), aby wyświetlić daną cyfrę.
-            Np. cyfra '1' to tylko segmenty 'b' i 'c'.
+            Np. cyfra '1' to only segmenty 'b' i 'c'.
         */
         const MAPA_SEGMENTOW = {
             '0': ['a', 'b', 'c', 'd', 'e', 'f'],
@@ -732,6 +780,7 @@
         window.wschodDzis = null;
         window.zachodDzis = null;
         window.wschodJutro = null; // Potrzebne do odliczania po zachodzie słońca
+        window.zachodJutro = null; // NOWE: Potrzebne do wyświetlania jutrzejszego zachodu
 
         // Cache dla świąt ruchomych (Wielkanoc itp.).
         // Kluczem jest rok (np. 2025), wartością jest obiekt z datami.
@@ -777,7 +826,7 @@
         /**
          * Inicjalizuje zegar, budując jego strukturę HTML na podstawie
          * stałych STRUKTURA_DATY i STRUKTURA_CZASU.
-         * POWÓD: Ta funkcja uruchamia się tylko RAZ przy starcie aplikacji.
+         * POWÓD: Ta funkcja uruchamia się only RAZ przy starcie aplikacji.
          */
         function inicjalizujZegar() {
             const kontenerGlowny = document.getElementById('zegar-segmentowy-kontener');
@@ -829,7 +878,7 @@
             // 1. Wyłącz (usuń klasę 'active') wszystkie segmenty
             el.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
 
-            // 2. Włącz tylko te segmenty, które są potrzebne
+            // 2. Włącz only te segmenty, które są potrzebne
             if (segmentyDoWlaczenia) {
                 segmentyDoWlaczenia.forEach(seg => {
                     const segmentElement = el.querySelector(`.segment.${seg}`);
@@ -857,7 +906,7 @@
         function formatujGodzine(data) {
             // Sprawdzenie, czy 'data' jest poprawnym obiektem Date
             if (data && typeof data.getHours === 'function') {
-                const godzina = formatujLiczbe(data.getHours());
+                const godzina = formatujLkiczbe(data.getHours());
                 const minuta = formatujLiczbe(data.getMinutes());
                 return `${godzina}:${minuta}`;
             }
@@ -1060,45 +1109,166 @@
             return 'b/d'; // Nie znaleziono w ciągu 30 dni (błąd?)
         }
 
+        /**
+         * ZMIANA: Mapuje kod pogody z Open-Meteo na emoji i polski opis.
+         * @param {number} code - Kod pogody (weather_code).
+         * @returns {object} Obiekt { ikona, opis }.
+         */
+        function mapujKodPogody(code) {
+            // Kody są oparte na dokumentacji Open-Meteo (WMO Weather interpretation codes)
+            if (code === 0) return { ikona: '☀️', opis: 'Bezchmurnie' };
+            if (code === 1) return { ikona: '🌤️', opis: 'Głównie bezchmurnie' };
+            if (code === 2) return { ikona: '🌥️', opis: 'Częściowe zachmurzenie' };
+            if (code === 3) return { ikona: '☁️', opis: 'Zachmurzenie' };
+            if (code >= 45 && code <= 48) return { ikona: '🌫️', opis: 'Mgła' };
+            if (code >= 51 && code <= 55) return { ikona: '🌦️', opis: 'Mżawka' };
+            if (code >= 56 && code <= 57) return { ikona: '🥶', opis: 'Marznąca mżawka' };
+            if (code >= 61 && code <= 65) return { ikona: '🌧️', opis: 'Deszcz' };
+            if (code >= 66 && code <= 67) return { ikona: '🥶', opis: 'Marznący deszcz' };
+            if (code >= 71 && code <= 75) return { ikona: '❄️', opis: 'Śnieg' };
+            if (code === 77) return { ikona: '🌨️', opis: 'Ziarna śnieżne' };
+            if (code >= 80 && code <= 82) return { ikona: '🌧️', opis: 'Przelotne opady deszczu' };
+            if (code >= 85 && code <= 86) return { ikona: '🌨️', opis: 'Przelotne opady śniegu' };
+            if (code >= 95 && code <= 99) return { ikona: '⛈️', opis: 'Burza' };
+            return { ikona: '❓', opis: 'Nieznana' }; // Domyślna wartość
+        }
+
         // ================================================================
         // --- GŁÓWNE FUNKCJE APLIKACJI ---
         // ================================================================
 
         /**
+         * ZMIANA: Pobiera i aktualizuje pogodę z API Open-Meteo.
+         * Uruchamiana asynchronicznie (async), aby nie blokować reszty aplikacji.
+         * Używa teraz globalnych zmiennych BIEZACA_LAT i BIEZACA_LON.
+         */
+        async function aktualizujPogode() {
+            // Używamy ZMIENNYCH globalnych, które mogły być nadpisane przez geolokalizację
+            const lat = BIEZACA_LAT;
+            const lon = BIEZACA_LON;
+            
+            // Adres URL do API Open-Meteo, proszący o aktualną temperaturę i kod pogody
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=celsius`;
+            
+            // Pobranie referencji (wskaźników) do elementów HTML
+            const ikonaEl = document.getElementById('pogoda-ikona');
+            const infoEl = document.getElementById('pogoda-info');
+
+            try {
+                // Używamy 'fetch' (pobierz) do wysłania żądania (request) do API
+                // 'await' (czekaj) oznacza, że funkcja zatrzyma się tutaj,
+                // aż otrzyma odpowiedź (response) z serwera.
+                const response = await fetch(url);
+
+                if (!response.ok) { // Sprawdzenie, czy serwer odpowiedział poprawnie (np. błąd 404, 500)
+                    throw new Error(`Błąd sieci: ${response.statusText}`);
+                }
+                
+                // 'await' (czekaj) na przetworzenie odpowiedzi jako obiekt JSON
+                const data = await response.json();
+
+                // Sprawdzenie, czy dane są kompletne
+                if (data && data.current && data.current.temperature_2m !== undefined) {
+                    const temp = data.current.temperature_2m;
+                    const code = data.current.weather_code;
+                    
+                    // Mapowanie kodu (np. 3) na czytelne dane (np. {ikona: '☁️', opis: 'Zachmurzenie'})
+                    const pogoda = mapujKodPogody(code);
+                    
+                    // Aktualizacja interfejsu użytkownika (HTML)
+                    ikonaEl.textContent = pogoda.ikona;
+                    // Używamy Math.round() do zaokrąglenia temperatury do najbliższej liczby całkowitej
+                    infoEl.textContent = `${Math.round(temp)}°C, ${pogoda.opis}`;
+                } else {
+                    throw new Error('Nieprawidłowa odpowiedź z API pogody');
+                }
+            } catch (error) {
+                // Obsługa błędu (np. brak połączenia z internetem, błąd serwera API)
+                console.error('Błąd pobierania pogody:', error);
+                ikonaEl.textContent = '📡'; // Ikona błędu
+                infoEl.textContent = 'Błąd pogody';
+            }
+        }
+
+        /**
+         * ZMIANA: Pobiera nazwę lokalizacji na podstawie współrzędnych.
+         * Używa darmowego API Open-Meteo Geocoding.
+         */
+        async function aktualizujNazweLokalizacji() {
+            const lat = BIEZACA_LAT;
+            const lon = BIEZACA_LON;
+            const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=pl`;
+            
+            const lokalizacjaEl = document.getElementById('lokalizacja');
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Błąd sieci geocoding');
+                
+                const data = await response.json();
+                
+                // Próba inteligentnego złożenia nazwy
+                // Np. "Warszawa, Mazowieckie" lub "Berlin, Niemcy"
+                if (data && data.name) {
+                    let nazwa = data.name; // Np. Warszawa
+                    if (data.admin1) { // Np. Mazowieckie
+                        nazwa += `, ${data.admin1}`;
+                    } else if (data.country) { // Fallback na kraj, jeśli nie ma regionu
+                        nazwa += `, ${data.country}`;
+                    }
+                    BIEZACA_LOKALIZACJA_NAZWA = nazwa;
+                }
+                // Jeśli API zawiedzie, BIEZACA_LOKALIZACJA_NAZWA zachowa domyślną wartość
+
+            } catch (error) {
+                console.error('Błąd pobierania nazwy lokalizacji:', error);
+                // Błąd nie jest krytyczny, więc po prostu użyjemy domyślnej nazwy
+                // (lub tej, która już była ustawiona, np. Pabianice)
+            }
+            
+            // Wyświetl nazwę (albo pobraną, albo domyślną)
+            lokalizacjaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
+        }
+
+        /**
          * Aktualizuje wszystkie dane, które zmieniają się raz dziennie.
          * POWÓD: Jest to "ciężka" funkcja (obliczenia, SunCalc), więc
-         * uruchamiamy ją tylko raz, zaraz po północy (wykrywane w
+         * uruchamiamy ją only raz, zaraz po północy (wykrywane w
          * 'aktualizujZegar') oraz przy pierwszym uruchomieniu aplikacji.
+         * ZMIANA: Używa teraz globalnych zmiennych BIEZACA_LAT i BIEZACA_LON.
          * @param {Date} teraz - Aktualna data.
          */
         function aktualizujDaneCodzienne(teraz) {
-            console.log("AKTUALIZACJA DANYCH CODZIENNYCH o " + teraz);
+            console.log(`AKTUALIZACJA DANYCH CODZIENNYCH (Lat: ${BIEZACA_LAT}, Lon: ${BIEZACA_LON}) o ${teraz}`);
             const rok = teraz.getFullYear();
-
+            
             // --- Sekcja Słońca (SunCalc) ---
             let sunCalcDostepny = typeof SunCalc !== 'undefined';
             if (sunCalcDostepny) {
                 const jutro = new Date(teraz);
                 jutro.setDate(teraz.getDate() + 1);
 
-                // Pobierz dane dla dziś i jutra
-                const daneDzis = SunCalc.getTimes(teraz, PABIANICE_LAT, PABIANICE_LON);
-                const daneJutro = SunCalc.getTimes(jutro, PABIANICE_LAT, PABIANICE_LON);
+                // ZMIANA: Użycie globalnych zmiennych BIEZACA_LAT, BIEZACA_LON
+                const daneDzis = SunCalc.getTimes(teraz, BIEZACA_LAT, BIEZACA_LON);
+                const daneJutro = SunCalc.getTimes(jutro, BIEZACA_LAT, BIEZACA_LON);
 
                 // Zapisz w globalnym cache
                 window.wschodDzis = daneDzis.sunrise;
                 window.zachodDzis = daneDzis.sunset;
                 window.wschodJutro = daneJutro.sunrise;
+                window.zachodJutro = daneJutro.sunset; // NOWE: Zapisujemy też jutrzejszy zachód
 
-                // Oblicz długość dnia (tylko jeśli mamy obie daty)
+                // Oblicz długość dnia (only jeśli mamy obie daty)
                 if (window.wschodDzis && window.zachodDzis) {
                     const poprawnaDlugoscDniaMs = window.zachodDzis.getTime() - window.wschodDzis.getTime();
                     document.getElementById('czas-dnia').textContent = formatujDlugoscDnia(poprawnaDlugoscDniaMs);
                 } else {
                     document.getElementById('czas-dnia').textContent = "b/d";
                 }
-                document.getElementById('wschod').textContent = formatujGodzine(window.wschodDzis);
-                document.getElementById('zachod').textContent = formatujGodzine(window.zachodDzis);
+                
+                // POPRAWKA: Usunięto stąd aktualizację 'wschod' i 'zachod'.
+                // Została przeniesiona do aktualizujZegar(), aby była dynamiczna.
+
             } else {
                 // Obsługa błędu, jeśli SunCalc się nie załadował
                 document.getElementById('wschod').textContent = "b/d";
@@ -1127,7 +1297,7 @@
             const swietoStale = SWIETA_STALE[dzisKlucz];
             if (swietoStale) wszystkieSwieta.push(swietoStale);
 
-            // 2. Sprawdź święta ruchome (obliczaj tylko raz na rok)
+            // 2. Sprawdź święta ruchome (obliczaj only raz na rok)
             if (!window.swietaRuchomeCache[rok]) {
                 // Jeśli cache dla tego roku jest pusty, oblicz Wielkanoc i pochodne
                 const wielkanoc = obliczWielkanoc(rok);
@@ -1151,16 +1321,17 @@
                 const swietoNietypowe = SWIETA_NIETYPOWE_BAZA[dzisKlucz];
                 if (swietoNietypowe) wszystkieSwieta.push(swietoNietypowe);
             }
-            // Wyświetl połączone święta (lub nic, jeśli tablica jest pusta)
-            document.getElementById('swieto').textContent =
-                wszystkieSwieta.length ? `(${wszystkieSwieta.join(', ')})` : "";
+            
+            // ZMIANA: Aktualizacja nowych pól dla świąt i imienin
+            document.getElementById('swieto-nowe').textContent =
+                wszystkieSwieta.length ? `(${wszystkieSwieta.join(', ')})` : "(brak)";
 
             // 4. Pobierz imieniny (z pliku imieniny.js)
             let imieniny = "b/d";
             if (typeof IMIENINY_BAZA !== 'undefined') {
                 imieniny = IMIENINY_BAZA[dzisKlucz] || "brak";
             }
-            document.getElementById('imiona').textContent = imieniny;
+            document.getElementById('imiona-nowe').textContent = imieniny;
 
             // --- Sekcja Astro ---
             const infoZodiaku = pobierzInfoZodiaku(teraz);
@@ -1186,6 +1357,12 @@
 
             const dniDoPelni = obliczNastepnaPelnie(teraz);
             document.getElementById('pelnia-countdown-dni').textContent = dniDoPelni;
+
+            // ZMIANA: Uruchomienie odświeżenia pogody i nazwy lokalizacji
+            // Robimy to w tym miejscu, aby mieć pewność, że współrzędne są ustawione
+            // i że odświeżymy dane przy zmianie dnia.
+            aktualizujNazweLokalizacji(); // Pobierz nazwę dla (nowych lub starych) koordynatów
+            aktualizujPogode(); // Pobierz pogodę dla (nowych lub starych) koordynatów
         }
 
         /**
@@ -1207,7 +1384,7 @@
                 zmienną globalną.
             */
             if (dzienNumer !== window.ostatniDzien) {
-                aktualizujDaneCodzienne(teraz);
+                aktualizujDaneCodzienne(teraz); // Ta funkcja pobierze też nową pogodę
                 window.ostatniDzien = dzienNumer;
             }
 
@@ -1248,37 +1425,51 @@
                 el.classList.toggle('wygaszony', sekundaParzysta);
             });
 
-            // Logika odliczania do Słońca
+            // --- POPRAWKA: Dynamiczna logika odliczania i wyświetlania czasu Słońca ---
             let celCzasu, celTekst;
+            const wschodEl = document.getElementById('wschod');
+            const zachodEl = document.getElementById('zachod');
+            const odliczanieEl = document.getElementById('odliczanie-slonca');
 
             // Zabezpieczenie: Jeśli dane z SunCalc (z cache) jeszcze nie istnieją...
-            if (!window.wschodDzis || !window.zachodDzis || !window.wschodJutro) {
-                document.getElementById('odliczanie-slonca').textContent = (typeof SunCalc === 'undefined') ? "Brak SunCalc..." : "Inicjalizacja...";
+            // ZMIANA: Sprawdzamy też 'zachodJutro'.
+            if (!window.wschodDzis || !window.zachodDzis || !window.wschodJutro || !window.zachodJutro) {
+                odliczanieEl.textContent = (typeof SunCalc === 'undefined') ? "Brak SunCalc..." : "Inicjalizacja...";
                 return; // Przerwij dalsze odliczanie
             }
 
-            // Ustal, do czego odliczamy
+            // Ustal, do czego odliczamy ORAZ co wyświetlamy
             if (teraz < window.wschodDzis) {
-                // 1. Przed wschodem: odliczaj do wschodu
+                // 1. Przed wschodem: odliczaj do wschodu DZIS
                 celCzasu = window.wschodDzis;
                 celTekst = "Wschód słońca za:";
+                // Wyświetl czasy na DZIS
+                wschodEl.textContent = formatujGodzine(window.wschodDzis);
+                zachodEl.textContent = formatujGodzine(window.zachodDzis);
+
             } else if (teraz < window.zachodDzis) {
-                // 2. W trakcie dnia: odliczaj do zachodu
-                celCzasu = window.zachodDzis;
+                // 2. W trakcie dnia: odliczaj do zachodu DZIS
+                celCzasu = window.zachodDzis; // POPRAWKA: Był błąd, tu ma być 'zachodDzis'
                 celTekst = "Zachód słońca za:";
+                // Wyświetl czasy na DZIS
+                wschodEl.textContent = formatujGodzine(window.wschodDzis);
+                zachodEl.textContent = formatujGodzine(window.zachodDzis);
+
             } else {
                 // 3. Po zachodzie: odliczaj do wschodu JUTRO
                 celCzasu = window.wschodJutro;
                 celTekst = "Wschód słońca za:";
+                // KLUCZOWA ZMIANA: Wyświetl czasy na JUTRO
+                wschodEl.textContent = formatujGodzine(window.wschodJutro);
+                zachodEl.textContent = formatujGodzine(window.zachodJutro);
             }
 
             // Wykonaj odliczanie (tylko jeśli cel jest poprawną datą)
             if (celCzasu && typeof celCzasu.getTime === 'function') {
                 const deltaMs = celCzasu.getTime() - teraz.getTime();
-                document.getElementById('odliczanie-slonca').textContent =
-                    `${celTekst} ${formatujDelteCzasu(deltaMs)}`;
+                odliczanieEl.textContent = `${celTekst} ${formatujDelteCzasu(deltaMs)}`;
             } else {
-                 document.getElementById('odliczanie-slonca').textContent = "Błąd czasu słońca...";
+                 odliczanieEl.textContent = "Błąd czasu słońca...";
             }
         }
 
@@ -1290,18 +1481,77 @@
         inicjalizujZegar();
 
         /*
-            2. Uruchom zegar z lekkim opóźnieniem.
-            POWÓD: 'setTimeout' o 100ms daje przeglądarce "chwilę oddechu"
-            na wyrenderowanie interfejsu (HTML/CSS) przed uruchomieniem
-            pętli JavaScript. Dzięki temu start aplikacji wydaje się płynniejszy.
+            ZMIANA: Logika startowa została opakowana w nową funkcję,
+            aby można ją było wywołać PO uzyskaniu geolokalizacji.
         */
-        setTimeout(() => {
-            // 3. Wywołaj pierwszy "tick" zegara (który wywoła też 'aktualizujDaneCodzienne')
-            aktualizujZegar();
+        function uruchomAplikacje() {
+            console.log("Uruchamianie aplikacji...");
+            /*
+                2. Uruchom zegar z lekkim opóźnieniem.
+                POWÓD: 'setTimeout' o 100ms daje przeglądarce "chwilę oddechu"
+                na wyrenderowanie interfejsu (HTML/CSS) przed uruchomieniem
+                pętli JavaScript. Dzięki temu start aplikacji wydaje się płynniejszy.
+            */
+            setTimeout(() => {
+                // 3. Wywołaj pierwszy "tick" zegara (który wywoła też 'aktualizujDaneCodzienne')
+                // 'aktualizujDaneCodzienne' uruchomi też pobieranie pogody i nazwy lokalizacji.
+                aktualizujZegar();
 
-            // 4. Ustaw główną pętlę (interval), która będzie się wykonywać co sekundę
-            setInterval(aktualizujZegar, 1000);
-        }, 100); // Uruchom po 100 milisekundach
+                // 4. Ustaw główną pętlę (interval), która będzie się wykonywać co sekundę
+                setInterval(aktualizujZegar, 1000);
+            }, 100); // Uruchom po 100 milisekundach
+            
+            // 5. Ustaw interwał (interval) dla pogody (co 15 minut)
+            // 15 minut * 60 sekund * 1000 milisekund = 900000
+            // ZMIANA: Przeniesione z 'aktualizujDaneCodzienne', aby nie dublować interwałów
+            setInterval(aktualizujPogode, 15 * 60 * 1000);
+        }
+
+        /*
+            NOWA SEKCJA: Zarządzanie Geolokalizacją
+            POWÓD: Musimy najpierw zapytać o lokalizację, a dopiero
+            potem uruchomić resztę aplikacji z właściwymi współrzędnymi.
+        */
+        function pobierzLokalizacje() {
+            // Sprawdzenie, czy przeglądarka w ogóle wspiera API Geolokalizacji
+            if ("geolocation" in navigator) {
+                console.log("Przeglądarka wspiera geolokalizację. Pytanie o zgodę...");
+                // Prośba o lokalizację. 
+                // Sukces: wywołaj 'geoSukces'
+                // Błąd/Odmowa: wywołaj 'geoBlad'
+                navigator.geolocation.getCurrentPosition(geoSukces, geoBlad);
+            } else {
+                // Przeglądarka nie wspiera geolokalizacji
+                console.warn("Geolokalizacja nie jest wspierana. Używam domyślnych (Pabianice).");
+                // Uruchom aplikację natychmiast, używając domyślnych wartości (Pabianice)
+                uruchomAplikacje();
+            }
+        }
+
+        // Ta funkcja wywoła się, gdy użytkownik ZGODZI SIĘ na udostępnienie lokalizacji
+        function geoSukces(pozycja) {
+            console.log("Geolokalizacja uzyskana pomyślnie:", pozycja);
+            // Nadpisujemy domyślne, globalne zmienne
+            BIEZACA_LAT = pozycja.coords.latitude;
+            BIEZACA_LON = pozycja.coords.longitude;
+            
+            // Uruchamiamy aplikację (teraz będzie używać nowych współrzędnych)
+            uruchomAplikacje();
+        }
+
+        // Ta funkcja wywoła się, gdy użytkownik ODMÓWI lub wystąpi błąd
+        function geoBlad(blad) {
+            console.warn(`Błąd geolokalizacji (kod ${blad.code}): ${blad.message}. Używam domyślnych (Pabianice).`);
+            // Niezależnie od błędu (odmowa, brak sygnału),
+            // uruchamiamy aplikację w trybie domyślnym (Pabianice)
+            uruchomAplikacje();
+        }
+
+        // --- START APLIKACJI ---
+        // Zamiast wywoływać 'uruchomAplikacje()' bezpośrednio,
+        // najpierw wywołujemy funkcję proszącą o lokalizację.
+        pobierzLokalizacje();
+
 
         // ================================================================
         // --- REJESTRACJA SERVICE WORKERA (PWA) ---
@@ -1318,7 +1568,7 @@
         */
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
+                navigator.serviceWorker.register('/sw.js') // Użyj ścieżki względnej '/sw.js'
                     .then(registration => {
                         console.log('Service Worker zarejestrowany pomyślnie:', registration);
                     })
