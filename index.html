@@ -118,16 +118,20 @@
         }
 
         /* --- Style tabeli z informacjami rocznymi --- */
-        /* ZMIANA: Tabela ma teraz 3 kolumny */
         #tabela-info-roczne {
-            width: 100%;
+            /* --- POPRAWKA BUGU POZYCJONOWANIA ---
+               Usunięto 'width: 100%' i zastąpiono 'width: auto'.
+               Tabela sama dopasuje szerokość do zawartości i zostanie
+               wycentrowana przez nadrzędny '#kontener'.
+            */
+            width: auto;
             border-collapse: collapse;
             margin-bottom: 10px;
             font-size: 1.1rem;
             color: #00c000;
         }
         #tabela-info-roczne td {
-            width: 33.33%; /* Domyślna szerokość */
+            /* Usunięto 'width: 33.33%' */
             padding: 3px 0;
             border: none;
             vertical-align: top;
@@ -144,31 +148,25 @@
             font-weight: bold;
         }
         
-        /* ZMIANA: Zaktualizowano wyrównanie dla 3 kolumn */
         /* Kolumna 1: Dzień roku, Sylwester */
         #tabela-info-roczne td:nth-child(1) {
+            /* Usunięto 'width: 30%' */
             text-align: right;
             padding-right: 10px;
-            width: 30%; /* Mniejsza */
         }
         /* Kolumna 2: Tydzień, Kwartał */
         #tabela-info-roczne td:nth-child(2) {
-            /* --- POPRAWKA BUGU #1 (Odstępy) ---
-               Zmieniono 'text-align' z 'left' na 'right' i
-               'padding-left' na 'padding-right', aby
-               stworzyć spójny odstęp (gutter) między kolumnami.
-            */
+            /* Usunięto 'width: 30%' */
             text-align: right; 
             padding-right: 10px;
             border-left: 1px dotted #008000;
-            width: 30%; /* Mniejsza */
         }
         /* Kolumna 3: Święto, Imieniny */
         #tabela-info-roczne td:nth-child(3) {
+            /* Usunięto 'width: 40%' */
             text-align: left;
             padding-left: 10px;
             border-left: 1px dotted #008000;
-            width: 40%; /* Większa, na długie nazwy */
             line-height: 1.4;
         }
 
@@ -659,7 +657,7 @@
         <div id="astro">
             <div class="astro-item">
                 <span id="zodiak-obraz" class="zodiak-emoji">...</span>
-                <span>Znak: <span id="zodiak-nazwa">...</span></span>
+                <span>Znak zodiaku: <span id="zodiak-nazwa">...</span></span>
             </div>
             <span class="astro-separator">|</span>
             <div class="astro-item">
