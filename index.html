@@ -1416,9 +1416,13 @@
                 console.error('Błąd pobierania nazwy lokalizacji:', error);
                 // Błąd nie jest krytyczny, więc po prostu użyjemy domyślnej nazwy
                 // (lub tej, która już była ustawiona, np. Pabianice)
+                
+                // --- POPRAWKA BŁĘDU NIESPÓJNOŚCI ---
+                // Jeśli pobranie nazwy się nie uda, ustawiamy tekst błędu
+                BIEZACA_LOKALIZACJA_NAZWA = "Błąd API (Nazwa)";
             }
             
-            // Wyświetl nazwę (albo pobraną, albo domyślną)
+            // Wyświetl nazwę (albo pobraną, albo domyślną, albo błąd)
             nazwaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
         }
 
