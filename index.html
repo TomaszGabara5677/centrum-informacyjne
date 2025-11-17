@@ -121,6 +121,14 @@
         }
         /* #lokalizacja-nazwa (dziedziczy style z #lokalizacja) */
         
+        /* --- NOWY ELEMENT: Współrzędne --- */
+        #wspolrzedne {
+            font-size: 0.9rem; /* Mniejsza czcionka */
+            color: #87CEEB; /* Jasnoniebieski (SkyBlue) */
+            margin-top: 4px;
+            min-height: 1rem; /* Zapobiega skakaniu układu */
+        }
+        
         #pogoda {
             font-size: 1.1rem;
             color: var(--kolor-aktywny);
@@ -334,68 +342,60 @@
             font-weight: normal;
         }
 
-        /* --- Style sekcji Astro (Zodiak, Księżyc) --- */
-        #astro {
-            font-size: 1.3rem;
-            color: #00c000;
+        /* --- NOWE: Style sekcji Astro (Zodiak, Księżyc) w tabeli --- */
+        #tabela-astro {
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
+            border-collapse: collapse;
             margin-top: 10px;
         }
-        #astro span {
-            color: var(--kolor-aktywny);
+        .astro-komorka {
+            width: 50%;
+            vertical-align: top;
+            padding: 4px 8px;
+            font-size: 1.3rem;
+            color: #00c000;
         }
+        /* Wiersz z ikonami (wyrównanie) */
+        #tabela-astro tr:nth-child(1) .astro-komorka:first-child {
+            text-align: right;
+            border-right: 1px dotted #008000;
+            padding-right: 15px;
+        }
+        #tabela-astro tr:nth-child(1) .astro-komorka:last-child {
+            text-align: left;
+            padding-left: 15px;
+        }
+        
         .astro-item {
             display: flex;
             align-items: center;
-            margin: 5px 0;
+            justify-content: flex-end; /* Wyrównanie dla prawej kolumny (Zodiak) */
         }
-        /* Style dla Emoji (aby były duże i wyraźne) */
-        .zodiak-emoji {
+        #tabela-astro tr:nth-child(1) .astro-komorka:last-child .astro-item {
+             justify-content: flex-start; /* Wyrównanie dla lewej kolumny (Księżyc) */
+        }
+        
+        .astro-item span {
+             color: var(--kolor-aktywny);
+        }
+        .zodiak-emoji, #faza-ksiezyca-obraz {
             font-size: 2.5rem;
             margin-right: 10px;
             text-shadow: none;
             width: 40px;
             text-align: center;
         }
-        #faza-ksiezyca-obraz {
-            font-size: 2.5rem;
-            margin-right: 10px;
-            text-shadow: none;
-            width: 40px;
-            text-align: center;
-        }
-        .astro-separator {
-            margin: 0 15px;
-            font-size: 2rem;
-            color: #008000;
-        }
-
-        /* --- Style sekcji odliczania Astro (Dolny pasek) --- */
-        #astro-countdown {
+        
+        /* Wiersze z odliczaniem (styl) */
+        .astro-countdown-komorka {
             font-size: 1.1rem;
             color: #008000;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
+            padding-top: 5px;
+            text-align: center;
         }
-        #astro-countdown > span {
-            color: #008000;
-            margin: 3px 0;
-        }
-        #astro-countdown span span {
+        .astro-countdown-komorka span {
             color: var(--kolor-aktywny);
             font-weight: bold;
-        }
-        .astro-separator-maly {
-            margin: 0 10px;
-            font-size: 1.1rem;
-            color: #008000;
         }
 
 
@@ -475,6 +475,11 @@
                 font-size: 0.9rem;
                 margin-right: 5px;
             }
+            /* NOWY STYL RWD DLA WSPÓŁRZĘDNYCH */
+            #wspolrzedne {
+                font-size: 0.8rem;
+                margin-top: 2px;
+            }
             #pogoda {
                 font-size: 0.9rem; /* Było 1.1rem */
                 margin-top: 2px;
@@ -523,30 +528,28 @@
                 padding: 2px 5px;
             }
 
-            /* Zmniejszamy sekcję Astro (Zodiak, Księżyc) */
-            #astro {
-                font-size: 1.0rem; /* Było 1.3rem */
+            /* NOWE: Zmniejszamy sekcję Astro (Tabela) */
+            #tabela-astro {
                 margin-top: 5px;
             }
+            .astro-komorka {
+                font-size: 1.0rem; /* Było 1.3rem */
+                padding: 2px 5px;
+            }
+            #tabela-astro tr:nth-child(1) .astro-komorka:first-child { padding-right: 10px; }
+            #tabela-astro tr:nth-child(1) .astro-komorka:last-child { padding-left: 10px; }
+                
             .zodiak-emoji, #faza-ksiezyca-obraz {
                 font-size: 2.0rem; /* Było 2.5rem */
                 margin-right: 5px;
             }
-
-            /*
-                Zmniejszamy dolne odliczanie i zmieniamy układ na kolumnowy.
-                POWÓD: Na bardzo wąskich ekranach (nawet w poziomie)
-                oba odliczania mogłyby się nie zmieścić obok siebie.
-                Ustawienie 'flex-direction: column' umieszcza je
-                jedno pod drugim, gwarantując czytelność.
-            */
-            #astro-countdown {
+            .astro-countdown-komorka {
                 font-size: 0.9rem; /* Było 1.1rem */
-                flex-direction: column;
+                padding-top: 2px;
             }
-            /* Ukrywamy separator '|', który nie ma sensu w układzie kolumnowym */
-            .astro-separator-maly {
-                display: none;
+            /* Ukrywamy trzeci wiersz (nowa faza) na bardzo małych ekranach */
+            #tabela-astro tr:nth-child(3) {
+                 display: none;
             }
         }
 
@@ -628,6 +631,7 @@
                         <span id="lokalizacja-ikona"></span>
                         <span id="lokalizacja-nazwa">Ustalanie lokalizacji...</span>
                     </div>
+                    <div id="wspolrzedne"></div>
                     <div id="pogoda">
                         <span id="pogoda-ikona">...</span>
                         <span id="pogoda-info">Ładowanie pogody...</span>
@@ -682,31 +686,42 @@
             </tr>
         </table>
 
-        <div id="astro">
-            <div class="astro-item">
-                <span id="zodiak-obraz" class="zodiak-emoji">...</span>
-                <span>Znak zodiaku: <span id="zodiak-nazwa">...</span></span>
-            </div>
-            <span class="astro-separator">|</span>
-            <div class="astro-item">
-                <span id="faza-ksiezyca-obraz">...</span>
-                <span>
-                    Faza księżyca (<span id="faza-ksiezyca-numer">...</span>/8):
-                    <span id="faza-ksiezyca-nazwa">...</span>
-                </span>
-            </div>
-        </div>
-
-        <div id="astro-countdown" class="astro-countdown">
-            <span>
-                Zmiana zodiaku na: <span id="zodiak-countdown-nazwa">...</span>
-                za: <span id="zodiak-countdown-dni">...</span> dni
-            </span>
-            <span class="astro-separator-maly">|</span>
-            <span>
-                Pełnia księżyca za: <span id="pelnia-countdown-dni">...</span> dni
-            </span>
-        </div>
+        <table id="tabela-astro">
+            <tr>
+                <td class="astro-komorka">
+                    <div class="astro-item">
+                        <span id="zodiak-obraz" class="zodiak-emoji">...</span>
+                        <span>Znak zodiaku: <span id="zodiak-nazwa">...</span></span>
+                    </div>
+                </td>
+                <td class="astro-komorka">
+                    <div class="astro-item">
+                        <span id="faza-ksiezyca-obraz">...</span>
+                        <span>
+                            Faza księżyca (<span id="faza-ksiezyca-numer">...</span>/8):
+                            <span id="faza-ksiezyca-nazwa">...</span>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="astro-komorka astro-countdown-komorka">
+                    Zmiana zodiaku na: <span id="zodiak-countdown-nazwa">...</span>
+                    za: <span id="zodiak-countdown-dni">...</span> dni
+                </td>
+                <td class="astro-komorka astro-countdown-komorka">
+                    Pełnia księżyca za: <span id="pelnia-countdown-dni">...</span> dni
+                </td>
+            </tr>
+            <tr>
+                <td class="astro-komorka astro-countdown-komorka">
+                    </td>
+                <td class="astro-komorka astro-countdown-komorka">
+                    Kolejna Faza za: <span id="faza-countdown-dni">...</span> dni
+                </td>
+            </tr>
+        </table>
+        
     </div>
 
     <script src="imieniny.js"></script>
@@ -1145,6 +1160,65 @@
         }
 
         /**
+         * NOWA FUNKCJA: Oblicza, za ile dni będzie następna główna faza księżyca.
+         * (Nów, I Kwadra, Pełnia, III Kwadra).
+         * @param {Date} teraz - Aktualna data.
+         * @returns {number|string} Liczba dni lub "b/d".
+         */
+        function obliczNastepnaGlownaFaze(teraz) {
+            if (typeof SunCalc === 'undefined') return 'b/d';
+
+            let fazaPoprzednia = SunCalc.getMoonIllumination(teraz).phase;
+            
+            // Fazy SunCalc: 0.0 (Nów), 0.25 (I Kwadra), 0.5 (Pełnia), 0.75 (III Kwadra), 1.0 (Nów)
+            let celFazy;
+            if (fazaPoprzednia < 0.25) {
+                celFazy = 0.25; // Cel: I Kwadra
+            } else if (fazaPoprzednia < 0.5) {
+                celFazy = 0.5; // Cel: Pełnia
+            } else if (fazaPoprzednia < 0.75) {
+                celFazy = 0.75; // Cel: III Kwadra
+            } else {
+                celFazy = 1.0; // Cel: Nów (przejście przez 1.0)
+            }
+
+            let dataPetli = new Date(teraz.getTime());
+
+            // Skanuj następne 10 dni (240 godzin) - to bezpieczny zapas na 1 kwadrę (ok. 7.4 dnia)
+            for (let i = 0; i < 240; i++) {
+                dataPetli.setHours(dataPetli.getHours() + 1); // Przesuń o 1 godzinę
+                let fazaNowa = SunCalc.getMoonIllumination(dataPetli).phase;
+
+                let znaleziono = false;
+                
+                // Sprawdzenie "przejścia" przez cel
+                if (celFazy === 1.0) {
+                    // Specjalny przypadek dla Nowiu (przejście z >0.75 na <0.25)
+                    if (fazaPoprzednia > 0.75 && fazaNowa < 0.25) {
+                        znaleziono = true;
+                    }
+                } else {
+                    // Normalne kwadry
+                    if (fazaPoprzednia < celFazy && fazaNowa >= celFazy) {
+                        znaleziono = true;
+                    }
+                }
+
+                if (znaleziono) {
+                    // Precyzyjne cofnięcie do momentu tuż przed przejściem
+                    dataPetli.setHours(dataPetli.getHours() - 1); 
+                    const diffMs = dataPetli.getTime() - teraz.getTime();
+                    const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+                    return diffDni === 0 ? 1 : diffDni; // Zawsze zwracaj co najmniej 1 dzień
+                }
+                
+                fazaPoprzednia = fazaNowa;
+            }
+            return 'b/d'; // Nie znaleziono
+        }
+
+
+        /**
          * ZMIANA: Mapuje kod pogody z Open-Meteo na emoji i polski opis.
          * @param {number} code - Kod pogody (weather_code).
          * @returns {object} Obiekt { ikona, opis }.
@@ -1171,6 +1245,19 @@
         // ================================================================
         // --- GŁÓWNE FUNKCJE APLIKACJI ---
         // ================================================================
+        
+        /**
+         * NOWA FUNKCJA: Wyświetla współrzędne w panelu.
+         */
+        function wyswietlWspolrzedne() {
+            // Formatowanie do 4 miejsc po przecinku (standard DD)
+            const lat = BIEZACA_LAT.toFixed(4);
+            const lon = BIEZACA_LON.toFixed(4);
+            const wspolrzedneEl = document.getElementById('wspolrzedne');
+            if (wspolrzedneEl) {
+                wspolrzedneEl.textContent = `(${lat}, ${lon})`;
+            }
+        }
 
         /**
          * ZMIANA: Pobiera i aktualizuje pogodę z API Open-Meteo.
@@ -1386,13 +1473,17 @@
                 document.getElementById('faza-ksiezyca-numer').textContent = "?";
             }
 
-            // --- Sekcja Odliczania Astro ---
+            // --- Sekcja Odliczania Astro (Tabela) ---
             const infoNastepnegoZnaku = obliczNastepnyZnak(teraz);
             document.getElementById('zodiak-countdown-nazwa').textContent = infoNastepnegoZnaku.nazwa;
             document.getElementById('zodiak-countdown-dni').textContent = infoNastepnegoZnaku.dni;
 
             const dniDoPelni = obliczNastepnaPelnie(teraz);
             document.getElementById('pelnia-countdown-dni').textContent = dniDoPelni;
+            
+            // NOWE: Obliczanie i wstawianie następnej fazy
+            const dniDoFazy = obliczNastepnaGlownaFaze(teraz);
+            document.getElementById('faza-countdown-dni').textContent = dniDoFazy;
 
             // ZMIANA: Uruchomienie odświeżenia pogody i nazwy lokalizacji
             // Robimy to w tym miejscu, aby mieć pewność, że współrzędne są ustawione
@@ -1564,6 +1655,8 @@
                 console.warn("Geolokalizacja nie jest wspierana. Używam domyślnych (Pabianice).");
                 // ZMIANA: Ustawienie ikony domyślnej/nieaktywnej
                 ikonaEl.textContent = '🛰️';
+                // NOWE: Wyświetl domyślne współrzędne
+                wyswietlWspolrzedne();
                 // Uruchom aplikację natychmiast, używając domyślnych wartości (Pabianice)
                 uruchomAplikacje();
             }
@@ -1579,6 +1672,9 @@
             BIEZACA_LAT = pozycja.coords.latitude;
             BIEZACA_LON = pozycja.coords.longitude;
             
+            // NOWE: Wyświetl aktywne współrzędne
+            wyswietlWspolrzedne();
+            
             // Uruchamiamy aplikację (teraz będzie używać nowych współrzędnych)
             uruchomAplikacje();
         }
@@ -1588,6 +1684,9 @@
             console.warn(`Błąd geolokalizacji (kod ${blad.code}): ${blad.message}. Używam domyślnych (Pabianice).`);
             // ZMIANA: Ustawienie ikony domyślnej/nieaktywnej
             document.getElementById('lokalizacja-ikona').textContent = '🛰️';
+            
+            // NOWE: Wyświetl domyślne współrzędne
+            wyswietlWspolrzedne();
             
             // Niezależnie od błędu (odmowa, brak sygnału),
             // uruchamiamy aplikację w trybie domyślnym (Pabianice)
