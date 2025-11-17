@@ -428,6 +428,13 @@
             color: var(--kolor-aktywny);
             font-weight: bold;
         }
+        
+        /* ZMIANA: Dodano styl dla separatora w tabeli astro */
+        .astro-separator-maly {
+            margin: 0 10px;
+            font-size: 1.1rem;
+            color: #008000;
+        }
 
 
         /*
@@ -586,10 +593,8 @@
                 font-size: 0.8rem; /* Było 1.1rem */
                 padding-top: 2px;
             }
-            /* Ukrywamy trzeci wiersz (nowa faza) na bardzo małych ekranach */
-            #tabela-astro tr:nth-child(3) {
-                 display: none;
-            }
+            
+            /* ZMIANA: Usunięto regułę dla tr:nth-child(3), ponieważ wiersz nie istnieje */
         }
 
 
@@ -754,16 +759,11 @@
                 </td>
                 <td class="astro-komorka astro-countdown-komorka">
                     Pełnia za: <span id="pelnia-countdown-dni">...</span> dni
-                </td>
-            </tr>
-            <tr>
-                <td class="astro-komorka astro-countdown-komorka">
-                    </td>
-                <td class="astro-komorka astro-countdown-komorka">
+                    <span class="astro-separator-maly">|</span>
                     Zmiana fazy za: <span id="faza-countdown-dni">...</span> dni
                 </td>
             </tr>
-        </table>
+            </table>
         
     </div>
 
