@@ -127,6 +127,14 @@
             color: #87CEEB; /* Jasnoniebieski (SkyBlue) */
             margin-top: 4px;
             min-height: 1rem; /* Zapobiega skakaniu układu */
+            /* NOWE: Dodano flex do wyrównania ikony */
+            display: flex;
+            align-items: center;
+        }
+        /* NOWE: Ikona dla współrzędnych */
+        #wspolrzedne-ikona {
+            margin-right: 8px;
+            font-size: 1.1rem;
         }
         
         #pogoda {
@@ -329,6 +337,9 @@
             font-size: 1.3rem;
             color: #00c000;
             vertical-align: top;
+            /* NOWE: Dodano flex do wyrównania ikon i tekstu */
+            display: flex;
+            align-items: center;
         }
         #tabela-slonce span {
             font-weight: bold;
@@ -341,6 +352,19 @@
             text-shadow: 0 0 5px #ffff00;
             font-weight: normal;
         }
+        
+        /* NOWE: Style dla ikon w tabelach */
+        .ikona-tabeli {
+            margin-right: 8px;
+            font-size: 1.1rem; /* Dopasowanie rozmiaru ikony */
+            color: var(--kolor-aktywny);
+        }
+        #odliczanie-ikona {
+            margin-right: 8px;
+            font-size: 1.1rem;
+            color: #ffff00; /* Dopasowanie do koloru odliczania */
+        }
+
 
         /* --- NOWE: Style sekcji Astro (Zodiak, Księżyc) w tabeli --- */
         #tabela-astro {
@@ -352,27 +376,30 @@
             width: 50%;
             vertical-align: top;
             padding: 4px 8px;
-            font-size: 1.3rem;
+            /* ZMIANA: Zmniejszono czcionkę, aby tekst się mieścił */
+            font-size: 1.2rem; 
             color: #00c000;
         }
-        /* Wiersz z ikonami (wyrównanie) */
-        #tabela-astro tr:nth-child(1) .astro-komorka:first-child {
+        
+        /* ZMIANA: Stosowanie separatora i wyrównania do WSZYSTKICH wierszy */
+        #tabela-astro tr td:first-child {
             text-align: right;
             border-right: 1px dotted #008000;
             padding-right: 15px;
         }
-        #tabela-astro tr:nth-child(1) .astro-komorka:last-child {
+        #tabela-astro tr td:last-child {
             text-align: left;
             padding-left: 15px;
         }
-        
+
         .astro-item {
             display: flex;
             align-items: center;
             justify-content: flex-end; /* Wyrównanie dla prawej kolumny (Zodiak) */
         }
+        /* Wyrównanie dla lewej kolumny (Księżyc) */
         #tabela-astro tr:nth-child(1) .astro-komorka:last-child .astro-item {
-             justify-content: flex-start; /* Wyrównanie dla lewej kolumny (Księżyc) */
+             justify-content: flex-start;
         }
         
         .astro-item span {
@@ -391,7 +418,6 @@
             font-size: 1.1rem;
             color: #008000;
             padding-top: 5px;
-            text-align: center;
         }
         .astro-countdown-komorka span {
             color: var(--kolor-aktywny);
@@ -480,6 +506,10 @@
                 font-size: 0.8rem;
                 margin-top: 2px;
             }
+            #wspolrzedne-ikona {
+                 font-size: 0.9rem;
+                 margin-right: 5px;
+            }
             #pogoda {
                 font-size: 0.9rem; /* Było 1.1rem */
                 margin-top: 2px;
@@ -527,24 +557,28 @@
             #tabela-slonce td {
                 padding: 2px 5px;
             }
+            .ikona-tabeli, #odliczanie-ikona {
+                font-size: 0.9rem;
+                margin-right: 5px;
+            }
 
             /* NOWE: Zmniejszamy sekcję Astro (Tabela) */
             #tabela-astro {
                 margin-top: 5px;
             }
             .astro-komorka {
-                font-size: 1.0rem; /* Było 1.3rem */
+                font-size: 0.9rem; /* Było 1.2rem */
                 padding: 2px 5px;
             }
-            #tabela-astro tr:nth-child(1) .astro-komorka:first-child { padding-right: 10px; }
-            #tabela-astro tr:nth-child(1) .astro-komorka:last-child { padding-left: 10px; }
+            #tabela-astro tr td:first-child { padding-right: 10px; }
+            #tabela-astro tr td:last-child { padding-left: 10px; }
                 
             .zodiak-emoji, #faza-ksiezyca-obraz {
                 font-size: 2.0rem; /* Było 2.5rem */
                 margin-right: 5px;
             }
             .astro-countdown-komorka {
-                font-size: 0.9rem; /* Było 1.1rem */
+                font-size: 0.8rem; /* Było 1.1rem */
                 padding-top: 2px;
             }
             /* Ukrywamy trzeci wiersz (nowa faza) na bardzo małych ekranach */
@@ -631,7 +665,10 @@
                         <span id="lokalizacja-ikona"></span>
                         <span id="lokalizacja-nazwa">Ustalanie lokalizacji...</span>
                     </div>
-                    <div id="wspolrzedne"></div>
+                    <div id="wspolrzedne">
+                        <span id="wspolrzedne-ikona"></span>
+                        <span id="wspolrzedne-tekst"></span>
+                    </div>
                     <div id="pogoda">
                         <span id="pogoda-ikona">...</span>
                         <span id="pogoda-info">Ładowanie pogody...</span>
@@ -673,7 +710,7 @@
                     ☀️ Wschód: <span id="wschod">...</span>
                 </td>
                 <td>
-                    Długość dnia: <span id="czas-dnia">...</span>
+                    <span class="ikona-tabeli">🕰️</span>Długość dnia: <span id="czas-dnia">...</span>
                 </td>
             </tr>
             <tr>
@@ -681,7 +718,8 @@
                     🌙 Zachód: <span id="zachod">...</span>
                 </td>
                 <td id="odliczanie-slonca">
-                    Ładowanie...
+                    <span id="odliczanie-ikona" class="ikona-tabeli"></span>
+                    <span id="odliczanie-tekst">Ładowanie...</span>
                 </td>
             </tr>
         </table>
@@ -1077,6 +1115,32 @@
         }
 
         /**
+         * NOWA FUNKCJA: Konwertuje stopnie dziesiętne na DMS (Stopnie, Minuty, Sekundy).
+         * @param {number} dec - Wartość dziesiętna (np. 51.6567).
+         * @param {boolean} isLng - Czy to długość geograficzna (true=E/W, false=N/S).
+         * @returns {string} Sformatowany tekst DMS.
+         */
+        function decToDMS(dec, isLng) {
+            let deg = Math.abs(dec);
+            let d = Math.floor(deg);
+            let min = (deg - d) * 60;
+            let m = Math.floor(min);
+            let sec = (min - m) * 60;
+            let s = Math.round(sec);
+            // Obsługa zaokrąglania (np. 59.9s -> 60s)
+            if (s === 60) { m++; s = 0; }
+            if (m === 60) { d++; m = 0; }
+
+            let dir;
+            if (isLng) {
+                dir = dec >= 0 ? 'E' : 'W';
+            } else {
+                dir = dec >= 0 ? 'N' : 'S';
+            }
+            return `${d}° ${formatujLiczbe(m)}′ ${formatujLiczbe(s)}″ ${dir}`;
+        }
+
+        /**
          * Pobiera informacje o znaku zodiaku dla danej daty.
          * @param {Date} data - Obiekt daty.
          * @returns {object} Obiekt z 'nazwa' i 'emoji'.
@@ -1247,15 +1311,15 @@
         // ================================================================
         
         /**
-         * NOWA FUNKCJA: Wyświetla współrzędne w panelu.
+         * NOWA FUNKCJA: Wyświetla współrzędne w panelu (format DMS).
          */
         function wyswietlWspolrzedne() {
-            // Formatowanie do 4 miejsc po przecinku (standard DD)
-            const lat = BIEZACA_LAT.toFixed(4);
-            const lon = BIEZACA_LON.toFixed(4);
-            const wspolrzedneEl = document.getElementById('wspolrzedne');
+            // Użyj nowych funkcji do konwersji
+            const latDMS = decToDMS(BIEZACA_LAT, false);
+            const lonDMS = decToDMS(BIEZACA_LON, true);
+            const wspolrzedneEl = document.getElementById('wspolrzedne-tekst');
             if (wspolrzedneEl) {
-                wspolrzedneEl.textContent = `(${lat}, ${lon})`;
+                wspolrzedneEl.textContent = `${latDMS}, ${lonDMS}`;
             }
         }
 
@@ -1556,13 +1620,22 @@
             let celCzasu, celTekst;
             const wschodEl = document.getElementById('wschod');
             const zachodEl = document.getElementById('zachod');
-            const odliczanieEl = document.getElementById('odliczanie-slonca');
+            // ZMIANA: Pobranie elementów podrzędnych
+            const odliczanieIkonaEl = document.getElementById('odliczanie-ikona');
+            const odliczanieTekstEl = document.getElementById('odliczanie-tekst');
+
 
             // Zabezpieczenie: Jeśli dane z SunCalc (z cache) jeszcze nie istnieją...
             // ZMIANA: Sprawdzamy też 'zachodJutro'.
             if (!window.wschodDzis || !window.zachodDzis || !window.wschodJutro || !window.zachodJutro) {
-                odliczanieEl.textContent = (typeof SunCalc === 'undefined') ? "Brak SunCalc..." : "Inicjalizacja...";
+                // ZMIANA: Aktualizacja tylko elementu tekstowego
+                odliczanieTekstEl.textContent = (typeof SunCalc === 'undefined') ? "Brak SunCalc..." : "Inicjalizacja...";
                 return; // Przerwij dalsze odliczanie
+            }
+            
+            // ZMIANA: Ustawienie ikony (tylko raz, jeśli jest pusta)
+            if (odliczanieIkonaEl.textContent === '') {
+                odliczanieIkonaEl.textContent = '⌛';
             }
 
             // Ustal, do czego odliczamy ORAZ co wyświetlamy
@@ -1594,9 +1667,11 @@
             // Wykonaj odliczanie (tylko jeśli cel jest poprawną datą)
             if (celCzasu && typeof celCzasu.getTime === 'function') {
                 const deltaMs = celCzasu.getTime() - teraz.getTime();
-                odliczanieEl.textContent = `${celTekst} ${formatujDelteCzasu(deltaMs)}`;
+                // ZMIANA: Aktualizacja tylko elementu tekstowego
+                odliczanieTekstEl.textContent = `${celTekst} ${formatujDelteCzasu(deltaMs)}`;
             } else {
-                 odliczanieEl.textContent = "Błąd czasu słońca...";
+                 // ZMIANA: Aktualizacja tylko elementu tekstowego
+                 odliczanieTekstEl.textContent = "Błąd czasu słońca...";
             }
         }
 
@@ -1642,6 +1717,7 @@
         function pobierzLokalizacje() {
             // ZMIANA: Pobranie elementu ikony
             const ikonaEl = document.getElementById('lokalizacja-ikona');
+            const wspolrzedneIkonaEl = document.getElementById('wspolrzedne-ikona');
             
             // Sprawdzenie, czy przeglądarka w ogóle wspiera API Geolokalizacji
             if ("geolocation" in navigator) {
@@ -1655,6 +1731,7 @@
                 console.warn("Geolokalizacja nie jest wspierana. Używam domyślnych (Pabianice).");
                 // ZMIANA: Ustawienie ikony domyślnej/nieaktywnej
                 ikonaEl.textContent = '🛰️';
+                wspolrzedneIkonaEl.textContent = '❌'; // NOWE
                 // NOWE: Wyświetl domyślne współrzędne
                 wyswietlWspolrzedne();
                 // Uruchom aplikację natychmiast, używając domyślnych wartości (Pabianice)
@@ -1667,6 +1744,7 @@
             console.log("Geolokalizacja uzyskana pomyślnie:", pozycja);
             // ZMIANA: Ustawienie ikony aktywnej
             document.getElementById('lokalizacja-ikona').textContent = '📍';
+            document.getElementById('wspolrzedne-ikona').textContent = '🧭'; // NOWE
             
             // Nadpisujemy domyślne, globalne zmienne
             BIEZACA_LAT = pozycja.coords.latitude;
@@ -1684,6 +1762,7 @@
             console.warn(`Błąd geolokalizacji (kod ${blad.code}): ${blad.message}. Używam domyślnych (Pabianice).`);
             // ZMIANA: Ustawienie ikony domyślnej/nieaktywnej
             document.getElementById('lokalizacja-ikona').textContent = '🛰️';
+            document.getElementById('wspolrzedne-ikona').textContent = '❌'; // NOWE
             
             // NOWE: Wyświetl domyślne współrzędne
             wyswietlWspolrzedne();
@@ -1733,6 +1812,3 @@
 
 </body>
 </html>
-
-
-
