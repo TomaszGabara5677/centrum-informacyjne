@@ -95,13 +95,24 @@
             padding-left: 15px;
             width: 60%; /* Zajmuje resztę miejsca */
         }
+        
+        /* --- NOWA LOGIKA STYLOWANIA LOKALIZACJI Z IKONĄ --- */
         #lokalizacja {
             font-size: 1.3rem;
             color: #00c000;
             font-weight: bold;
-            /* ZMIANA: Minimalna wysokość, aby uniknąć "skakania" układu podczas ładowania */
             min-height: 1.5rem;
+            /* Używamy Flexboxa, aby wyrównać ikonę i tekst */
+            display: flex;
+            align-items: center; 
         }
+        #lokalizacja-ikona {
+            font-size: 1.1rem; /* Mniejsza ikona */
+            margin-right: 8px; /* Odstęp od tekstu */
+            color: var(--kolor-aktywny); /* Kolor ikony */
+        }
+        /* #lokalizacja-nazwa (dziedziczy style z #lokalizacja) */
+        
         #pogoda {
             font-size: 1.1rem;
             color: var(--kolor-aktywny);
@@ -450,6 +461,11 @@
             #lokalizacja {
                 font-size: 1.0rem; /* Było 1.3rem */
             }
+            /* NOWY STYL RWD DLA IKONY LOKALIZACJI */
+            #lokalizacja-ikona {
+                font-size: 0.9rem;
+                margin-right: 5px;
+            }
             #pogoda {
                 font-size: 0.9rem; /* Było 1.1rem */
                 margin-top: 2px;
@@ -599,7 +615,10 @@
                     <span id="dzien">...</span>
                 </td>
                 <td class="komorka-lokalizacja-pogoda">
-                    <div id="lokalizacja">Ustalanie lokalizacji...</div>
+                    <div id="lokalizacja">
+                        <span id="lokalizacja-ikona"></span>
+                        <span id="lokalizacja-nazwa">Ustalanie lokalizacji...</span>
+                    </div>
                     <div id="pogoda">
                         <span id="pogoda-ikona">...</span>
                         <span id="pogoda-info">Ładowanie pogody...</span>
@@ -1206,7 +1225,8 @@
             const lon = BIEZACA_LON;
             const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=pl`;
             
-            const lokalizacjaEl = document.getElementById('lokalizacja');
+            // ZMIANA: Celujemy w nowy element span dla samej nazwy
+            const nazwaEl = document.getElementById('lokalizacja-nazwa');
 
             try {
                 const response = await fetch(url);
@@ -1234,7 +1254,7 @@
             }
             
             // Wyświetl nazwę (albo pobraną, albo domyślną)
-            lokalizacjaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
+            nazwaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
         }
 
         /**
@@ -1401,7 +1421,7 @@
             const nazwaDnia = DNI_TYGODNIA[teraz.getDay()];
             document.getElementById('dzien').textContent = nazwaDnia;
 
-            // Podział daty i czasu na pojedyncze cyfry
+            // Podział daty i czasu na pojedyncje cyfry
             const godzina = formatujLiczbe(teraz.getHours());
             const minuta = formatujLiczbe(teraz.getMinutes());
             const sekunda = formatujLiczbe(teraz.getSeconds());
@@ -1520,6 +1540,9 @@
             potem uruchomić resztę aplikacji z właściwymi współrzędnymi.
         */
         function pobierzLokalizacje() {
+            // ZMIANA: Pobranie elementu ikony
+            const ikonaEl = document.getElementById('lokalizacja-ikona');
+            
             // Sprawdzenie, czy przeglądarka w ogóle wspiera API Geolokalizacji
             if ("geolocation" in navigator) {
                 console.log("Przeglądarka wspiera geolokalizację. Pytanie o zgodę...");
@@ -1530,6 +1553,8 @@
             } else {
                 // Przeglądarka nie wspiera geolokalizacji
                 console.warn("Geolokalizacja nie jest wspierana. Używam domyślnych (Pabianice).");
+                // ZMIANA: Ustawienie ikony domyślnej/nieaktywnej
+                ikonaEl.textContent = '🛰️';
                 // Uruchom aplikację natychmiast, używając domyślnych wartości (Pabianice)
                 uruchomAplikacje();
             }
@@ -1538,6 +1563,9 @@
         // Ta funkcja wywoła się, gdy użytkownik ZGODZI SIĘ na udostępnienie lokalizacji
         function geoSukces(pozycja) {
             console.log("Geolokalizacja uzyskana pomyślnie:", pozycja);
+            // ZMIANA: Ustawienie ikony aktywnej
+            document.getElementById('lokalizacja-ikona').textContent = '📍';
+            
             // Nadpisujemy domyślne, globalne zmienne
             BIEZACA_LAT = pozycja.coords.latitude;
             BIEZACA_LON = pozycja.coords.longitude;
@@ -1549,6 +1577,9 @@
         // Ta funkcja wywoła się, gdy użytkownik ODMÓWI lub wystąpi błąd
         function geoBlad(blad) {
             console.warn(`Błąd geolokalizacji (kod ${blad.code}): ${blad.message}. Używam domyślnych (Pabianice).`);
+            // ZMIANA: Ustawienie ikony domyślnej/nieaktywnej
+            document.getElementById('lokalizacja-ikona').textContent = '🛰️';
+            
             // Niezależnie od błędu (odmowa, brak sygnału),
             // uruchamiamy aplikację w trybie domyślnym (Pabianice)
             uruchomAplikacje();
