@@ -337,13 +337,14 @@
             font-size: 1.3rem;
             color: #00c000;
             vertical-align: top;
-            /* NOWE: Dodano flex do wyrównania ikon i tekstu */
-            display: flex;
+            /* POPRAWKA BUGU #1: Zakomentowano display: flex */
+            /* display: flex; */
             align-items: center;
         }
         #tabela-slonce span {
             font-weight: bold;
-            color: var(--kolor-aktywny);
+            /* POPRAWKA BUGU #2: Zakomentowano color */
+            /* color: var(--kolor-aktywny); */
         }
         /* Odliczanie do wschodu/zachodu ma inny, wyróżniony kolor */
         #tabela-slonce #odliczanie-slonca {
@@ -351,6 +352,9 @@
             color: #ffff00;
             text-shadow: 0 0 5px #ffff00;
             font-weight: normal;
+            /* Przywrócenie flex tylko dla komórki odliczania */
+            display: flex;
+            align-items: center;
         }
         
         /* NOWE: Style dla ikon w tabelach */
@@ -373,7 +377,8 @@
             margin-top: 10px;
         }
         .astro-komorka {
-            width: 50%;
+            /* POPRAWKA BUGU #3: Zakomentowano width: 50% */
+            /* width: 50%; */
             vertical-align: top;
             padding: 4px 8px;
             /* ZMIANA: Zmniejszono czcionkę, aby tekst się mieścił */
@@ -707,7 +712,7 @@
         <table id="tabela-slonce">
             <tr>
                 <td>
-                    ☀️ Wschód: <span id="wschod">...</span>
+                    <span class="ikona-tabeli">☀️</span>Wschód: <span id="wschod">...</span>
                 </td>
                 <td>
                     <span class="ikona-tabeli">🕰️</span>Długość dnia: <span id="czas-dnia">...</span>
@@ -715,7 +720,7 @@
             </tr>
             <tr>
                 <td>
-                    🌙 Zachód: <span id="zachod">...</span>
+                    <span class="ikona-tabeli">🌙</span>Zachód: <span id="zachod">...</span>
                 </td>
                 <td id="odliczanie-slonca">
                     <span id="odliczanie-ikona" class="ikona-tabeli"></span>
