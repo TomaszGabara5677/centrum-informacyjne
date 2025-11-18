@@ -1,7 +1,7 @@
 // Nazwa naszej pamięci podręcznej (cache).
 // WAŻNE: Zmiana tej nazwy (np. na 'v2', 'v3') przy aktualizacji plików
 // automatycznie uruchomi proces 'activate' i wyczyści stare cache.
-const CACHE_NAME = 'v2';
+const CACHE_NAME = 'v1';
 
 // Lista plików stanowiących "szkielet" aplikacji (App Shell).
 // Są to kluczowe zasoby potrzebne do uruchomienia aplikacji offline.
@@ -141,4 +141,5 @@ self.addEventListener('fetch', (event) => {
     )
   );
 });
+
 
