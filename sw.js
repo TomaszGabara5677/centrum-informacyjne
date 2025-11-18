@@ -135,12 +135,13 @@ self.addEventListener('fetch', (event) => {
         // Zwracamy wynik tego żądania sieciowego.
         // Jeśli sieć jest offline, to żądanie fetch() się nie uda
         // (odrzuci obietnicę), a strona zobaczy błąd sieciowy
-  g     // (co jest oczekiwanym zachowaniem dla zasobów, których nie cachowaliśmy).
+        // (co jest oczekiwanym zachowaniem dla zasobów, których nie cachowaliśmy).
         return fetch(event.request);
       }
     )
   );
 });
+
 
 
 
