@@ -1,7 +1,7 @@
 Uruchomienie programu: 
 
-1.) https://tomaszgabara5677.github.io/centrum-informacyjne/ <br>
-lub<br>
+1.) https://tomaszgabara5677.github.io/centrum-informacyjne/ <br><br>
+                             lub<br><br>
 2.) https://tomaszgabara5677.github.io/centrum-informacyjne/index.html<br>
 <br><br>
 
@@ -14,3 +14,9 @@ lub<br>
 <br><br>
 Program powstał przy użyciu narzędzia Google Gemini PRO.<br>
 Wszelkie uwagi mile widziane: TomaszGabara5677@gmail.com<br>
+<br><br>
+Licencja: Freeware - z podaniem źródła, jeśli jest wykorzystywany projekt poza Github.
+<br><br>
+//Freeware: Pozwala na darmowe korzystanie z programu, <br>
+//ale bez możliwości modyfikacji kodu źródłowego <br>
+//i czerpania korzyści finansowych z jego dystrybucji.<br>
