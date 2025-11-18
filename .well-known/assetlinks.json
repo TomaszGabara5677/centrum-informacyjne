@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.github.tomaszgabara5677.centruminformacyjne",
+      "sha256_cert_fingerprints": [
+        "TU_WKLEJ_SWOJ_KOD_SHA256"
+      ]
+    }
+  }
+]
