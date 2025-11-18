@@ -5,7 +5,7 @@ Uruchomienie programu:
 2.) https://tomaszgabara5677.github.io/centrum-informacyjne/index.html<br>
 <br><br>
 
-// Za pierwszym razem zaleca się odświeżenie pamięci cache.<br>
+// Za pierwszym razem jeśli uruchamiamy poraz kolejny aplikację zaleca się odświeżenie pamięci cache.<br>
 // Aby odświeżyć pamięć podręczną (cache) strony, użyj skrótu klawiaturowego Ctrl + F5 lub Ctrl + R. <br>
 // Kombinacja Ctrl + F5 wymusza ponowne pobranie strony z serwera, pomijając lokalnie zapisaną kopię. <br>
 // Sam skrót F5 odświeża stronę, ale może wykorzystać dane z cache'u, natomiast Ctrl + R odświeża aktualne okno, <br>
