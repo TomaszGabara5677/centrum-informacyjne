@@ -8,13 +8,13 @@ const CACHE_NAME = 'v1';
 // Wszystkie ścieżki muszą być względne (bez '/') aby działały
 // poprawnie na różnych platformach hostingowych (np. GitHub Pages).
 const PLIKI_DO_CACHE = [
-  'index.html',
-  'imieniny.js',
-  'swieta.js',
-  'suncalc.min.js',
-  'icon-192x192.png',
-  'icon-512x512.png',
-  'manifest.json'
+  './index.html',
+  './imieniny.js',
+  './swieta.js',
+  './suncalc.min.js',
+  './icon-192x192.png',
+  './icon-512x512.png',
+  './manifest.json'
 ];
 
 // --- ETAP 1: INSTALACJA (install) ---
@@ -141,5 +141,6 @@ self.addEventListener('fetch', (event) => {
     )
   );
 });
+
 
 
