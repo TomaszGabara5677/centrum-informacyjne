@@ -1,22 +1,63 @@
-Uruchomienie programu: 
+# Centrum Informacyjne
 
-1.) https://tomaszgabara5677.github.io/centrum-informacyjne/ <br><br>
-                             lub<br><br>
-2.) https://tomaszgabara5677.github.io/centrum-informacyjne/index.html<br>
-<br><br>
+Kompleksowy zegar segmentowy z funkcjami astronomicznymi, kalendarzem imienin i prognozą pogody. Aplikacja typu PWA (Progressive Web App) działająca offline.
 
-// Za pierwszym razem jeśli uruchamiamy poraz kolejny aplikację zaleca się odświeżenie pamięci cache.<br>
-// Aby odświeżyć pamięć podręczną (cache) strony, użyj skrótu klawiaturowego Ctrl + F5 lub Ctrl + R. <br>
-// Kombinacja Ctrl + F5 wymusza ponowne pobranie strony z serwera, pomijając lokalnie zapisaną kopię. <br>
-// Sam skrót F5 odświeża stronę, ale może wykorzystać dane z cache'u, natomiast Ctrl + R odświeża aktualne okno, <br>
-// a Ctrl + Shift + R w niektórych przeglądarkach również wymusza twarde odświeżenie. <br>
-// Skrót Ctrl + Alt + R nie jest standardowym skrótem do odświeżania cache w przeglądarkach. <br>
-<br><br>
-Program powstał przy użyciu narzędzia Google Gemini PRO.<br>
-Wszelkie uwagi mile widziane: TomaszGabara5677@gmail.com<br>
-<br><br>
-Licencja: Freeware - z podaniem źródła, jeśli jest wykorzystywany projekt poza Github.
-<br><br>
-//Freeware: Pozwala na darmowe korzystanie z programu, <br>
-//ale bez możliwości modyfikacji kodu źródłowego <br>
-//i czerpania korzyści finansowych z jego dystrybucji.<br>
+## 🚀 Uruchomienie
+
+Aplikacja dostępna jest pod adresem:
+👉 **https://tomaszgabara5677.github.io/centrum-informacyjne/**
+
+### Instalacja (PWA)
+Tę stronę można zainstalować jako aplikację na telefonie lub komputerze:
+* **Android (Chrome):** Kliknij menu (trzy kropki) -> "Zainstaluj aplikację" lub "Dodaj do ekranu głównego".
+* **iOS (Safari):** Kliknij przycisk "Udostępnij" -> "Do ekranu początkowego".
+* **PC (Chrome/Edge):** Kliknij ikonę instalacji na pasku adresu.
+
+---
+
+## 💡 Funkcje
+
+* **Zegar:** Stylizowany na wyświetlacz segmentowy.
+* **Kalendarz:** Imieniny, święta stałe i ruchome, dni do sylwestra.
+* **Astronomiczne:**
+  * Wschody i zachody Słońca (z odliczaniem).
+  * Fazy Księżyca i znaki zodiaku.
+  * Wykrywanie roku przestępnego.
+* **Pogoda:** Aktualna temperatura i warunki pogodowe dla Twojej lokalizacji.
+* **Lokalizacja:** Automatyczne wykrywanie miejscowości i współrzędnych (GPS).
+
+---
+
+## 🛠️ Technologie i Źródła
+
+Program powstał przy użyciu narzędzia Google Gemini PRO.
+
+**Wykorzystane API i biblioteki:**
+* **Pogoda:** [Open-Meteo API](https://open-meteo.com/) (Darmowe dane pogodowe).
+* **Geocoding:** [BigDataCloud API](https://www.bigdatacloud.com/) (Nazwy miejscowości).
+* **Astronomia:** Biblioteka `SunCalc` (Obliczenia pozycji Słońca i Księżyca).
+
+---
+
+## 🔒 Prywatność
+
+Aplikacja korzysta z geolokalizacji urządzenia wyłącznie w celu pobrania danych pogodowych i astronomicznych. Żadne dane nie są gromadzone przez autora.
+Szczegóły: [Polityka Prywatności](privacy-policy.md)
+
+---
+
+## ℹ️ Uwagi techniczne
+
+Aby odświeżyć pamięć podręczną (cache) po aktualizacji aplikacji:
+* **PC:** Użyj skrótu `Ctrl + F5` lub `Ctrl + R`.
+* **Mobile:** Zamknij aplikację całkowicie i otwórz ponownie (nowy Service Worker zaktualizuje się w tle).
+
+Wszelkie uwagi mile widziane: `TomaszGabara5677@gmail.com`
+
+---
+
+## 📜 Licencja
+
+**Freeware** - z podaniem źródła, jeśli projekt jest wykorzystywany poza Github.
+
+Pozwala na darmowe korzystanie z programu, ale bez możliwości modyfikacji kodu źródłowego i czerpania korzyści finansowych z jego dystrybucji.
