@@ -297,7 +297,7 @@
             background-color: var(--kolor-aktywny);
             border-radius: 50%;
             box-shadow: 0 0 5px var(--kolor-aktywny);
-            transition: opacity 0.1s;
+            transition: opacity: 0.1s;
         }
         .separator-dwukropek::before { margin-bottom: 8px; margin-top: 8px; }
         /* Klasa 'wygaszony' (dodawana przez JS) obsługuje mruganie */
@@ -1388,35 +1388,41 @@
         async function aktualizujNazweLokalizacji() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
-            const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=pl`;
             
-            // ZMIANA: Celujemy w nowy element span dla samej nazwy
+            // --- POPRAWKA BŁĘDU API (CORS) ---
+            // Zmieniono API z geocoding-api.open-meteo.com na api.bigdatacloud.net,
+            // ponieważ Open-Meteo blokuje zapytania CORS z przeglądarki.
+            const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pl`;
+            
             const nazwaEl = document.getElementById('lokalizacja-nazwa');
 
             try {
                 const response = await fetch(url);
-                if (!response.ok) throw new Error('Błąd sieci geocoding');
+                if (!response.ok) throw new Error('Błąd sieci geocoding (BigDataCloud)');
                 
                 const data = await response.json();
                 
-                // Próba inteligentnego złożenia nazwy
-                // Np. "Warszawa, Mazowieckie" lub "Berlin, Niemcy"
-                if (data && data.name) {
-                    let nazwa = data.name; // Np. Warszawa
-                    if (data.admin1) { // Np. Mazowieckie
-                        nazwa += `, ${data.admin1}`;
-                    } else if (data.country) { // Fallback na kraj, jeśli nie ma regionu
-                        nazwa += `, ${data.country}`;
+                // ZMIANA: Parsowanie odpowiedzi z BigDataCloud
+                if (data && data.city) {
+                    let nazwa = data.city; // Np. Warszawa
+                    if (data.principalSubdivision) { // Np. Województwo Mazowieckie
+                        // Skrócenie "Województwo" do "woj."
+                        let wojewodztwo = data.principalSubdivision.replace("Województwo ", "woj. ");
+                        nazwa += `, ${wojewodztwo}`;
+                    } else if (data.countryName) { // Fallback na kraj
+                        nazwa += `, ${data.countryName}`;
                     }
                     BIEZACA_LOKALIZACJA_NAZWA = nazwa;
+                } else if (data && data.locality) {
+                    // Fallback, jeśli nie ma 'city', ale jest 'locality'
+                    BIEZACA_LOKALIZACJA_NAZWA = data.locality;
+                } else {
+                    // Jeśli API odpowiedziało, ale nie ma danych o nazwie
+                    throw new Error('Nie znaleziono nazwy dla tych współrzędnych');
                 }
-                // Jeśli API zawiedzie, BIEZACA_LOKALIZACJA_NAZWA zachowa domyślną wartość
 
             } catch (error) {
                 console.error('Błąd pobierania nazwy lokalizacji:', error);
-                // Błąd nie jest krytyczny, więc po prostu użyjemy domyślnej nazwy
-                // (lub tej, która już była ustawiona, np. Pabianice)
-                
                 // --- POPRAWKA BŁĘDU NIESPÓJNOŚCI ---
                 // Jeśli pobranie nazwy się nie uda, ustawiamy tekst błędu
                 BIEZACA_LOKALIZACJA_NAZWA = "Błąd API (Nazwa)";
