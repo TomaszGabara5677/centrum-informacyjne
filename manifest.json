@@ -2,7 +2,7 @@
   "name": "Centrum Informacyjne",
   "short_name": "Zegar Info",
   "description": "Zegar segmentowy z informacjami astro i kalendarzem.",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   
   "orientation": "landscape",
@@ -22,3 +22,4 @@
     }
   ]
 }
+
