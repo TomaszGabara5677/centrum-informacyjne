@@ -342,10 +342,21 @@
             align-items: center;
         }
         #tabela-slonce span {
-            font-weight: bold;
-            /* POPRAWKA BUGU #2: Zakomentowano color */
-            /* color: var(--kolor-aktywny); */
+            /* ZMIANA: Usunięto 'font-weight: bold' z ogólnego span,
+               ponieważ teraz sterujemy tym przez klasy etykieta-aktywna/nieaktywna.
+               Dla innych spanów (np. czasu) dodamy styl lokalnie lub zostawimy. */
+            /* font-weight: bold; */
         }
+        /* NOWE: Klasy dla dynamicznych etykiet "dzisiaj/jutro" */
+        .etykieta-aktywna {
+            color: var(--kolor-aktywny);
+            font-weight: bold;
+        }
+        .etykieta-nieaktywna {
+            color: #004400; /* Ciemna zieleń */
+            font-weight: normal;
+        }
+        
         /* Odliczanie do wschodu/zachodu ma inny, wyróżniony kolor */
         #tabela-slonce #odliczanie-slonca {
             font-size: 1.3rem;
@@ -664,15 +675,15 @@
         <table id="tabela-slonce">
             <tr>
                 <td>
-                    <span class="ikona-tabeli">☀️</span>Wschód: <span id="wschod">...</span>
+                    <span class="ikona-tabeli">☀️</span>Wschód <span id="wschod-lbl-dzis">dzisiaj</span>/<span id="wschod-lbl-jutro">jutro</span>: <span id="wschod" style="font-weight: bold; color: var(--kolor-aktywny);">...</span>
                 </td>
                 <td>
-                    <span class="ikona-tabeli">🕰️</span>Długość dnia: <span id="czas-dnia">...</span>
+                    <span class="ikona-tabeli">🕰️</span>Długość dnia: <span id="czas-dnia" style="font-weight: bold; color: var(--kolor-aktywny);">...</span>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <span class="ikona-tabeli">🌙</span>Zachód: <span id="zachod">...</span>
+                    <span class="ikona-tabeli">🌙</span>Zachód <span id="zachod-lbl-dzis">dzisiaj</span>/<span id="zachod-lbl-jutro">jutro</span>: <span id="zachod" style="font-weight: bold; color: var(--kolor-aktywny);">...</span>
                 </td>
                 <td id="odliczanie-slonca">
                     <span id="odliczanie-ikona" class="ikona-tabeli"></span>
@@ -1011,31 +1022,22 @@
             return 'b/d'; 
         }
 
-        /**
-         * ZMIANA: Nowa funkcja zamiast 'obliczNastepnaGlownaFaze'.
-         * Oblicza, kiedy zmieni się WIZUALNA faza (indeks 1-8) na wyświetlaczu.
-         * Rozwiązuje problem odliczania do "Nowiu" (1.0), gdy już jesteśmy w "Nowiu" (>0.97).
-         */
         function obliczZmianeFazyWizualnej(teraz) {
             if (typeof SunCalc === 'undefined') return 'b/d';
 
-            // 1. Pobierz aktualny indeks fazy (np. 1 dla Nowiu, 5 dla Pełni)
             const infoTeraz = pobierzInfoKsiezyca(SunCalc.getMoonIllumination(teraz).phase);
             const indeksAktualny = infoTeraz.index;
 
             let dataPetli = new Date(teraz.getTime());
 
-            // 2. Skanuj przyszłość godzina po godzinie (max 10 dni = 240h)
             for (let i = 0; i < 240; i++) {
-                dataPetli.setHours(dataPetli.getHours() + 1); // Skok o 1h
+                dataPetli.setHours(dataPetli.getHours() + 1); 
                 let fazaPrzyszla = SunCalc.getMoonIllumination(dataPetli).phase;
                 let infoPrzyszle = pobierzInfoKsiezyca(fazaPrzyszla);
                 
-                // 3. Sprawdź, czy indeks (numer fazy / 8) uległ zmianie
                 if (infoPrzyszle.index !== indeksAktualny) {
                     const diffMs = dataPetli.getTime() - teraz.getTime();
                     const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-                    // Zwracamy co najmniej 1 dzień
                     return diffDni === 0 ? 1 : diffDni;
                 }
             }
@@ -1247,7 +1249,6 @@
             const dniDoPelni = obliczNastepnaPelnie(teraz);
             document.getElementById('pelnia-countdown-dni').textContent = dniDoPelni;
             
-            // ZMIANA: Użycie nowej funkcji liczącej czas do zmiany wizualnej fazy
             const dniDoFazy = obliczZmianeFazyWizualnej(teraz);
             document.getElementById('faza-countdown-dni').textContent = dniDoFazy;
 
@@ -1296,6 +1297,9 @@
             });
 
             let celCzasu, celTekst;
+            // ZMIANA: Nowa zmienna sterująca tym, czy wyświetlamy dane dla jutra
+            let wyswietlamyJutro = false;
+            
             const wschodEl = document.getElementById('wschod');
             const zachodEl = document.getElementById('zachod');
             const odliczanieIkonaEl = document.getElementById('odliczanie-ikona');
@@ -1315,19 +1319,43 @@
                 celTekst = "Wschód słońca za:";
                 wschodEl.textContent = formatujGodzine(window.wschodDzis);
                 zachodEl.textContent = formatujGodzine(window.zachodDzis);
+                wyswietlamyJutro = false; // Wyświetlamy dane na dziś
 
             } else if (teraz < window.zachodDzis) {
                 celCzasu = window.zachodDzis; 
                 celTekst = "Zachód słońca za:";
                 wschodEl.textContent = formatujGodzine(window.wschodDzis);
                 zachodEl.textContent = formatujGodzine(window.zachodDzis);
+                wyswietlamyJutro = false; // Wyświetlamy dane na dziś
 
             } else {
                 celCzasu = window.wschodJutro;
                 celTekst = "Wschód słońca za:";
                 wschodEl.textContent = formatujGodzine(window.wschodJutro);
                 zachodEl.textContent = formatujGodzine(window.zachodJutro);
+                wyswietlamyJutro = true; // Wyświetlamy dane na jutro
             }
+            
+            // ZMIANA: Aktualizacja klas CSS dla etykiet dzisiaj/jutro
+            const klasaAkt = 'etykieta-aktywna';
+            const klasaNieakt = 'etykieta-nieaktywna';
+            
+            // Funkcja pomocnicza do ustawiania pary etykiet
+            const ustawEtykiety = (idDzis, idJutro, czyJutro) => {
+                const elDzis = document.getElementById(idDzis);
+                const elJutro = document.getElementById(idJutro);
+                if(czyJutro) {
+                    elDzis.className = klasaNieakt;
+                    elJutro.className = klasaAkt;
+                } else {
+                    elDzis.className = klasaAkt;
+                    elJutro.className = klasaNieakt;
+                }
+            };
+            
+            ustawEtykiety('wschod-lbl-dzis', 'wschod-lbl-jutro', wyswietlamyJutro);
+            ustawEtykiety('zachod-lbl-dzis', 'zachod-lbl-jutro', wyswietlamyJutro);
+
 
             if (celCzasu && typeof celCzasu.getTime === 'function') {
                 const deltaMs = celCzasu.getTime() - teraz.getTime();
