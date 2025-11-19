@@ -10,28 +10,20 @@
     <title>Kompletne Centrum Informacyjne</title>
 
     <style>
-        /*
-            Definicja głównych zmiennych CSS (CSS variables) w :root.
-            POWÓD: Umożliwia to łatwą zmianę kolorystyki całej aplikacji
-            w jednym miejscu. Zamiast szukać i zmieniać '#00FF00'
-            w wielu miejscach, zmieniamy only '--kolor-aktywny'.
+        /* Zmienne CSS (:root) pozwalają na globalne zarządzanie motywem.
+           Dzięki temu zmiana koloru wiodącego (np. na czerwony) wymaga 
+           edycji tylko w tym jednym miejscu, a nie w całym pliku.
         */
         :root {
-            --kolor-aktywny: #00FF00;
-            --kolor-tla: #1a1a1a;
-            --kolor-ramki: #000;
+            --kolor-aktywny: #00FF00; /* Główny kolor "neonowy" */
+            --kolor-tla: #1a1a1a;     /* Ciemne tło dla kontrastu */
+            --kolor-ramki: #000;      /* Kolor wnętrza kontenera */
         }
 
-        /*
-            Podstawowe style dla 'body':
-            - display: flex, justify-content, align-items: Używamy Flexboxa,
-              aby wycentrować główny kontener (#kontener) idealnie
-              na środku ekranu (zarówno w pionie, jak i w poziomie).
-            - min-height: 100vh: Gwarantuje, że 'body' ma wysokość co najmniej
-              całego ekranu, co jest kluczowe dla centrowania w pionie.
-            - box-sizing: border-box: Włącza "intuicyjny" model pudełkowy,
-              gdzie 'padding' i 'border' są wliczane do całkowitej
-              szerokości/wysokości elementu, a nie dodawane na zewnątrz.
+        /* Style dla elementu <body>.
+           Używamy Flexboxa (display: flex) do idealnego wycentrowania 
+           aplikacji w pionie i poziomie na ekranie. 'min-height: 100vh' 
+           gwarantuje, że body zajmie całą wysokość okna przeglądarki.
         */
         body {
             display: flex;
@@ -39,21 +31,16 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            /* --- POPRAWKA TŁA (POWRÓT) ---
-               Przywrócono globalny kolor tła i tekstu
-               zgodnie z Twoją prośbą.
-            */
             background-color: var(--kolor-tla);
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Courier New', Courier, monospace; /* Czcionka stałej szerokości, techniczny styl */
             color: var(--kolor-aktywny);
             padding: 20px;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Padding wlicza się w wymiary elementu */
         }
 
-        /*
-            Główny kontener aplikacji:
-            - flex-direction: column: Ustawia elementy wewnątrz
-              kontenera jeden pod drugim (w kolumnie).
+        /* Główny kontener (#kontener) trzyma całą zawartość.
+           Jest to "pudełko" z ramką, które centruje elementy wewnątrz siebie 
+           w kolumnie (flex-direction: column).
         */
         #kontener {
             width: auto;
@@ -61,18 +48,16 @@
             padding: 20px 30px;
             border: 4px solid var(--kolor-aktywny);
             border-radius: 10px;
-            background-color: var(--kolor-ramki); /* Tło wewnątrz ramki (#000) */
-            /* --- POPRAWKA TŁA (POWRÓT) ---
-               Usunięto 'color', ponieważ jest już
-               dziedziczony z 'body'.
-            */
+            background-color: var(--kolor-ramki);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
 
-        /* --- Style tabeli nagłówkowej (Dzień, Lokalizacja, Pogoda) --- */
+        /* Tabela nagłówkowa (Dzień tygodnia, Lokalizacja).
+           Używamy tabeli do prostego układu dwukolumnowego w nagłówku.
+        */
         #tabela-naglowek {
             width: 100%;
             border-collapse: collapse;
@@ -83,60 +68,58 @@
             border: none;
             vertical-align: middle;
         }
-        /* Duży napis z dniem tygodnia */
+
+        /* Stylizacja dnia tygodnia - ma być duży i wyraźny */
         .komorka-dzien {
             font-size: 3.5rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            text-shadow: 0 0 5px var(--kolor-aktywny);
-            width: auto; /* Zmieniono z 40% */
+            text-shadow: 0 0 5px var(--kolor-aktywny); /* Efekt poświaty neonowej */
+            width: auto;
             text-align: center;
             vertical-align: middle;
             padding-right: 20px;
         }
         
-        /* ZMIANA: Komórka z lokalizacją i pogodą */
+        /* Prawa część nagłówka (Lokalizacja, Pogoda) oddzielona linią kropkowaną */
         .komorka-lokalizacja-pogoda {
             text-align: left;
             vertical-align: middle;
             border-left: 1px dotted #008000;
             padding-left: 15px;
-            width: 60%; /* Zajmuje resztę miejsca */
+            width: 60%;
         }
         
-        /* --- NOWA LOGIKA STYLOWANIA LOKALIZACJI Z IKONĄ --- */
+        /* Flexbox dla wiersza lokalizacji, aby ikona i tekst były w jednej linii */
         #lokalizacja {
             font-size: 1.3rem;
             color: #00c000;
             font-weight: bold;
             min-height: 1.5rem;
-            /* Używamy Flexboxa, aby wyrównać ikonę i tekst */
             display: flex;
             align-items: center; 
         }
         #lokalizacja-ikona {
-            font-size: 1.1rem; /* Mniejsza ikona */
-            margin-right: 8px; /* Odstęp od tekstu */
-            color: var(--kolor-aktywny); /* Kolor ikony */
+            font-size: 1.1rem;
+            margin-right: 8px;
+            color: var(--kolor-aktywny);
         }
-        /* #lokalizacja-nazwa (dziedziczy style z #lokalizacja) */
         
-        /* --- NOWY ELEMENT: Współrzędne --- */
+        /* Sekcja współrzędnych geograficznych - mniejsza, pomocnicza */
         #wspolrzedne {
-            font-size: 0.9rem; /* Mniejsza czcionka */
-            color: #87CEEB; /* Jasnoniebieski (SkyBlue) */
+            font-size: 0.9rem;
+            color: #87CEEB; /* SkyBlue - dla odróżnienia danych technicznych */
             margin-top: 4px;
-            min-height: 1rem; /* Zapobiega skakaniu układu */
-            /* NOWE: Dodano flex do wyrównania ikony */
+            min-height: 1rem;
             display: flex;
             align-items: center;
         }
-        /* NOWE: Ikona dla współrzędnych */
         #wspolrzedne-ikona {
             margin-right: 8px;
             font-size: 1.1rem;
         }
         
+        /* Sekcja pogody */
         #pogoda {
             font-size: 1.1rem;
             color: var(--kolor-aktywny);
@@ -145,20 +128,17 @@
             margin-top: 5px;
         }
         #pogoda-ikona {
-            font-size: 1.8rem; /* Większe emoji pogody */
+            font-size: 1.8rem;
             margin-right: 10px;
         }
         #pogoda-info {
             line-height: 1.4;
         }
 
-        /* --- Style tabeli z informacjami rocznymi --- */
+        /* Tabela z informacjami rocznymi (Dzień roku, Tydzień, Święta).
+           Auto-width pozwala jej dopasować się do zawartości.
+        */
         #tabela-info-roczne {
-            /* --- POPRAWKA BUGU POZYCJONOWANIA ---
-               Usunięto 'width: 100%' i zastąpiono 'width: auto'.
-               Tabela sama dopasuje szerokość do zawartości i zostanie
-               wycentrowana przez nadrzędny '#kontener'.
-            */
             width: auto;
             border-collapse: collapse;
             margin-bottom: 10px;
@@ -166,16 +146,15 @@
             color: #00c000;
         }
         #tabela-info-roczne td {
-            /* Usunięto 'width: 33.33%' */
             padding: 3px 0;
             border: none;
             vertical-align: top;
         }
-        /* Styl dla maksymalnych wartości (np. /365) */
+        /* Wyróżnienie wartości maksymalnych (np. /365) */
         #tabela-info-roczne .max {
-            color: #008000;
+            color: #008000; /* Ciemniejszy zielony dla tła informacyjnego */
         }
-        /* Podświetlenie bieżących wartości */
+        /* Wyróżnienie zmiennych danych (konkretne liczby/nazwy) */
         #tabela-info-roczne span span,
         #tabela-info-roczne span#swieto-nowe,
         #tabela-info-roczne span#imiona-nowe {
@@ -183,96 +162,85 @@
             font-weight: bold;
         }
         
-        /* Kolumna 1: Dzień roku, Sylwester */
+        /* Style kolumn tabeli rocznej - wyrównania i separatory */
         #tabela-info-roczne td:nth-child(1) {
-            /* Usunięto 'width: 30%' */
             text-align: right;
             padding-right: 10px;
         }
-        /* Kolumna 2: Tydzień, Kwartał */
         #tabela-info-roczne td:nth-child(2) {
-            /* Usunięto 'width: 30%' */
             text-align: right; 
             padding-right: 10px;
             padding-left: 10px;
             border-left: 1px dotted #008000;
         }
-        /* Kolumna 3: Święto, Imieniny */
         #tabela-info-roczne td:nth-child(3) {
-            /* Usunięto 'width: 40%' */
             text-align: left;
             padding-left: 10px;
             border-left: 1px dotted #008000;
             line-height: 1.4;
         }
 
-        /* --- Style Zegara Segmentowego --- */
+        /* --- ZEGAR SEGMENTOWY ---
+           Kontener flexboxowy, który pozwala na przewijanie (overflow-x: auto),
+           jeśli ekran jest zbyt wąski, by pomieścić cały zegar w jednej linii.
+        */
         #zegar-segmentowy-kontener {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: 10px;
             width: 100%;
-            /*
-                POWÓD: Jeśli ekran jest bardzo wąski, zegar segmentowy
-                (który ma stałą szerokość) będzie mógł być przewijany
-                w poziomie, zamiast "rozpychać" całą aplikację.
-            */
             overflow-x: auto;
         }
         .kontener-linii {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: nowrap; /* Zapobiega łamaniu linii zegara */
+            flex-wrap: nowrap;
             white-space: nowrap;
         }
-        /*
-            Kontener dla pojedynczej cyfry (7 segmentów):
-            - position: relative: Jest to kluczowe. Ustawia "kontekst"
-              pozycjonowania dla segmentów wewnątrz, które będą
-              używać 'position: absolute'.
+
+        /* Pojedyncza cyfra zegara.
+           Używamy 'position: relative', aby segmenty wewnątrz (które są absolute)
+           pozycjonowały się względem tej cyfry, a nie względem strony.
         */
         .cyfra {
             position: relative;
             width: 30px;
             height: 50px;
             margin: 0 2px;
-            flex-shrink: 0; /* Zapobiega kurczeniu się cyfr */
+            flex-shrink: 0; /* Zapobiega zgniataniu cyfr przy braku miejsca */
         }
-        /*
-            Style dla pojedynczego segmentu:
-            - position: absolute: Pozwala precyzyjnie umieścić segment
-              (np. 'top: 0', 'left: 5px') WEWNĄTRZ rodzica (.cyfra).
-            - opacity: 0.1: Domyślnie segmenty są "wygaszone".
+
+        /* Pojedynczy segment LED (kreska).
+           Domyślnie ma opacity: 0.1 (wygaszony). Klasa .active zmienia to na 1.
         */
         .segment {
             position: absolute;
             background-color: var(--kolor-aktywny);
             opacity: 0.1;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s; /* Płynne zapalanie */
             border-radius: 2px;
             box-shadow: 0 0 5px var(--kolor-aktywny);
         }
-        /* Klasa 'active' (dodawana przez JS) "zapala" segment */
         .segment.active {
             opacity: 1;
         }
-        /*
-            Precyzyjne pozycjonowanie każdego z 7 segmentów (a-g)
-            wewnątrz kontenera .cyfra o wymiarach 30x50.
+        
+        /* Definicje geometryczne segmentów a-g (standard 7-segment display).
+           Precyzyjne pozycjonowanie 'top' i 'left' tworzy kształt ósemki.
         */
-        .segment.a, .segment.d, .segment.g { width: 20px; height: 4px; left: 5px; }
-        .segment.b, .segment.c, .segment.e, .segment.f { width: 4px; height: 20px; }
+        .segment.a, .segment.d, .segment.g { width: 20px; height: 4px; left: 5px; } /* Poziome */
+        .segment.b, .segment.c, .segment.e, .segment.f { width: 4px; height: 20px; } /* Pionowe */
         .segment.a { top: 0; }
         .segment.d { top: 46px; }
-        .segment.g { top: 23px; }
+        .segment.g { top: 23px; } /* Środkowy */
         .segment.b { top: 5px; left: 26px; }
         .segment.c { top: 25px; left: 26px; }
         .segment.f { top: 5px; left: 0; }
         .segment.e { top: 25px; left: 0; }
 
-        /* --- Style Separatorów (Dwukropek, Kreska, Spacer) --- */
+        /* Separatory między grupami cyfr (dwukropki, myślniki) */
         .separator {
             height: 50px;
             position: relative;
@@ -282,11 +250,8 @@
             align-items: center;
             flex-shrink: 0;
         }
-        /*
-            Dwukropek (np. 12:34)
-            POWÓD: Jest tworzony za pomocą pseudo-elementów ::before i ::after,
-            co pozwala uniknąć dodatkowych elementów w HTML.
-        */
+        
+        /* Dwukropek zegara - tworzony z pseudoelementów ::before i ::after */
         .separator-dwukropek { width: 20px; }
         .separator-dwukropek::before,
         .separator-dwukropek::after {
@@ -300,13 +265,13 @@
             transition: opacity: 0.1s;
         }
         .separator-dwukropek::before { margin-bottom: 8px; margin-top: 8px; }
-        /* Klasa 'wygaszony' (dodawana przez JS) obsługuje mruganie */
+        /* Klasa obsługująca efekt mrugania (dodawana co sekundę w JS) */
         .separator-dwukropek.wygaszony::before,
         .separator-dwukropek.wygaszony::after {
             opacity: 0.1;
         }
 
-        /* Kreska (np. 31-12) */
+        /* Kreska daty (np. 20-11) */
         .separator-kreska { width: 30px; display: flex; justify-content: center; align-items: center; }
         .separator-kreska::before {
             content: '';
@@ -318,14 +283,14 @@
             border-radius: 2px;
         }
 
-        /* Pusty separator (spacer) między datą a godziną */
+        /* Pusty odstęp między datą a czasem */
         .separator-spacer {
             width: 25px;
             height: 50px;
             flex-shrink: 0;
         }
 
-        /* --- Style sekcji Słońca --- */
+        /* Tabela Słońca (Wschód/Zachód/Długość dnia) */
         #tabela-slonce {
             width: auto;
             border-collapse: collapse;
@@ -337,67 +302,58 @@
             font-size: 1.3rem;
             color: #00c000;
             vertical-align: top;
-            /* POPRAWKA BUGU #1: Zakomentowano display: flex */
-            /* display: flex; */
             align-items: center;
         }
-        #tabela-slonce span {
-            /* ZMIANA: Usunięto 'font-weight: bold' z ogólnego span,
-               ponieważ teraz sterujemy tym przez klasy etykieta-aktywna/nieaktywna.
-               Dla innych spanów (np. czasu) dodamy styl lokalnie lub zostawimy. */
-            /* font-weight: bold; */
-        }
-        /* NOWE: Klasy dla dynamicznych etykiet "dzisiaj/jutro" */
+
+        /* Klasy sterujące widocznością etykiet "dzisiaj/jutro".
+           Dzięki temu użytkownik wie, czy podana godzina dotyczy bieżącego, 
+           czy następnego dnia (np. po zachodzie słońca patrzymy na wschód jutro).
+        */
         .etykieta-aktywna {
             color: var(--kolor-aktywny);
             font-weight: bold;
         }
         .etykieta-nieaktywna {
-            color: #004400; /* Ciemna zieleń */
+            color: #004400; /* Ciemna zieleń - "wygaszona" */
             font-weight: normal;
         }
         
-        /* Odliczanie do wschodu/zachodu ma inny, wyróżniony kolor */
+        /* Specjalny styl dla licznika odliczania (żółty kolor dla wyróżnienia) */
         #tabela-slonce #odliczanie-slonca {
             font-size: 1.3rem;
             color: #ffff00;
             text-shadow: 0 0 5px #ffff00;
             font-weight: normal;
-            /* Przywrócenie flex tylko dla komórki odliczania */
             display: flex;
             align-items: center;
         }
         
-        /* NOWE: Style dla ikon w tabelach */
+        /* Style ikon w tabelach */
         .ikona-tabeli {
             margin-right: 8px;
-            font-size: 1.1rem; /* Dopasowanie rozmiaru ikony */
+            font-size: 1.1rem;
             color: var(--kolor-aktywny);
         }
         #odliczanie-ikona {
             margin-right: 8px;
             font-size: 1.1rem;
-            color: #ffff00; /* Dopasowanie do koloru odliczania */
+            color: #ffff00;
         }
 
-
-        /* --- NOWE: Style sekcji Astro (Zodiak, Księżyc) w tabeli --- */
+        /* Tabela Astronomiczna (Zodiak, Księżyc) */
         #tabela-astro {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
         }
         .astro-komorka {
-            /* POPRAWKA BUGU #3: Zakomentowano width: 50% */
-            /* width: 50%; */
             vertical-align: top;
             padding: 4px 8px;
-            /* ZMIANA: Zmniejszono czcionkę, aby tekst się mieścił */
             font-size: 1.2rem; 
             color: #00c000;
         }
         
-        /* ZMIANA: Stosowanie separatora i wyrównania do WSZYSTKICH wierszy */
+        /* Separator pionowy w tabeli astro */
         #tabela-astro tr td:first-child {
             text-align: right;
             border-right: 1px dotted #008000;
@@ -408,14 +364,14 @@
             padding-left: 15px;
         }
 
+        /* Flexbox dla elementów astro (wyrównanie ikony i tekstu) */
         .astro-item {
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* Wyrównanie dla prawej kolumny (Zodiak) */
+            justify-content: flex-end; /* Prawa kolumna do prawej */
         }
-        /* Wyrównanie dla lewej kolumny (Księżyc) */
         #tabela-astro tr:nth-child(1) .astro-komorka:last-child .astro-item {
-             justify-content: flex-start;
+             justify-content: flex-start; /* Lewa kolumna do lewej */
         }
         
         .astro-item span {
@@ -429,7 +385,7 @@
             text-align: center;
         }
         
-        /* Wiersze z odliczaniem (styl) */
+        /* Wiersze z odliczaniem (mniejsza czcionka) */
         .astro-countdown-komorka {
             font-size: 1.1rem;
             color: #008000;
@@ -439,36 +395,33 @@
             color: var(--kolor-aktywny);
             font-weight: bold;
         }
-        
-        /* ZMIANA: Dodano styl dla separatora w tabeli astro */
         .astro-separator-maly {
             margin: 0 10px;
             font-size: 1.1rem;
             color: #008000;
         }
 
-
         /*
-            ==================================================================
-            --- SEKCJA RESPONSYWNA (RWD) DLA TELEFONU W POZIOMIE ---
-            ==================================================================
+            --- MEDIA QUERY: TELEFONY W POZIOMIE (LANDSCAPE) ---
+            Ta sekcja aktywuje się tylko dla urządzeń o małej wysokości (max 500px)
+            w orientacji poziomej. Służy do stworzenia "trybu zegara na biurko".
         */
         @media (orientation: landscape) and (max-height: 500px) {
-
             body {
-                padding: 0;
+                padding: 0; /* Usuwamy marginesy, by wykorzystać cały ekran */
             }
 
             #kontener {
-                width: 100vw;
-                height: 100vh;
+                width: 100vw; /* Pełna szerokość */
+                height: 100vh; /* Pełna wysokość */
                 max-width: none; 
                 border-radius: 0; 
                 box-sizing: border-box;
                 padding: 10px 15px;
-                overflow-y: auto;
+                overflow-y: auto; /* Pozwalamy na przewijanie, jeśli treść się nie mieści */
             }
 
+            /* Skalowanie elementów w dół, aby zmieściły się na niskim ekranie */
             .komorka-dzien {
                 font-size: 2.5rem; 
                 letter-spacing: 2px;
@@ -502,7 +455,6 @@
                 margin-right: 5px;
             }
             
-
             #tabela-info-roczne {
                 font-size: 0.95rem; 
                 margin-bottom: 5px;
@@ -511,11 +463,11 @@
             #tabela-info-roczne td:nth-child(2) { padding-right: 5px; padding-left: 5px; }
             #tabela-info-roczne td:nth-child(3) { padding-left: 5px; }
 
+            /* Skalowanie samego zegara segmentowego do 80% */
             .cyfra, .separator {
                 transform: scale(0.8);
                 margin: 0 1px;
             }
-
             .separator-spacer {
                 width: 15px; 
             }
@@ -556,27 +508,23 @@
         }
 
         /*
-            --- NOWA REGUŁA DLA URZĄDZEŃ MOBILNYCH (OGÓLNA) ---
-            POWÓD: Zmiana koloru ramki na czarny na węższych ekranach,
-            zgodnie z życzeniem użytkownika.
+            --- MEDIA QUERY: URZĄDZENIA MOBILNE (DOWOLNA ORIENTACJA) ---
+            Dla węższych ekranów (tablety/telefony) ukrywamy zieloną ramkę,
+            zmieniając jej kolor na kolor tła. Daje to więcej "oddechu" treści.
         */
         @media (max-width: 768px) {
             #kontener {
-                /* Zmiana koloru obramowania na kolor tła (czarny),
-                   co optycznie usuwa ramkę lub czyni ją niewidoczną. */
                 border-color: var(--kolor-ramki); 
             }
         }
 
-
         /*
-            ==================================================================
-            --- SEKCJA BLOKADY ORIENTACJI (PORTRAIT LOCK) ---
-            ==================================================================
+            --- BLOKADA ORIENTACJI (PORTRAIT LOCK) ---
+            Overlay, który pojawia się, gdy użytkownik trzyma telefon pionowo,
+            zmuszając go do obrotu.
         */
-
         #obroc-urzadzenie {
-            display: none; /* Domyślnie ukryty */
+            display: none; /* Domyślnie ukryte */
             position: fixed; 
             top: 0;
             left: 0;
@@ -595,7 +543,7 @@
         #obroc-urzadzenie .ikona {
             font-size: 5rem;
             margin-bottom: 20px;
-            animation: obrot-ikony 2s linear infinite;
+            animation: obrot-ikony 2s linear infinite; /* Animacja obrotu */
         }
 
         @keyframes obrot-ikony {
@@ -603,6 +551,7 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Jeśli orientacja jest pionowa, ukryj kontener i pokaż overlay */
         @media (orientation: portrait) {
             #kontener {
                 display: none;
@@ -732,12 +681,18 @@
         // ================================================================
         // --- SEKCJA KONFIGURACYJNA I STAŁE (CONSTANTS) ---
         // ================================================================
+        
+        // Tablica dni tygodnia do konwersji z getDay() (gdzie 0 to Niedziela)
         const DNI_TYGODNIA = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
 
+        // Domyślne współrzędne (Pabianice). Są nadpisywane przez geolokalizację,
+        // ale muszą tu być jako fallback, gdyby użytkownik zablokował dostęp do GPS.
         let BIEZACA_LAT = 51.6567; 
         let BIEZACA_LON = 19.3578; 
         let BIEZACA_LOKALIZACJA_NAZWA = "Pabianice, woj. Łódzkie"; 
 
+        // Mapa świąt stałych (klucz MM-DD). Umożliwia szybkie O(1) sprawdzanie
+        // czy dziś jest święto, bez iterowania po tablicach.
         const SWIETA_STALE = {
             '01-01': 'Nowy Rok', '01-06': 'Trzech Króli', '05-01': 'Święto Pracy',
             '05-03': 'Święto Konstyt. 3 Maja', '08-15': 'Święto Wojska Polskiego, Wniebowzięcie NMP',
@@ -745,6 +700,8 @@
             '12-25': 'Boże Narodzenie (I dzień)', '12-26': 'Boże Narodzenie (II dzień)'
         };
 
+        // Dane znaków zodiaku. 'start' to [miesiąc, dzień] początku znaku.
+        // Służy do określenia obecnego znaku i obliczenia dni do następnego.
         const ZNAKI_ZODIAKU = [
             { nazwa: 'Koziorożec', start: [12, 22], emoji: '♑' },
             { nazwa: 'Wodnik', start: [1, 20], emoji: '♒' },
@@ -760,6 +717,9 @@
             { nazwa: 'Strzelec', start: [11, 22], emoji: '♐' }
         ];
 
+        // Mapa segmentów dla wyświetlacza 7-segmentowego.
+        // Każda cyfra składa się z określonych kresek (a-g).
+        // Np. '1' to kreski 'b' i 'c'.
         const MAPA_SEGMENTOW = {
             '0': ['a', 'b', 'c', 'd', 'e', 'f'],
             '1': ['b', 'c'],
@@ -771,9 +731,11 @@
             '7': ['a', 'b', 'c'],
             '8': ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
             '9': ['a', 'b', 'c', 'd', 'f', 'g'],
-            ' ': [] 
+            ' ': [] // Pusty znak (spacja)
         };
 
+        // Definicja struktury zegara (kolejność cyfr i separatorów).
+        // Pozwala dynamicznie generować HTML w funkcji inicjalizujZegar().
         const STRUKTURA_DATY = [
             { typ: 'cyfra', id: 'data-d1' }, { typ: 'cyfra', id: 'data-d2' },
             { typ: 'separator', 'rodzaj': 'kreska' },
@@ -793,17 +755,26 @@
         // ================================================================
         // --- ZMIENNE GLOBALNE (CACHE) ---
         // ================================================================
+        
+        // Przechowuje numer dnia (1-31), by wykryć moment przejścia przez północ
+        // i wymusić ponowne przeliczenie danych dziennych.
         window.ostatniDzien = null;
+
+        // Cache dla danych z SunCalc, aby nie liczyć ich co sekundę (optymalizacja).
         window.wschodDzis = null;
         window.zachodDzis = null;
         window.wschodJutro = null; 
         window.zachodJutro = null; 
+        
+        // Cache dla świąt ruchomych obliczanych dla danego roku (np. Wielkanoc).
         window.swietaRuchomeCache = {};
 
         // ================================================================
         // --- FUNKCJE POMOCNICZE (HELPER FUNCTIONS) ---
         // ================================================================
 
+        // Tworzy element DOM dla jednej cyfry 7-segmentowej.
+        // Generuje 7 div-ów (segmentów a-g) wewnątrz kontenera.
         function stworzCyfre(id) {
             const cyfraDiv = document.createElement('div');
             cyfraDiv.classList.add('cyfra');
@@ -817,6 +788,8 @@
             return cyfraDiv;
         }
 
+        // Tworzy separator (dwukropek lub myślnik).
+        // Dwukropek dostaje klasę 'mrugajacy', by potem JS mógł nim sterować.
         function stworzSeparator(rodzaj) {
             const separatorDiv = document.createElement('div');
             separatorDiv.classList.add('separator', `separator-${rodzaj}`);
@@ -826,6 +799,8 @@
             return separatorDiv;
         }
 
+        // Buduje całą strukturę HTML zegara na starcie aplikacji.
+        // Iteruje po tablicach struktury i wstawia elementy do DOM.
         function inicjalizujZegar() {
             const kontenerGlowny = document.getElementById('zegar-segmentowy-kontener');
             if (!kontenerGlowny) return; 
@@ -841,6 +816,7 @@
                 }
             });
 
+            // Spacer oddziela datę od godziny
             const spacer = document.createElement('div');
             spacer.classList.add('separator-spacer');
             kontenerLinii.appendChild(spacer);
@@ -856,6 +832,8 @@
             kontenerGlowny.appendChild(kontenerLinii);
         }
 
+        // Zapala odpowiednie segmenty dla danej cyfry.
+        // Pobiera definicję z MAPA_SEGMENTOW i dodaje klasę 'active' odpowiednim div-om.
         function ustawCyfre(elementId, cyfra) {
             const el = document.getElementById(elementId);
             if (!el) return; 
@@ -863,8 +841,10 @@
             const cyfraStr = String(cyfra);
             const segmentyDoWlaczenia = MAPA_SEGMENTOW[cyfraStr];
 
+            // Najpierw wygaszamy wszystko (reset)
             el.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
 
+            // Potem zapalamy potrzebne
             if (segmentyDoWlaczenia) {
                 segmentyDoWlaczenia.forEach(seg => {
                     const segmentElement = el.querySelector(`.segment.${seg}`);
@@ -875,10 +855,13 @@
             }
         }
 
+        // Dodaje wiodące zero do liczb mniejszych niż 10 (np. 5 -> "05").
+        // Niezbędne dla poprawnego wyświetlania czasu.
         function formatujLiczbe(liczba) {
             return String(liczba).padStart(2, '0');
         }
 
+        // Zwraca godzinę w formacie HH:MM.
         function formatujGodzine(data) {
             if (data && typeof data.getHours === 'function') {
                 const godzina = formatujLiczbe(data.getHours());
@@ -888,6 +871,8 @@
             return 'b/d'; 
         }
 
+        // Oblicza, którym dniem roku jest dana data (1-365/366).
+        // Odejmuje datę "zerową" (31 grudnia poprz. roku) od daty obecnej.
         function obliczDzienRoku(data) {
             const startRoku = new Date(data.getFullYear(), 0, 0); 
             const diff = data - startRoku; 
@@ -895,6 +880,9 @@
             return Math.floor(diff / jedenDzienMs);
         }
 
+        // Oblicza numer tygodnia ISO 8601.
+        // Skomplikowany algorytm, bo tydzień ISO zaczyna się w poniedziałek,
+        // a pierwszy tydzień roku musi zawierać czwartek.
         function obliczNumerTygodnia(d) {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -903,11 +891,13 @@
             return weekNo;
         }
 
+        // Oblicza kwartał (1-4) na podstawie miesiąca (0-11).
         function obliczKwartal(data) {
             const miesiac = data.getMonth(); 
             return Math.floor(miesiac / 3) + 1; 
         }
 
+        // Zamienia milisekundy na format HH:MM:SS (do odliczania).
         function formatujDelteCzasu(ms) {
             let totalSeconds = Math.floor(Math.max(ms, 0) / 1000); 
             let hours = Math.floor(totalSeconds / 3600);
@@ -917,6 +907,7 @@
             return `${formatujLiczbe(hours)}:${formatujLiczbe(minutes)}:${formatujLiczbe(seconds)}`;
         }
 
+        // Zamienia milisekundy na format tekstowy "X godz. Y min." (dla długości dnia).
         function formatujDlugoscDnia(ms) {
             let totalMinutes = Math.floor(Math.max(ms, 0) / (1000 * 60));
             let hours = Math.floor(totalMinutes / 60);
@@ -924,29 +915,39 @@
             return `${hours} godz. ${minutes} min.`;
         }
 
+        // Sprawdza, czy rok jest przestępny (podzielny przez 4, ale nie przez 100, chyba że przez 400).
         function czyRokPrzestepny(rok) {
             return (rok % 4 === 0 && rok % 100 !== 0) || rok % 400 === 0;
         }
 
+        // Zwraca liczbę tygodni w roku (zazwyczaj 52, czasem 53).
+        // Sprawdza numer tygodnia ostatniego czwartku w roku.
         function iloscTygodniWRoku(rok) {
             return obliczNumerTygodnia(new Date(rok, 11, 28));
         }
 
+        // Algorytm Meeusa/Jonesa/Butchera do obliczania daty Wielkanocy.
+        // Wielkanoc to pierwsza niedziela po pierwszej wiosennej pełni księżyca.
         function obliczWielkanoc(rok) {
             const a = rok % 19, b = Math.floor(rok / 100), c = rok % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451), miesiac = Math.floor((h + l - 7 * m + 114) / 31), dzien = ((h + l - 7 * m + 114) % 31) + 1;
             return new Date(rok, miesiac - 1, dzien);
         }
 
+        // Dodaje X dni do podanej daty i zwraca nowy obiekt Date.
+        // Używane do wyznaczania świąt zależnych od Wielkanocy (np. Boże Ciało).
         function dodajDniDoDaty(data, dni) {
             const nowaData = new Date(data);
             nowaData.setDate(nowaData.getDate() + dni);
             return nowaData;
         }
 
+        // Tworzy klucz "MM-DD" do słownika świąt/imienin.
         function formatujDateNaKlucz(data) {
             return `${formatujLiczbe(data.getMonth() + 1)}-${formatujLiczbe(data.getDate())}`;
         }
 
+        // Konwertuje współrzędne dziesiętne na format DMS (Stopnie, Minuty, Sekundy).
+        // Bardziej "ludzki" i czytelny format geograficzny.
         function decToDMS(dec, isLng) {
             let deg = Math.abs(dec);
             let d = Math.floor(deg);
@@ -966,13 +967,18 @@
             return `${d}° ${formatujLiczbe(m)}′ ${formatujLiczbe(s)}″ ${dir}`;
         }
 
+        // Znajduje znak zodiaku dla danej daty.
+        // Sprawdza zakresy dat z tablicy ZNAKI_ZODIAKU.
         function pobierzInfoZodiaku(data) {
             const dzien = data.getDate(), miesiac = data.getMonth() + 1;
+            // Szukamy znaku, którego data startu jest <= dzisiejszej dacie
             let biezacyZnak = ZNAKI_ZODIAKU.find(znak => { return miesiac > znak.start[0] || (miesiac === znak.start[0] && dzien >= znak.start[1]); });
-            if (!biezacyZnak) { return ZNAKI_ZODIAKU[0]; } 
+            if (!biezacyZnak) { return ZNAKI_ZODIAKU[0]; } // Jeśli nic nie pasuje (koniec roku), to Koziorożec
             return biezacyZnak;
         }
 
+        // Mapuje fazę księżyca (liczba 0.0 - 1.0 z SunCalc) na opis, emoji i indeks (1-8).
+        // 0.0 = Nów, 0.5 = Pełnia.
         function pobierzInfoKsiezyca(f) {
             if (f <= 0.03 || f > 0.97) return { nazwa: 'Nów', emoji: '🌑', index: 1 };
             if (f <= 0.22) return { nazwa: 'Sierp przybywający', emoji: '🌒', index: 2 };
@@ -984,6 +990,8 @@
             return { nazwa: 'Sierp ubywający', emoji: '🌘', index: 8 };
         }
 
+        // Oblicza, kiedy nastąpi zmiana znaku zodiaku.
+        // Wyznacza datę startu następnego znaku i liczy różnicę czasu.
         function obliczNastepnyZnak(teraz) {
             const infoZodiaku = pobierzInfoZodiaku(teraz);
             const obecnyIndex = ZNAKI_ZODIAKU.findIndex(z => z.nazwa === infoZodiaku.nazwa);
@@ -993,6 +1001,8 @@
             const rok = teraz.getFullYear();
             let dataStartu = new Date(rok, nastepnyZnak.start[0] - 1, nastepnyZnak.start[1]);
 
+            // Jeśli data następnego znaku już minęła w tym roku (np. jest grudzień, a szukamy Koziorożca),
+            // to znaczy, że chodzi o przyszły rok.
             if (dataStartu < teraz) {
                 dataStartu.setFullYear(rok + 1);
             }
@@ -1002,16 +1012,21 @@
             return { nazwa: nastepnyZnak.nazwa, dni: diffDni };
         }
 
+        // Oblicza dni do najbliższej Pełni.
+        // Skanuje przyszłość godzina po godzinie, szukając momentu,
+        // kiedy faza przejdzie przez 0.5.
         function obliczNastepnaPelnie(teraz) {
             if (typeof SunCalc === 'undefined') return 'b/d';
 
             let fazaPoprzednia = SunCalc.getMoonIllumination(teraz).phase;
             let dataPetli = new Date(teraz.getTime());
 
+            // Sprawdzamy max 30 dni do przodu (720h)
             for (let i = 0; i < 720; i++) {
                 dataPetli.setHours(dataPetli.getHours() + 1); 
                 let fazaNowa = SunCalc.getMoonIllumination(dataPetli).phase;
 
+                // Wykrycie przejścia z <0.5 na >=0.5
                 if (fazaPoprzednia < 0.5 && fazaNowa >= 0.5) {
                     const diffMs = dataPetli.getTime() - teraz.getTime();
                     const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
@@ -1022,6 +1037,9 @@
             return 'b/d'; 
         }
 
+        // Oblicza, za ile dni zmieni się WIZUALNA faza księżyca (ikona/opis).
+        // Skanuje przyszłość i szuka momentu, kiedy zmieni się 'index' fazy (1-8).
+        // Rozwiązuje problem logiczny: "Jestem w nowiu (1/8), kiedy będzie sierp (2/8)?".
         function obliczZmianeFazyWizualnej(teraz) {
             if (typeof SunCalc === 'undefined') return 'b/d';
 
@@ -1030,14 +1048,17 @@
 
             let dataPetli = new Date(teraz.getTime());
 
+            // Skanujemy max 10 dni (240h), bo faza zmienia się szybciej
             for (let i = 0; i < 240; i++) {
                 dataPetli.setHours(dataPetli.getHours() + 1); 
                 let fazaPrzyszla = SunCalc.getMoonIllumination(dataPetli).phase;
                 let infoPrzyszle = pobierzInfoKsiezyca(fazaPrzyszla);
                 
+                // Jeśli indeks jest inny, znaleźliśmy moment zmiany
                 if (infoPrzyszle.index !== indeksAktualny) {
                     const diffMs = dataPetli.getTime() - teraz.getTime();
                     const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+                    // Zwracamy min. 1 dzień, żeby nie pokazywać "0 dni"
                     return diffDni === 0 ? 1 : diffDni;
                 }
             }
@@ -1045,6 +1066,7 @@
         }
 
 
+        // Mapuje kody WMO (zwracane przez API Open-Meteo) na czytelne ikony i opisy.
         function mapujKodPogody(code) {
             if (code === 0) return { ikona: '☀️', opis: 'Bezchmurnie' };
             if (code === 1) return { ikona: '🌤️', opis: 'Głównie bezchmurnie' };
@@ -1067,6 +1089,7 @@
         // --- GŁÓWNE FUNKCJE APLIKACJI ---
         // ================================================================
         
+        // Wyświetla współrzędne geograficzne w formacie DMS (Stopnie Minuty Sekundy).
         function wyswietlWspolrzedne() {
             const latDMS = decToDMS(BIEZACA_LAT, false);
             const lonDMS = decToDMS(BIEZACA_LON, true);
@@ -1076,6 +1099,8 @@
             }
         }
 
+        // Pobiera pogodę z API Open-Meteo.
+        // Jest asynchroniczna (async/await), żeby nie blokować interfejsu podczas pobierania.
         async function aktualizujPogode() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
@@ -1112,6 +1137,8 @@
             }
         }
 
+        // Pobiera nazwę miejscowości na podstawie współrzędnych (Reverse Geocoding).
+        // Używa API BigDataCloud, ponieważ jest bardziej otwarte na zapytania z przeglądarki.
         async function aktualizujNazweLokalizacji() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
@@ -1126,6 +1153,7 @@
                 
                 const data = await response.json();
                 
+                // Logika wyboru nazwy: Miasto > Województwo > Kraj
                 if (data && data.city) {
                     let nazwa = data.city; 
                     if (data.principalSubdivision) { 
@@ -1149,15 +1177,20 @@
             nazwaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
         }
 
+        // Aktualizuje dane, które zmieniają się rzadko (raz na dobę).
+        // Wywoływana przy starcie i po północy.
+        // Odciąża procesor, unikając ciągłego przeliczania pozycji słońca i świąt.
         function aktualizujDaneCodzienne(teraz) {
             console.log(`AKTUALIZACJA DANYCH CODZIENNYCH (Lat: ${BIEZACA_LAT}, Lon: ${BIEZACA_LON}) o ${teraz}`);
             const rok = teraz.getFullYear();
             
+            // Obsługa SunCalc (wschód/zachód słońca)
             let sunCalcDostepny = typeof SunCalc !== 'undefined';
             if (sunCalcDostepny) {
                 const jutro = new Date(teraz);
                 jutro.setDate(teraz.getDate() + 1);
 
+                // Pobieramy dane dla DZIŚ i JUTRA, aby obsłużyć nocne odliczanie
                 const daneDzis = SunCalc.getTimes(teraz, BIEZACA_LAT, BIEZACA_LON);
                 const daneJutro = SunCalc.getTimes(jutro, BIEZACA_LAT, BIEZACA_LON);
 
@@ -1166,6 +1199,7 @@
                 window.wschodJutro = daneJutro.sunrise;
                 window.zachodJutro = daneJutro.sunset; 
 
+                // Obliczamy długość dnia tylko, jeśli dane są poprawne
                 if (window.wschodDzis && window.zachodDzis) {
                     const poprawnaDlugoscDniaMs = window.zachodDzis.getTime() - window.wschodDzis.getTime();
                     document.getElementById('czas-dnia').textContent = formatujDlugoscDnia(poprawnaDlugoscDniaMs);
@@ -1174,16 +1208,19 @@
                 }
                 
             } else {
+                // Fallback na wypadek braku biblioteki SunCalc
                 document.getElementById('wschod').textContent = "b/d";
                 document.getElementById('zachod').textContent = "b/d";
                 document.getElementById('czas-dnia').textContent = "b/d";
             }
 
+            // Obliczenia kalendarzowe
             const dzienRoku = obliczDzienRoku(teraz);
             const maxDniWRoku = czyRokPrzestepny(rok) ? 366 : 365;
             const dniDoKonca = maxDniWRoku - dzienRoku;
             const kwartal = obliczKwartal(teraz);
 
+            // Wypełnianie tabeli informacjami rocznymi
             document.getElementById('dzien-roku').textContent = dzienRoku;
             document.getElementById('max-dzien-roku').textContent = maxDniWRoku;
             document.getElementById('dni-do-konca').textContent = dniDoKonca;
@@ -1191,12 +1228,15 @@
             document.getElementById('max-tydzien-roku').textContent = iloscTygodniWRoku(rok);
             document.getElementById('kwartal').textContent = kwartal;
 
+            // Ustalanie świąt
             const dzisKlucz = formatujDateNaKlucz(teraz); 
             const wszystkieSwieta = [];
 
+            // 1. Święta stałe (z tablicy)
             const swietoStale = SWIETA_STALE[dzisKlucz];
             if (swietoStale) wszystkieSwieta.push(swietoStale);
 
+            // 2. Święta ruchome (obliczane, jeśli cache pusty)
             if (!window.swietaRuchomeCache[rok]) {
                 const wielkanoc = obliczWielkanoc(rok);
                 const ponWielkanocny = dodajDniDoDaty(wielkanoc, 1);
@@ -1212,6 +1252,7 @@
             const swietoRuchome = window.swietaRuchomeCache[rok][dzisKlucz];
             if (swietoRuchome) wszystkieSwieta.push(swietoRuchome);
 
+            // 3. Święta nietypowe (z zewnętrznego pliku)
             if(typeof SWIETA_NIETYPOWE_BAZA !== 'undefined') {
                 const swietoNietypowe = SWIETA_NIETYPOWE_BAZA[dzisKlucz];
                 if (swietoNietypowe) wszystkieSwieta.push(swietoNietypowe);
@@ -1220,16 +1261,19 @@
             document.getElementById('swieto-nowe').textContent =
                 wszystkieSwieta.length ? `(${wszystkieSwieta.join(', ')})` : "(brak)";
 
+            // Imieniny
             let imieniny = "b/d";
             if (typeof IMIENINY_BAZA !== 'undefined') {
                 imieniny = IMIENINY_BAZA[dzisKlucz] || "brak";
             }
             document.getElementById('imiona-nowe').textContent = imieniny;
 
+            // Zodiak
             const infoZodiaku = pobierzInfoZodiaku(teraz);
             document.getElementById('zodiak-nazwa').textContent = infoZodiaku.nazwa;
             document.getElementById('zodiak-obraz').textContent = infoZodiaku.emoji;
 
+            // Księżyc
             if (sunCalcDostepny) {
                 const moonInfo = SunCalc.getMoonIllumination(teraz);
                 const infoKsiezyca = pobierzInfoKsiezyca(moonInfo.phase);
@@ -1242,6 +1286,7 @@
                 document.getElementById('faza-ksiezyca-numer').textContent = "?";
             }
 
+            // Odliczania Astro
             const infoNastepnegoZnaku = obliczNastepnyZnak(teraz);
             document.getElementById('zodiak-countdown-nazwa').textContent = infoNastepnegoZnaku.nazwa;
             document.getElementById('zodiak-countdown-dni').textContent = infoNastepnegoZnaku.dni;
@@ -1249,25 +1294,33 @@
             const dniDoPelni = obliczNastepnaPelnie(teraz);
             document.getElementById('pelnia-countdown-dni').textContent = dniDoPelni;
             
+            // Użycie nowej funkcji liczącej czas do zmiany wizualnej fazy (żeby uniknąć błędów "0 dni")
             const dniDoFazy = obliczZmianeFazyWizualnej(teraz);
             document.getElementById('faza-countdown-dni').textContent = dniDoFazy;
 
+            // Przy okazji przeliczania dnia, odświeżamy lokalizację i pogodę
             aktualizujNazweLokalizacji(); 
             aktualizujPogode(); 
         }
 
+        // Główna pętla "zegarowa". Uruchamiana co 1 sekundę.
+        // Odpowiada za wyświetlanie czasu, mruganie dwukropków i odliczanie sekundowe.
         function aktualizujZegar() {
             const teraz = new Date();
             const dzienNumer = teraz.getDate(); 
 
+            // Wykrycie zmiany dnia (północ).
+            // Jeśli numer dnia się zmienił, musimy przeliczyć wszystkie dane codzienne.
             if (dzienNumer !== window.ostatniDzien) {
                 aktualizujDaneCodzienne(teraz); 
                 window.ostatniDzien = dzienNumer;
             }
 
+            // Aktualizacja nazwy dnia tygodnia
             const nazwaDnia = DNI_TYGODNIA[teraz.getDay()];
             document.getElementById('dzien').textContent = nazwaDnia;
 
+            // Pobranie części daty i czasu
             const godzina = formatujLiczbe(teraz.getHours());
             const minuta = formatujLiczbe(teraz.getMinutes());
             const sekunda = formatujLiczbe(teraz.getSeconds());
@@ -1275,6 +1328,7 @@
             const miesiac = formatujLiczbe(teraz.getMonth() + 1);
             const rok = String(teraz.getFullYear());
 
+            // Ustawienie segmentów dla Daty
             ustawCyfre('data-d1', dzien[0]);
             ustawCyfre('data-d2', dzien[1]);
             ustawCyfre('data-m1', miesiac[0]);
@@ -1284,6 +1338,7 @@
             ustawCyfre('data-r3', rok[2]);
             ustawCyfre('data-r4', rok[3]);
 
+            // Ustawienie segmentów dla Czasu
             ustawCyfre('czas-h1', godzina[0]);
             ustawCyfre('czas-h2', godzina[1]);
             ustawCyfre('czas-m1', minuta[0]);
@@ -1291,13 +1346,15 @@
             ustawCyfre('czas-s1', sekunda[0]);
             ustawCyfre('czas-s2', sekunda[1]);
 
+            // Efekt mrugania dwukropków (parzysta sekunda = wygaszone)
             const sekundaParzysta = teraz.getSeconds() % 2 === 0;
             document.querySelectorAll('.mrugajacy').forEach(el => {
                 el.classList.toggle('wygaszony', sekundaParzysta);
             });
 
+            // --- Logika Odliczania do Słońca ---
             let celCzasu, celTekst;
-            // ZMIANA: Nowa zmienna sterująca tym, czy wyświetlamy dane dla jutra
+            // Zmienna decydująca, czy pokazujemy czasy wschodu/zachodu na jutro
             let wyswietlamyJutro = false;
             
             const wschodEl = document.getElementById('wschod');
@@ -1305,6 +1362,7 @@
             const odliczanieIkonaEl = document.getElementById('odliczanie-ikona');
             const odliczanieTekstEl = document.getElementById('odliczanie-tekst');
 
+            // Zabezpieczenie przed brakiem danych z SunCalc
             if (!window.wschodDzis || !window.zachodDzis || !window.wschodJutro || !window.zachodJutro) {
                 odliczanieTekstEl.textContent = (typeof SunCalc === 'undefined') ? "Brak SunCalc..." : "Inicjalizacja...";
                 return; 
@@ -1314,33 +1372,39 @@
                 odliczanieIkonaEl.textContent = '⌛';
             }
 
+            // Logika wyboru celu odliczania
             if (teraz < window.wschodDzis) {
+                // Jest rano, przed wschodem słońca
                 celCzasu = window.wschodDzis;
                 celTekst = "Wschód słońca za:";
                 wschodEl.textContent = formatujGodzine(window.wschodDzis);
                 zachodEl.textContent = formatujGodzine(window.zachodDzis);
-                wyswietlamyJutro = false; // Wyświetlamy dane na dziś
+                wyswietlamyJutro = false; // Dane na dziś
 
             } else if (teraz < window.zachodDzis) {
+                // Jest dzień, przed zachodem słońca
                 celCzasu = window.zachodDzis; 
                 celTekst = "Zachód słońca za:";
                 wschodEl.textContent = formatujGodzine(window.wschodDzis);
                 zachodEl.textContent = formatujGodzine(window.zachodDzis);
-                wyswietlamyJutro = false; // Wyświetlamy dane na dziś
+                wyswietlamyJutro = false; // Dane na dziś
 
             } else {
+                // Jest wieczór, po zachodzie słońca. Liczymy do jutrzejszego wschodu.
                 celCzasu = window.wschodJutro;
                 celTekst = "Wschód słońca za:";
+                // Wyświetlamy czasy JUTRA, bo dzisiejsze są już nieistotne
                 wschodEl.textContent = formatujGodzine(window.wschodJutro);
                 zachodEl.textContent = formatujGodzine(window.zachodJutro);
-                wyswietlamyJutro = true; // Wyświetlamy dane na jutro
+                wyswietlamyJutro = true; // Dane na jutro
             }
             
-            // ZMIANA: Aktualizacja klas CSS dla etykiet dzisiaj/jutro
+            // Zarządzanie klasami CSS dla etykiet "dzisiaj/jutro".
+            // Podświetlamy właściwą etykietę (jasny zielony), a drugą wygaszamy (ciemny zielony).
             const klasaAkt = 'etykieta-aktywna';
             const klasaNieakt = 'etykieta-nieaktywna';
             
-            // Funkcja pomocnicza do ustawiania pary etykiet
+            // Funkcja pomocnicza ustawiająca klasy
             const ustawEtykiety = (idDzis, idJutro, czyJutro) => {
                 const elDzis = document.getElementById(idDzis);
                 const elJutro = document.getElementById(idJutro);
@@ -1356,7 +1420,7 @@
             ustawEtykiety('wschod-lbl-dzis', 'wschod-lbl-jutro', wyswietlamyJutro);
             ustawEtykiety('zachod-lbl-dzis', 'zachod-lbl-jutro', wyswietlamyJutro);
 
-
+            // Finalne obliczenie różnicy czasu i wyświetlenie odliczania
             if (celCzasu && typeof celCzasu.getTime === 'function') {
                 const deltaMs = celCzasu.getTime() - teraz.getTime();
                 odliczanieTekstEl.textContent = `${celTekst} ${formatujDelteCzasu(deltaMs)}`;
@@ -1369,17 +1433,23 @@
         // --- SEKCJA URUCHOMIENIOWA (INITIALIZATION) ---
         // ================================================================
 
+        // 1. Budowa struktury HTML zegara (tylko raz)
         inicjalizujZegar();
 
+        // 2. Funkcja startująca logikę, wywoływana po uzyskaniu lokalizacji
         function uruchomAplikacje() {
             console.log("Uruchamianie aplikacji...");
             setTimeout(() => {
+                // Pierwsze wywołanie, żeby nie czekać sekundy na pojawienie się danych
                 aktualizujZegar();
+                // Ustawienie głównego interwału (1 sekunda)
                 setInterval(aktualizujZegar, 1000);
             }, 100); 
+            // Ustawienie interwału pogody (15 minut)
             setInterval(aktualizujPogode, 15 * 60 * 1000);
         }
 
+        // 3. Pobieranie lokalizacji użytkownika
         function pobierzLokalizacje() {
             const ikonaEl = document.getElementById('lokalizacja-ikona');
             const wspolrzedneIkonaEl = document.getElementById('wspolrzedne-ikona');
@@ -1388,6 +1458,7 @@
                 console.log("Przeglądarka wspiera geolokalizację. Pytanie o zgodę...");
                 navigator.geolocation.getCurrentPosition(geoSukces, geoBlad);
             } else {
+                // Brak wsparcia w przeglądarce
                 console.warn("Geolokalizacja nie jest wspierana. Używam domyślnych (Pabianice).");
                 ikonaEl.textContent = '🛰️';
                 wspolrzedneIkonaEl.textContent = '❌'; 
@@ -1396,32 +1467,35 @@
             }
         }
 
+        // Callback sukcesu geolokalizacji
         function geoSukces(pozycja) {
             console.log("Geolokalizacja uzyskana pomyślnie:", pozycja);
             document.getElementById('lokalizacja-ikona').textContent = '📍';
             document.getElementById('wspolrzedne-ikona').textContent = '🧭'; 
             
+            // Nadpisanie globalnych zmiennych współrzędnymi z GPS
             BIEZACA_LAT = pozycja.coords.latitude;
             BIEZACA_LON = pozycja.coords.longitude;
             
             wyswietlWspolrzedne();
-            
             uruchomAplikacje();
         }
 
+        // Callback błędu geolokalizacji (odmowa lub błąd techniczny)
         function geoBlad(blad) {
             console.warn(`Błąd geolokalizacji (kod ${blad.code}): ${blad.message}. Używam domyślnych (Pabianice).`);
             document.getElementById('lokalizacja-ikona').textContent = '🛰️';
             document.getElementById('wspolrzedne-ikona').textContent = '❌'; 
             
             wyswietlWspolrzedne();
-            
-            uruchomAplikacje();
+            uruchomAplikacje(); // Mimo błędu uruchamiamy aplikację (z danymi domyślnymi)
         }
 
+        // START: Wywołanie łańcucha inicjalizacji
         pobierzLokalizacje();
 
 
+        // Rejestracja Service Workera dla obsługi PWA (Progressive Web App)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js') 
