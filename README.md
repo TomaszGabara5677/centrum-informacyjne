@@ -1,3 +1,6 @@
+## Uwaga!
+## Program jest w fazie wewnętrzych testów i ciągłej rozbudowy, kod jest aktualizowany kilka razy dziennie.
+
 # Centrum Informacyjne
 
 Kompleksowy zegar segmentowy z funkcjami astronomicznymi, kalendarzem imienin i prognozą pogody. Aplikacja typu PWA (Progressive Web App) działająca offline.
