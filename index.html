@@ -64,7 +64,7 @@
             margin-bottom: 10px;
         }
         #tabela-naglowek td {
-            padding: 10px;
+            padding: 5px;
             border: none;
             vertical-align: middle;
         }
@@ -681,9 +681,10 @@
                     <div class="menu-kontener">
                         <button onclick="przelaczMenu()" class="menu-przycisk">☰</button>
                         <div id="menu-dropdown" class="menu-tresc">
-                            <a href="https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/POLITYKA-PRYWATNOSCI.md" target="_blank">Polityka Prywatności</a>
-                            <a href="https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/README.md" target="_blank">Informacje ogólne</a>
-                            <a href="https://github.com/TomaszGabara5677/centrum-informacyjne" target="_blank">Strona projektu</a>
+                            <a href="#" onclick="otworzLinkZewnetrzny('https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/POLITYKA-PRYWATNOSCI.md'); return false;">Polityka Prywatności</a>
+                            <a href="#" onclick="otworzLinkZewnetrzny('https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/README.md'); return false;">Informacje ogólne</a>
+                            <a href="#" onclick="otworzLinkZewnetrzny('https://github.com/TomaszGabara5677/centrum-informacyjne'); return false;">Strona projektu</a>
+                            
                             <a href="#" onclick="resetAplikacji(); return false;">Reset Aplikacji</a>
                         </div>
                     </div>
@@ -1535,6 +1536,14 @@
         function przelaczMenu() {
             document.getElementById("menu-dropdown").classList.toggle("pokaz");
         }
+
+        // --- NOWA FUNKCJA: Obsługa linków zewnętrznych ---
+        // Wyświetla potwierdzenie przed opuszczeniem aplikacji
+        function otworzLinkZewnetrzny(url) {
+            if (confirm("⚠️ Uwaga!\n\nNastąpi przekierowanie do zewnętrznego serwisu (GitHub).\nCzy chcesz opuścić aplikację?")) {
+                window.open(url, '_blank');
+            }
+        }
         
         // --- NOWA FUNKCJA: Reset Aplikacji ---
         // Czyści pamięć podręczną (Cache API), wyrejestrowuje Service Workera
@@ -1666,4 +1675,3 @@
 
 </body>
 </html>
-
