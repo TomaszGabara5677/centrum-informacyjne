@@ -684,6 +684,7 @@
                             <a href="https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/POLITYKA-PRYWATNOSCI.md" target="_blank">Polityka Prywatności</a>
                             <a href="https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/README.md" target="_blank">Informacje ogólne</a>
                             <a href="https://github.com/TomaszGabara5677/centrum-informacyjne" target="_blank">Strona projektu</a>
+                            <a href="#" onclick="resetAplikacji(); return false;">Reset Aplikacji</a>
                         </div>
                     </div>
                 </td>
@@ -1533,6 +1534,44 @@
         // Przełącza klasę 'pokaz', co powoduje wyświetlenie lub ukrycie listy
         function przelaczMenu() {
             document.getElementById("menu-dropdown").classList.toggle("pokaz");
+        }
+        
+        // --- NOWA FUNKCJA: Reset Aplikacji ---
+        // Czyści pamięć podręczną (Cache API), wyrejestrowuje Service Workera
+        // i przeładowuje stronę, wymuszając pobranie świeżych danych.
+        async function resetAplikacji() {
+            if (!confirm("Czy na pewno chcesz zresetować aplikację?\nSpowoduje to wyczyszczenie pamięci i ponowne pobranie danych.")) {
+                return; // Anulowano
+            }
+
+            console.log("Rozpoczynanie resetu aplikacji...");
+
+            // 1. Wyczyszczenie Cache API (pliki PWA)
+            if ('caches' in window) {
+                try {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(key => caches.delete(key)));
+                    console.log("Cache API wyczyszczony.");
+                } catch (err) {
+                    console.error("Błąd czyszczenia cache:", err);
+                }
+            }
+
+            // 2. Wyrejestrowanie Service Workera
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (const registration of registrations) {
+                    await registration.unregister();
+                }
+                console.log("Service Workers wyrejestrowane.");
+            }
+
+            // 3. Wyczyszczenie LocalStorage/SessionStorage (opcjonalne, ale dobre dla pełnego resetu)
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // 4. Wymuszone odświeżenie strony (ignorując cache przeglądarki)
+            window.location.reload(true);
         }
 
         // Nasłuchiwacz kliknięć w oknie przeglądarki.
