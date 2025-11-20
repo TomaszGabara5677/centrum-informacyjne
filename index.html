@@ -64,7 +64,7 @@
             margin-bottom: 10px;
         }
         #tabela-naglowek td {
-            padding: 10px;
+            padding: 5px;
             border: none;
             vertical-align: middle;
         }
@@ -706,7 +706,7 @@
             </tr>
             <tr>
                 <td>
-                    Sylwester za: <span><span id="dni-do-konca">...</span></span> dni
+                    Sylwester za: <span><span id="dni-do-konca">...</span></span> <span id="dni-do-konca-sufiks">dni</span>
                 </td>
                 <td>
                     Kwartał: <span><span id="kwartal">...</span><span class="max">/4</span></span>
@@ -760,12 +760,12 @@
             <tr>
                 <td class="astro-komorka astro-countdown-komorka">
                     Zmiana na: <span id="zodiak-countdown-nazwa">...</span>
-                    za: <span id="zodiak-countdown-dni">...</span> dni
+                    za: <span id="zodiak-countdown-dni">...</span> <span id="zodiak-countdown-sufiks">dni</span>
                 </td>
                 <td class="astro-komorka astro-countdown-komorka">
-                    Pełnia za: <span id="pelnia-countdown-dni">...</span> dni
+                    Pełnia za: <span id="pelnia-countdown-dni">...</span> <span id="pelnia-countdown-sufiks">dni</span>
                     <span class="astro-separator-maly">|</span>
-                    Zmiana fazy za: <span id="faza-countdown-dni">...</span> dni
+                    Zmiana fazy za: <span id="faza-countdown-dni">...</span> <span id="faza-countdown-sufiks">dni</span>
                 </td>
             </tr>
             </table>
@@ -1275,6 +1275,11 @@
             nazwaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
         }
 
+        // --- NOWA FUNKCJA: Ustalanie końcówki dni ---
+        function dobierzKoncowkeDni(liczba) {
+            return (liczba === 1) ? "dzień" : "dni";
+        }
+
         // Aktualizuje dane, które zmieniają się rzadko (raz na dobę).
         // Wywoływana przy starcie i po północy.
         // Odciąża procesor, unikając ciągłego przeliczania pozycji słońca i świąt.
@@ -1321,7 +1326,11 @@
             // Wypełnianie tabeli informacjami rocznymi
             document.getElementById('dzien-roku').textContent = dzienRoku;
             document.getElementById('max-dzien-roku').textContent = maxDniWRoku;
+            
+            // Sylwester (liczba + sufiks)
             document.getElementById('dni-do-konca').textContent = dniDoKonca;
+            document.getElementById('dni-do-konca-sufiks').textContent = dobierzKoncowkeDni(dniDoKonca);
+
             document.getElementById('tydzien-roku').textContent = obliczNumerTygodnia(teraz);
             document.getElementById('max-tydzien-roku').textContent = iloscTygodniWRoku(rok);
             document.getElementById('kwartal').textContent = kwartal;
@@ -1388,13 +1397,20 @@
             const infoNastepnegoZnaku = obliczNastepnyZnak(teraz);
             document.getElementById('zodiak-countdown-nazwa').textContent = infoNastepnegoZnaku.nazwa;
             document.getElementById('zodiak-countdown-dni').textContent = infoNastepnegoZnaku.dni;
+            document.getElementById('zodiak-countdown-sufiks').textContent = dobierzKoncowkeDni(infoNastepnegoZnaku.dni);
 
             const dniDoPelni = obliczNastepnaPelnie(teraz);
             document.getElementById('pelnia-countdown-dni').textContent = dniDoPelni;
+            if (typeof dniDoPelni === 'number') {
+                 document.getElementById('pelnia-countdown-sufiks').textContent = dobierzKoncowkeDni(dniDoPelni);
+            }
             
             // Użycie nowej funkcji liczącej czas do zmiany wizualnej fazy (żeby uniknąć błędów "0 dni")
             const dniDoFazy = obliczZmianeFazyWizualnej(teraz);
             document.getElementById('faza-countdown-dni').textContent = dniDoFazy;
+             if (typeof dniDoFazy === 'number') {
+                 document.getElementById('faza-countdown-sufiks').textContent = dobierzKoncowkeDni(dniDoFazy);
+            }
 
             // Przy okazji przeliczania dnia, odświeżamy lokalizację i pogodę
             aktualizujNazweLokalizacji(); 
@@ -1675,4 +1691,3 @@
 
 </body>
 </html>
-
