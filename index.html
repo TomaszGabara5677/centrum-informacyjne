@@ -87,7 +87,15 @@
             vertical-align: middle;
             border-left: 1px dotted #008000;
             padding-left: 15px;
-            width: 60%;
+            width: 55%; /* Zmniejszono z 60% aby zrobić miejsce na menu */
+        }
+
+        /* NOWE: Kolumna dla Menu */
+        .komorka-menu {
+            width: 50px; /* Stała szerokość dla przycisku */
+            vertical-align: top; /* Menu wyrównane do góry */
+            text-align: right;   /* Przycisk wyrównany do prawej */
+            position: relative;  /* Dla pozycjonowania dropdownu */
         }
         
         /* Flexbox dla wiersza lokalizacji, aby ikona i tekst były w jednej linii */
@@ -133,6 +141,71 @@
         }
         #pogoda-info {
             line-height: 1.4;
+        }
+
+        /* --- STYLIZACJA MENU (DROPDOWN) --- */
+        /* Kontener przycisku menu */
+        .menu-kontener {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Przycisk otwierający menu (Hamburger) */
+        .menu-przycisk {
+            background-color: transparent;
+            color: var(--kolor-aktywny);
+            font-size: 2.5rem;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            text-shadow: 0 0 5px var(--kolor-aktywny);
+        }
+
+        .menu-przycisk:hover, .menu-przycisk:focus {
+            color: #ccffcc; /* Jaśniejszy przy najechaniu */
+            outline: none;
+        }
+
+        /* Zawartość rozwijana (lista linków) */
+        .menu-tresc {
+            display: none; /* Domyślnie ukryte */
+            position: absolute;
+            right: 0; /* Menu rozwija się w lewo od prawej krawędzi */
+            top: 40px; /* Odstęp od przycisku */
+            background-color: var(--kolor-ramki); /* Tło takie jak kontenera */
+            min-width: 220px; /* Szerokość menu */
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8); /* Cień dla głębi */
+            border: 2px solid var(--kolor-aktywny); /* Ramka w kolorze motywu */
+            border-radius: 5px;
+            z-index: 1000; /* Zawsze na wierzchu */
+            text-align: left;
+        }
+
+        /* Styl linków wewnątrz menu */
+        .menu-tresc a {
+            color: var(--kolor-aktywny);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 1rem;
+            border-bottom: 1px dotted #004400;
+        }
+
+        /* Ostatni link bez dolnej linii */
+        .menu-tresc a:last-child {
+            border-bottom: none;
+        }
+
+        /* Efekt najechania na link */
+        .menu-tresc a:hover {
+            background-color: #003300;
+            color: #ffffff;
+        }
+
+        /* Klasa dodawana przez JS, aby pokazać menu */
+        .menu-tresc.pokaz {
+            display: block;
         }
 
         /* Tabela z informacjami rocznymi (Dzień roku, Tydzień, Święta).
@@ -505,6 +578,19 @@
                 font-size: 0.8rem; 
                 padding-top: 2px;
             }
+            
+            /* RWD dla Menu: zmniejszenie przycisku */
+            .menu-przycisk {
+                font-size: 2rem;
+            }
+            .menu-tresc {
+                top: 35px;
+                min-width: 180px;
+            }
+            .menu-tresc a {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
         }
 
         /*
@@ -589,6 +675,16 @@
                     <div id="pogoda">
                         <span id="pogoda-ikona">...</span>
                         <span id="pogoda-info">Ładowanie pogody...</span>
+                    </div>
+                </td>
+                <td class="komorka-menu">
+                    <div class="menu-kontener">
+                        <button onclick="przelaczMenu()" class="menu-przycisk">☰</button>
+                        <div id="menu-dropdown" class="menu-tresc">
+                            <a href="https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/POLITYKA-PRYWATNOSCI.md" target="_blank">Polityka Prywatności</a>
+                            <a href="https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/README.md" target="_blank">Informacje ogólne</a>
+                            <a href="https://github.com/TomaszGabara5677/centrum-informacyjne" target="_blank">Strona projektu</a>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -1432,6 +1528,26 @@
         // ================================================================
         // --- SEKCJA URUCHOMIENIOWA (INITIALIZATION) ---
         // ================================================================
+
+        // --- NOWA FUNKCJA: Obsługa menu ---
+        // Przełącza klasę 'pokaz', co powoduje wyświetlenie lub ukrycie listy
+        function przelaczMenu() {
+            document.getElementById("menu-dropdown").classList.toggle("pokaz");
+        }
+
+        // Nasłuchiwacz kliknięć w oknie przeglądarki.
+        // Jeśli użytkownik kliknie poza przycisk menu, zamykamy listę.
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-przycisk')) {
+                var dropdowns = document.getElementsByClassName("menu-tresc");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('pokaz')) {
+                        openDropdown.classList.remove('pokaz');
+                    }
+                }
+            }
+        }
 
         // 1. Budowa struktury HTML zegara (tylko raz)
         inicjalizujZegar();
