@@ -32,13 +32,9 @@
             overflow-x: hidden; /* Zapobiega paskom przewijania przy skalowaniu */
         }
 
-        /* Główny kontener (#kontener).
-           Kluczowe zmiany: usunięto sztywne marginesy, które mogły przeszkadzać w skalowaniu.
-           Transition dodane dla płynności przy zmianie orientacji.
-        */
+        /* Główny kontener (#kontener). */
         #kontener {
             width: 1000px; /* Sztywna baza do skalowania */
-            /* max-width usuwamy, bo skalowanie JS załatwi sprawę na mniejszych ekranach */
             padding: 20px 30px;
             border: 4px solid var(--kolor-aktywny);
             border-radius: 10px;
@@ -48,7 +44,6 @@
             align-items: center;
             text-align: center;
             box-sizing: border-box;
-            /* Transform origin ustawiony na górę-rodek, żeby skalował się "w miejscu" */
             transform-origin: top center; 
             transition: transform 0.2s ease-out;
             margin-top: 20px;
@@ -77,7 +72,7 @@
             text-align: center;
             vertical-align: middle;
             padding-right: 20px;
-            white-space: nowrap; /* Zapobiega zawijaniu nazwy dnia */
+            white-space: nowrap;
         }
         
         /* Prawa część nagłówka */
@@ -199,7 +194,7 @@
 
         /* Tabela z informacjami rocznymi */
         #tabela-info-roczne {
-            width: 100%; /* Rozciągnij na całą szerokość */
+            width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
             font-size: 1.1rem;
@@ -246,7 +241,6 @@
             align-items: center;
             margin-bottom: 10px;
             width: 100%;
-            /* overflow-x: auto; - USUNIĘTE, bo skalujemy cały kontener */
         }
         .kontener-linii {
             display: flex;
@@ -323,9 +317,9 @@
 
         .separator-spacer { width: 25px; height: 50px; flex-shrink: 0; }
 
-        /* Tabela Słońca */
+        /* Tabela Słońca - POPRAWKA */
         #tabela-slonce {
-            width: 100%; /* Pełna szerokość */
+            width: auto; /* ZMIANA: Z 100% na auto, aby usunąć odstęp */
             border-collapse: collapse;
         }
         #tabela-slonce td {
@@ -336,7 +330,7 @@
             color: #00c000;
             vertical-align: top;
             align-items: center;
-            white-space: nowrap; /* Zapobieganie zawijaniu */
+            white-space: nowrap;
         }
 
         .etykieta-aktywna {
@@ -379,7 +373,7 @@
             padding: 4px 8px;
             font-size: 1.2rem; 
             color: #00c000;
-            white-space: nowrap; /* Zapobieganie zawijaniu */
+            white-space: nowrap;
         }
         
         #tabela-astro tr td:first-child {
@@ -902,34 +896,21 @@
             return { ikona: '❓', opis: 'Nieznana' }; 
         }
 
-        // --- NOWA FUNKCJA: Skalowanie interfejsu ---
-        // Oblicza scale() dla kontenera, aby zmieścił się w oknie przeglądarki bez zawijania
+        // --- Skalowanie interfejsu ---
         function dopasujSkale() {
             const kontener = document.getElementById('kontener');
             const szerokoscOkna = window.innerWidth;
-            const wysokoscOkna = window.innerHeight;
             
-            // Szerokość bazowa (z CSS #kontener width) + zapas na marginesy
             const bazowaSzerokosc = 1000; 
-            const marginesBoczny = 20; // minimalny odstęp od krawędzi
+            const marginesBoczny = 20; 
 
-            // Obliczamy dostępną przestrzeń
             const dostepnaSzerokosc = szerokoscOkna - (marginesBoczny * 2);
 
-            // Jeśli ekran jest węższy niż kontener
             if (dostepnaSzerokosc < bazowaSzerokosc) {
                 const skala = dostepnaSzerokosc / bazowaSzerokosc;
-                
-                // Aplikujemy skalę. Transform origin ustawiony w CSS na 'top center'
                 kontener.style.transform = `scale(${skala})`;
-                
-                // Po przeskalowaniu element zajmuje tyle samo miejsca w DOM,
-                // więc musimy wizualnie "podciągnąć" marginesy, ale przy transform: scale
-                // zazwyczaj wystarczy wyśrodkowanie flexboxa w body.
-                // Dodajemy minimalny margines góry, żeby nie dotykał krawędzi
                 kontener.style.marginTop = '10px';
             } else {
-                // Reset jeśli ekran jest duży
                 kontener.style.transform = 'none';
                 kontener.style.marginTop = '20px';
             }
@@ -1185,9 +1166,7 @@
             }
 
             // 1. Ustalanie co wyświetlamy w tabeli (Dziś czy już Jutro?)
-            // Logika: Jeśli wschód DZIŚ już minął -> pokaż wschód JUTRO.
             
-            // Zmienne pomocnicze dla wschodu
             let docelowyWschod = window.wschodDzis;
             let czyWschodJutro = false;
             if (teraz > window.wschodDzis) {
@@ -1195,7 +1174,6 @@
                 czyWschodJutro = true;
             }
 
-            // Zmienne pomocnicze dla zachodu
             let docelowyZachod = window.zachodDzis;
             let czyZachodJutro = false;
             if (teraz > window.zachodDzis) {
@@ -1203,11 +1181,9 @@
                 czyZachodJutro = true;
             }
 
-            // Aktualizacja interfejsu (godziny i etykiety)
             wschodEl.textContent = formatujGodzine(docelowyWschod);
             zachodEl.textContent = formatujGodzine(docelowyZachod);
 
-            // Funkcja pomocnicza ustawiająca klasy
             const ustawEtykiety = (idDzis, idJutro, czyJutro) => {
                 const elDzis = document.getElementById(idDzis);
                 const elJutro = document.getElementById(idJutro);
@@ -1224,19 +1200,16 @@
             ustawEtykiety('zachod-lbl-dzis', 'zachod-lbl-jutro', czyZachodJutro);
 
 
-            // 2. Logika ŻÓŁTEGO ODLICZANIA (Liczymy zawsze do najbliższego zdarzenia)
+            // 2. Logika ŻÓŁTEGO ODLICZANIA
             let celOdliczania, tekstOdliczania;
             
             if (teraz < window.wschodDzis) {
-                // Przed wschodem dziś
                 celOdliczania = window.wschodDzis;
                 tekstOdliczania = "Wschód słońca za:";
             } else if (teraz < window.zachodDzis) {
-                // Po wschodzie, przed zachodem dziś
                 celOdliczania = window.zachodDzis;
                 tekstOdliczania = "Zachód słońca za:";
             } else {
-                // Po zachodzie dziś -> liczymy do wschodu jutro
                 celOdliczania = window.wschodJutro;
                 tekstOdliczania = "Wschód słońca za:";
             }
@@ -1292,14 +1265,13 @@
             }
         }
 
-        // Dodanie nasłuchiwania zmiany rozmiaru okna dla skalowania
         window.addEventListener('resize', dopasujSkale);
 
         inicjalizujZegar();
 
         function uruchomAplikacje() {
             console.log("Uruchamianie aplikacji...");
-            dopasujSkale(); // Wywołanie skalowania przy starcie
+            dopasujSkale(); 
             setTimeout(() => {
                 aktualizujZegar();
                 setInterval(aktualizujZegar, 1000);
