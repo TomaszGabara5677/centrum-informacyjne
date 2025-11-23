@@ -134,6 +134,24 @@
             line-height: 1.4;
         }
 
+        /* --- NOWA SEKCJA: CIŚNIENIE --- */
+        /* Dodano stylizację dla elementu ciśnienia, aby pasował do reszty layoutu */
+        #cisnienie {
+            font-size: 1.1rem;
+            color: #00c000; /* Zielony, ale nieco ciemniejszy niż główny neon, dla rozróżnienia */
+            display: flex;
+            align-items: center;
+            margin-top: 4px; /* Odstęp od linii temperatury */
+        }
+        #cisnienie-ikona {
+            font-size: 1.5rem; /* Rozmiar ikony */
+            margin-right: 10px; /* Odstęp od tekstu */
+            /* Poniższe style pomagają wyrównać tę ikonę z ikoną pogody powyżej */
+            width: 30px; 
+            text-align: center;
+            display: inline-block;
+        }
+
         /* --- STYLIZACJA MENU (DROPDOWN) --- */
         .menu-kontener {
             position: relative;
@@ -480,6 +498,10 @@
                     <div id="pogoda">
                         <span id="pogoda-ikona">...</span>
                         <span id="pogoda-info">Ładowanie pogody...</span>
+                    </div>
+                    <div id="cisnienie">
+                        <span id="cisnienie-ikona">⏲️</span>
+                        <span id="cisnienie-info">... hPa</span>
                     </div>
                 </td>
                 <td class="komorka-menu">
@@ -932,21 +954,35 @@
         async function aktualizujPogode() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=celsius`;
+            // ZMIANA: Dodano parametr 'pressure_msl' do zapytania API, aby pobrać ciśnienie
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,pressure_msl&temperature_unit=celsius`;
             const ikonaEl = document.getElementById('pogoda-ikona');
             const infoEl = document.getElementById('pogoda-info');
+            const cisnienieInfoEl = document.getElementById('cisnienie-info');
 
             try {
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`Błąd sieci: ${response.statusText}`);
                 const data = await response.json();
 
-                if (data && data.current && data.current.temperature_2m !== undefined) {
-                    const temp = data.current.temperature_2m;
-                    const code = data.current.weather_code;
-                    const pogoda = mapujKodPogody(code);
-                    ikonaEl.textContent = pogoda.ikona;
-                    infoEl.textContent = `${Math.round(temp)}°C, ${pogoda.opis}`;
+                if (data && data.current) {
+                    // Aktualizacja Temperatury
+                    if (data.current.temperature_2m !== undefined) {
+                        const temp = data.current.temperature_2m;
+                        const code = data.current.weather_code;
+                        const pogoda = mapujKodPogody(code);
+                        ikonaEl.textContent = pogoda.ikona;
+                        infoEl.textContent = `${Math.round(temp)}°C, ${pogoda.opis}`;
+                    }
+                    
+                    // ZMIANA: Aktualizacja Ciśnienia
+                    if (data.current.pressure_msl !== undefined) {
+                        const pressure = Math.round(data.current.pressure_msl);
+                        cisnienieInfoEl.textContent = `${pressure} hPa`;
+                    } else {
+                        cisnienieInfoEl.textContent = "b/d";
+                    }
+
                 } else {
                     throw new Error('Nieprawidłowa odpowiedź z API pogody');
                 }
@@ -954,6 +990,7 @@
                 console.error('Błąd pobierania pogody:', error);
                 ikonaEl.textContent = '📡'; 
                 infoEl.textContent = 'Błąd pogody';
+                if(cisnienieInfoEl) cisnienieInfoEl.textContent = '--- hPa';
             }
         }
 
