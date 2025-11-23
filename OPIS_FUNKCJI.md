@@ -13,8 +13,9 @@ Ta sekcja zawiera najważniejsze informacje o "tu i teraz".
     * Nazwa miejscowości jest pobierana automatycznie na podstawie GPS lub adresu IP.
     * Poniżej (na niebiesko) widoczne są dokładne współrzędne geograficzne.
 * **Wiatr (↓):**
-    * Obok współrzędnych znajduje się strzałka oraz prędkość wiatru w `km/h`.
+    * Obok współrzędnych znajduje się pomarańczowa strzałka oraz prędkość wiatru w `km/h`.
     * **Zachowanie strzałki:** Strzałka obraca się dynamicznie, wskazując kierunek, w którym wieje wiatr (zgodnie z rzeczywistym ruchem powietrza).
+    * **Kierunek:** Obok prędkości wyświetlany jest skrót kierunku geograficznego (np. `NE` - północny wschód, `S` - południe), skąd wieje wiatr.
 * **Pogoda (☀️/☁️):**
     * Ikona obrazuje aktualny stan nieba (np. słońce, chmury, deszcz).
     * Obok widoczna jest temperatura w stopniach Celsjusza oraz słowny opis pogody.
