@@ -113,10 +113,31 @@
             min-height: 1rem;
             display: flex;
             align-items: center;
+            white-space: nowrap; /* Zapobiega łamaniu linii */
         }
         #wspolrzedne-ikona {
             margin-right: 8px;
             font-size: 1.1rem;
+        }
+        
+        /* NOWA SEKCJA WIATRU */
+        #wiatr-ikona {
+            display: inline-block; /* Konieczne do transformacji (obrotu) */
+            font-size: 1.1rem;
+            margin-right: 5px;
+            transition: transform 1s ease-out; /* Płynny obrót strzałki */
+        }
+        #wiatr-info {
+            /* Dziedziczy kolor #87CEEB z rodzica (#wspolrzedne) */
+        }
+
+        .separator-maly {
+            display: inline-block;
+            width: 1px;
+            height: 0.8rem; /* Mniejszy separator dla mniejszej czcionki */
+            background-color: #4682B4; /* SteelBlue - pasuje do SkyBlue */
+            margin: 0 10px;
+            opacity: 0.6;
         }
         
         #pogoda {
@@ -125,7 +146,6 @@
             display: flex;
             align-items: center;
             margin-top: 5px;
-            /* Zapewnia, że elementy wewnątrz nie będą się zawijać */
             white-space: nowrap; 
         }
         #pogoda-ikona {
@@ -136,13 +156,13 @@
             line-height: 1.4;
         }
 
-        /* --- NOWY SEPARATOR I CIŚNIENIE --- */
+        /* Separator dla pogody/ciśnienia */
         .dane-separator {
             display: inline-block;
             width: 1px;
             height: 1.2rem;
-            background-color: #004400; /* Ciemnozielona kreska */
-            margin: 0 15px; /* Odstępy po bokach */
+            background-color: #004400; 
+            margin: 0 15px; 
         }
 
         #cisnienie-ikona {
@@ -160,9 +180,9 @@
             font-weight: bold;
         }
         /* Kolory trendów */
-        .trend-wzrost { color: #00FF00; } /* Jasny zielony */
-        .trend-spadek { color: #FF4500; } /* Pomarańcz/Czerwień */
-        .trend-stale { color: #888888; }  /* Szary */
+        .trend-wzrost { color: #00FF00; } 
+        .trend-spadek { color: #FF4500; } 
+        .trend-stale { color: #888888; }  
 
 
         /* --- STYLIZACJA MENU (DROPDOWN) --- */
@@ -507,6 +527,9 @@
                     <div id="wspolrzedne">
                         <span id="wspolrzedne-ikona"></span>
                         <span id="wspolrzedne-tekst"></span>
+                        <span class="separator-maly"></span>
+                        <span id="wiatr-ikona">↓</span>
+                        <span id="wiatr-info">...</span>
                     </div>
                     <div id="pogoda">
                         <span id="pogoda-ikona">...</span>
@@ -969,13 +992,16 @@
         async function aktualizujPogode() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
-            // ZMIANA: Pobieramy hourly=pressure_msl oraz past_days=1, aby mieć kontekst do trendu
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,pressure_msl&hourly=pressure_msl&past_days=1&temperature_unit=celsius&timezone=auto`;
+            // ZMIANA: Dodano 'wind_speed_10m' i 'wind_direction_10m' do zapytania API
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&hourly=pressure_msl&past_days=1&temperature_unit=celsius&timezone=auto`;
             
             const ikonaEl = document.getElementById('pogoda-ikona');
             const infoEl = document.getElementById('pogoda-info');
             const cisnienieInfoEl = document.getElementById('cisnienie-info');
             const cisnienieTrendEl = document.getElementById('cisnienie-trend');
+            // Elementy wiatru
+            const wiatrInfoEl = document.getElementById('wiatr-info');
+            const wiatrIkonaEl = document.getElementById('wiatr-ikona');
 
             try {
                 const response = await fetch(url);
@@ -1001,36 +1027,48 @@
                         cisnienieInfoEl.textContent = "b/d";
                     }
 
-                    // 3. Obliczanie Trendu (Porównanie z wartością sprzed godziny)
+                    // 3. Obliczanie Trendu Ciśnienia
                     if (cisnienieObecne !== null && data.hourly && data.hourly.pressure_msl) {
-                        // API zwraca dane godzinowe od północy dnia poprzedniego (przez past_days=1)
-                        // Musimy znaleźć indeks aktualnej godziny.
                         const teraz = new Date();
                         const aktualnaGodzina = teraz.getHours();
-                        // Tablica hourly zaczyna się od wczoraj 00:00. 
-                        // Zatem indeks dzisiejszej godziny 'h' to: 24 (godziny wczorajsze) + h (godziny dzisiejsze).
                         const indeksDzis = 24 + aktualnaGodzina;
                         const indeksGodzineTemu = indeksDzis - 1;
 
-                        // Sprawdzenie czy mamy dane
                         if (data.hourly.pressure_msl[indeksGodzineTemu] !== undefined) {
                             const cisnieniePoprzednie = data.hourly.pressure_msl[indeksGodzineTemu];
                             const roznica = cisnienieObecne - cisnieniePoprzednie;
 
-                            // Próg czułości 0.5 hPa
                             if (roznica > 0.5) {
-                                cisnienieTrendEl.textContent = "↗️"; // Wzrost
+                                cisnienieTrendEl.textContent = "↗️"; 
                                 cisnienieTrendEl.className = "trend-wzrost";
                             } else if (roznica < -0.5) {
-                                cisnienieTrendEl.textContent = "↘️"; // Spadek
+                                cisnienieTrendEl.textContent = "↘️"; 
                                 cisnienieTrendEl.className = "trend-spadek";
                             } else {
-                                cisnienieTrendEl.textContent = "➡️"; // Stałe
+                                cisnienieTrendEl.textContent = "➡️"; 
                                 cisnienieTrendEl.className = "trend-stale";
                             }
                         } else {
                             cisnienieTrendEl.textContent = "";
                         }
+                    }
+
+                    // 4. ZMIANA: Aktualizacja Wiatru
+                    if (data.current.wind_speed_10m !== undefined && data.current.wind_direction_10m !== undefined) {
+                        const predkosc = Math.round(data.current.wind_speed_10m);
+                        const kierunek = data.current.wind_direction_10m;
+                        
+                        wiatrInfoEl.textContent = `${predkosc} km/h`;
+                        
+                        // Obrót strzałki. 
+                        // Domyślna strzałka "↓" wskazuje dół (Południe).
+                        // Wiatr 0 stopni (Północny) wieje z Północy na Południe -> Strzałka w dół (obrót 0).
+                        // Wiatr 90 stopni (Wschodni) wieje ze Wschodu na Zachód -> Strzałka w lewo (obrót 90).
+                        // Logika: obracamy zgodnie z wskazówkami zegara o wartość stopni.
+                        wiatrIkonaEl.style.transform = `rotate(${kierunek}deg)`;
+                    } else {
+                         wiatrInfoEl.textContent = "b/d";
+                         wiatrIkonaEl.style.transform = "rotate(0deg)";
                     }
 
                 } else {
@@ -1042,6 +1080,7 @@
                 infoEl.textContent = 'Błąd pogody';
                 if(cisnienieInfoEl) cisnienieInfoEl.textContent = '---';
                 if(cisnienieTrendEl) cisnienieTrendEl.textContent = '';
+                if(wiatrInfoEl) wiatrInfoEl.textContent = '...';
             }
         }
 
