@@ -53,8 +53,10 @@ Szczegóły: [Polityka Prywatności](POLITYKA-PRYWATNOSCI.md)
 ## ℹ️ Uwagi techniczne
 
 Aby odświeżyć pamięć podręczną (cache) po aktualizacji aplikacji (gdy nie widzisz nowych funkcji):
-* **PC:** Użyj skrótu `Ctrl + F5` lub `Ctrl + R`.
-* **Mobile:** Zamknij aplikację całkowicie (wyrzuć z paska zadań) i otwórz ponownie – Service Worker zaktualizuje się w tle przy kolejnym uruchomieniu.
+
+* **Opcja automatyczna (Zalecana):** Otwórz menu aplikacji (przycisk ☰) i wybierz **"Reset Aplikacji"**. Spowoduje to wyczyszczenie danych i ponowne załadowanie najnowszej wersji.
+* **PC (Ręcznie):** Użyj skrótu `Ctrl + F5` lub `Ctrl + R`.
+* **Mobile (Ręcznie):** Zamknij aplikację całkowicie (wyrzuć z paska zadań) i otwórz ponownie – Service Worker zaktualizuje się w tle przy kolejnym uruchomieniu.
 
 Wszelkie uwagi mile widziane: `TomaszGabara5677@gmail.com`
 
