@@ -54,7 +54,7 @@ Szczegóły: [Polityka Prywatności](POLITYKA-PRYWATNOSCI.md)
 
 Aby odświeżyć pamięć podręczną (cache) po aktualizacji aplikacji (gdy nie widzisz nowych funkcji):
 
-* **Opcja automatyczna (Zalecana):** Otwórz menu aplikacji (przycisk ☰) i wybierz **"Reset Aplikacji"**. Spowoduje to wyczyszczenie danych i ponowne załadowanie najnowszej wersji.
+* **Opcja automatyczna (Zalecana):** Otwórz menu aplikacji (przycisk ☰) i wybierz **"Reset Aplikacji"**. Spowoduje to wyczyszczenie danych i ponowne załadowanie najnowszej wersji. (Czasem wymaga chwili aż nowe zasoby zostaną pobrane, wystarczy poczekać, aplikacja sama się uruchomi.)
 * **PC (Ręcznie):** Użyj skrótu `Ctrl + F5` lub `Ctrl + R`.
 * **Mobile (Ręcznie):** Zamknij aplikację całkowicie (wyrzuć z paska zadań) i otwórz ponownie – Service Worker zaktualizuje się w tle przy kolejnym uruchomieniu.
 
