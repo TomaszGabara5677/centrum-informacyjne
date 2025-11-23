@@ -1,0 +1,45 @@
+# --- Pliki Systemowe (niepotrzebne śmieci) ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Logi i pliki tymczasowe ---
+*.log
+tmp/
+temp/
+
+# --- Pliki IDE (ustawienia edytorów kodu, nie wysyłamy ich) ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*.iml
+
+# --- Node.js (na przyszłość, jeśli będziesz używał bibliotek) ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =======================================================
+# BEZPIECZEŃSTWO - OCHRONA KLUCZY ANDROID
+# To jest najważniejsza sekcja dla Twojego bezpieczeństwa!
+# =======================================================
+
+# Klucze do podpisywania aplikacji (Keystore)
+*.jks
+*.keystore
+*.p12
+*.pfx
+
+# Pliki konfiguracyjne z hasłami (np. do Google Play)
+key.properties
+local.properties
+secrets.xml
+google-services.json
+
+# Foldery budowania aplikacji Android (jeśli masz tu projekt Android Studio)
+build/
+.gradle/
+captures/
+.externalNativeBuild/
