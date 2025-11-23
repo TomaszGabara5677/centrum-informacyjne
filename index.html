@@ -121,14 +121,17 @@
         }
         
         /* NOWA SEKCJA WIATRU */
+        /* ZMIANA: Dodano kolor pomarańczowy dla ikony i tekstu wiatru */
         #wiatr-ikona {
             display: inline-block; /* Konieczne do transformacji (obrotu) */
             font-size: 1.1rem;
             margin-right: 5px;
             transition: transform 1s ease-out; /* Płynny obrót strzałki */
+            color: #FFA500; /* Orange */
         }
         #wiatr-info {
-            /* Dziedziczy kolor #87CEEB z rodzica (#wspolrzedne) */
+            color: #FFA500; /* Orange */
+            font-weight: bold;
         }
 
         .separator-maly {
@@ -957,6 +960,14 @@
             return { ikona: '❓', opis: 'Nieznana' }; 
         }
 
+        // --- ZMIANA: Funkcja do konwersji stopni na kierunki ---
+        function stopnieNaKierunek(stopnie) {
+            const kierunki = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+            // Przesunięcie o 22.5 stopnia, aby "N" (północ) obejmowała zakres 337.5 - 22.5
+            const index = Math.round(stopnie / 45) % 8;
+            return kierunki[index];
+        }
+
         // --- Skalowanie interfejsu ---
         function dopasujSkale() {
             const kontener = document.getElementById('kontener');
@@ -993,7 +1004,7 @@
         async function aktualizujPogode() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
-            // ZMIANA: Dodano 'wind_speed_10m' i 'wind_direction_10m' do zapytania API
+            
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&hourly=pressure_msl&past_days=1&temperature_unit=celsius&timezone=auto`;
             
             const ikonaEl = document.getElementById('pogoda-ikona');
@@ -1054,19 +1065,18 @@
                         }
                     }
 
-                    // 4. ZMIANA: Aktualizacja Wiatru
+                    // 4. Aktualizacja Wiatru (ZMIANA: Dodano kierunek tekstowy N-E itp.)
                     if (data.current.wind_speed_10m !== undefined && data.current.wind_direction_10m !== undefined) {
                         const predkosc = Math.round(data.current.wind_speed_10m);
-                        const kierunek = data.current.wind_direction_10m;
+                        const kierunekStopnie = data.current.wind_direction_10m;
                         
-                        wiatrInfoEl.textContent = `${predkosc} km/h`;
+                        // Konwersja stopni na tekst (N, NE, E...)
+                        const kierunekTekst = stopnieNaKierunek(kierunekStopnie);
                         
-                        // Obrót strzałki. 
-                        // Domyślna strzałka "↓" wskazuje dół (Południe).
-                        // Wiatr 0 stopni (Północny) wieje z Północy na Południe -> Strzałka w dół (obrót 0).
-                        // Wiatr 90 stopni (Wschodni) wieje ze Wschodu na Zachód -> Strzałka w lewo (obrót 90).
-                        // Logika: obracamy zgodnie z wskazówkami zegara o wartość stopni.
-                        wiatrIkonaEl.style.transform = `rotate(${kierunek}deg)`;
+                        wiatrInfoEl.textContent = `${predkosc} km/h ${kierunekTekst}`;
+                        
+                        // Obrót strzałki
+                        wiatrIkonaEl.style.transform = `rotate(${kierunekStopnie}deg)`;
                     } else {
                          wiatrInfoEl.textContent = "b/d";
                          wiatrIkonaEl.style.transform = "rotate(0deg)";
@@ -1448,4 +1458,3 @@
 
 </body>
 </html>
-
