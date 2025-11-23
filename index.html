@@ -122,7 +122,10 @@
         
         /* NOWA SEKCJA WIATRU */
         /* ZMIANA: Dodano kolor pomarańczowy dla ikony i tekstu wiatru */
-        #wiatr-ikona {
+		#wiatr-ikona {
+			font-size: 1.5rem;
+		}
+        #wiatr-wskaznik {
             display: inline-block; /* Konieczne do transformacji (obrotu) */
             font-size: 1.4rem;
             margin-right: 5px;
@@ -532,8 +535,8 @@
                         <span id="wspolrzedne-ikona"></span>
                         <span id="wspolrzedne-tekst"></span>
                         <span class="separator-maly"></span>
-                        <span>💨&nbsp;</span>
-                        <span id="wiatr-ikona">↓</span>
+                        <span id="wiatr-ikona">💨&nbsp;</span>
+                        <span id="wiatr-wskaznik">↓</span>
                         <span id="wiatr-info">...</span>
                     </div>
                     <div id="pogoda">
@@ -1460,12 +1463,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
