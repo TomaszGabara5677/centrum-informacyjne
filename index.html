@@ -125,6 +125,8 @@
             display: flex;
             align-items: center;
             margin-top: 5px;
+            /* Zapewnia, że elementy wewnątrz nie będą się zawijać */
+            white-space: nowrap; 
         }
         #pogoda-ikona {
             font-size: 1.8rem;
@@ -134,23 +136,34 @@
             line-height: 1.4;
         }
 
-        /* --- NOWA SEKCJA: CIŚNIENIE --- */
-        /* Dodano stylizację dla elementu ciśnienia, aby pasował do reszty layoutu */
-        #cisnienie {
-            font-size: 1.1rem;
-            color: #00c000; /* Zielony, ale nieco ciemniejszy niż główny neon, dla rozróżnienia */
-            display: flex;
-            align-items: center;
-            margin-top: 4px; /* Odstęp od linii temperatury */
-        }
-        #cisnienie-ikona {
-            font-size: 1.5rem; /* Rozmiar ikony */
-            margin-right: 10px; /* Odstęp od tekstu */
-            /* Poniższe style pomagają wyrównać tę ikonę z ikoną pogody powyżej */
-            width: 30px; 
-            text-align: center;
+        /* --- NOWY SEPARATOR I CIŚNIENIE --- */
+        .dane-separator {
             display: inline-block;
+            width: 1px;
+            height: 1.2rem;
+            background-color: #004400; /* Ciemnozielona kreska */
+            margin: 0 15px; /* Odstępy po bokach */
         }
+
+        #cisnienie-ikona {
+            font-size: 1.4rem;
+            margin-right: 5px;
+        }
+
+        #cisnienie-info {
+            color: #00c000;
+            margin-right: 5px;
+        }
+        
+        #cisnienie-trend {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        /* Kolory trendów */
+        .trend-wzrost { color: #00FF00; } /* Jasny zielony */
+        .trend-spadek { color: #FF4500; } /* Pomarańcz/Czerwień */
+        .trend-stale { color: #888888; }  /* Szary */
+
 
         /* --- STYLIZACJA MENU (DROPDOWN) --- */
         .menu-kontener {
@@ -210,9 +223,9 @@
             display: block;
         }
 
-        /* Tabela z informacjami rocznymi - POPRAWKA (auto width) */
+        /* Tabela z informacjami rocznymi */
         #tabela-info-roczne {
-            width: auto; /* ZMIANA: auto zamiast 100% */
+            width: auto; 
             border-collapse: collapse;
             margin-bottom: 10px;
             font-size: 1.1rem;
@@ -497,11 +510,13 @@
                     </div>
                     <div id="pogoda">
                         <span id="pogoda-ikona">...</span>
-                        <span id="pogoda-info">Ładowanie pogody...</span>
-                    </div>
-                    <div id="cisnienie">
+                        <span id="pogoda-info">Ładowanie...</span>
+                        
+                        <span class="dane-separator"></span>
+                        
                         <span id="cisnienie-ikona">⏲️</span>
-                        <span id="cisnienie-info">... hPa</span>
+                        <span id="cisnienie-info">...</span>
+                        <span id="cisnienie-trend"></span>
                     </div>
                 </td>
                 <td class="komorka-menu">
@@ -954,11 +969,13 @@
         async function aktualizujPogode() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
-            // ZMIANA: Dodano parametr 'pressure_msl' do zapytania API, aby pobrać ciśnienie
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,pressure_msl&temperature_unit=celsius`;
+            // ZMIANA: Pobieramy hourly=pressure_msl oraz past_days=1, aby mieć kontekst do trendu
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,pressure_msl&hourly=pressure_msl&past_days=1&temperature_unit=celsius&timezone=auto`;
+            
             const ikonaEl = document.getElementById('pogoda-ikona');
             const infoEl = document.getElementById('pogoda-info');
             const cisnienieInfoEl = document.getElementById('cisnienie-info');
+            const cisnienieTrendEl = document.getElementById('cisnienie-trend');
 
             try {
                 const response = await fetch(url);
@@ -966,7 +983,7 @@
                 const data = await response.json();
 
                 if (data && data.current) {
-                    // Aktualizacja Temperatury
+                    // 1. Aktualizacja Temperatury i Ikony
                     if (data.current.temperature_2m !== undefined) {
                         const temp = data.current.temperature_2m;
                         const code = data.current.weather_code;
@@ -975,12 +992,45 @@
                         infoEl.textContent = `${Math.round(temp)}°C, ${pogoda.opis}`;
                     }
                     
-                    // ZMIANA: Aktualizacja Ciśnienia
+                    // 2. Aktualizacja Ciśnienia
+                    let cisnienieObecne = null;
                     if (data.current.pressure_msl !== undefined) {
-                        const pressure = Math.round(data.current.pressure_msl);
-                        cisnienieInfoEl.textContent = `${pressure} hPa`;
+                        cisnienieObecne = Math.round(data.current.pressure_msl);
+                        cisnienieInfoEl.textContent = `${cisnienieObecne} hPa`;
                     } else {
                         cisnienieInfoEl.textContent = "b/d";
+                    }
+
+                    // 3. Obliczanie Trendu (Porównanie z wartością sprzed godziny)
+                    if (cisnienieObecne !== null && data.hourly && data.hourly.pressure_msl) {
+                        // API zwraca dane godzinowe od północy dnia poprzedniego (przez past_days=1)
+                        // Musimy znaleźć indeks aktualnej godziny.
+                        const teraz = new Date();
+                        const aktualnaGodzina = teraz.getHours();
+                        // Tablica hourly zaczyna się od wczoraj 00:00. 
+                        // Zatem indeks dzisiejszej godziny 'h' to: 24 (godziny wczorajsze) + h (godziny dzisiejsze).
+                        const indeksDzis = 24 + aktualnaGodzina;
+                        const indeksGodzineTemu = indeksDzis - 1;
+
+                        // Sprawdzenie czy mamy dane
+                        if (data.hourly.pressure_msl[indeksGodzineTemu] !== undefined) {
+                            const cisnieniePoprzednie = data.hourly.pressure_msl[indeksGodzineTemu];
+                            const roznica = cisnienieObecne - cisnieniePoprzednie;
+
+                            // Próg czułości 0.5 hPa
+                            if (roznica > 0.5) {
+                                cisnienieTrendEl.textContent = "↗️"; // Wzrost
+                                cisnienieTrendEl.className = "trend-wzrost";
+                            } else if (roznica < -0.5) {
+                                cisnienieTrendEl.textContent = "↘️"; // Spadek
+                                cisnienieTrendEl.className = "trend-spadek";
+                            } else {
+                                cisnienieTrendEl.textContent = "➡️"; // Stałe
+                                cisnienieTrendEl.className = "trend-stale";
+                            }
+                        } else {
+                            cisnienieTrendEl.textContent = "";
+                        }
                     }
 
                 } else {
@@ -990,7 +1040,8 @@
                 console.error('Błąd pobierania pogody:', error);
                 ikonaEl.textContent = '📡'; 
                 infoEl.textContent = 'Błąd pogody';
-                if(cisnienieInfoEl) cisnienieInfoEl.textContent = '--- hPa';
+                if(cisnienieInfoEl) cisnienieInfoEl.textContent = '---';
+                if(cisnienieTrendEl) cisnienieTrendEl.textContent = '';
             }
         }
 
