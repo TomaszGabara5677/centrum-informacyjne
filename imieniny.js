@@ -3,25 +3,27 @@
  * @description Plik ten zawiera stałą bazę danych imienin w Polsce.
  * Jest ona zorganizowana jako obiekt (słownik), gdzie klucze reprezentują
  * konkretne dni w roku, a wartości to lista imion obchodzących tego dnia imieniny.
+ * Wersja poprawiona: ujednolicony dopełniacz, usunięte nazwy świąt dublujące się z swieta.js.
  */
 
 // Definicja stałej `IMIENINY_BAZA` (IMIENINY_BAZA).
 // Używamy `const`, ponieważ ta baza danych nie powinna być modyfikowana
 // w trakcie działania programu (jest to statyczny zbiór danych).
-const IMIENINY_BAZA = {
-    // Struktura danych:
-    // Klucz: 'MM-DD' (Miesiąc-Dzień) - reprezentuje datę w sposób
-    // łatwy do sortowania i odpytywania.
-    // Wartość: 'Imię1, Imię2, Imię3' - ciąg znaków (string)
-    // zawierający imiona oddzielone przecinkami i spacją.
+// Struktura danych:
+// Klucz: 'MM-DD' (Miesiąc-Dzień) - reprezentuje datę w sposób
+// łatwy do sortowania i odpytywania.
+// Wartość: 'Imię1, Imię2, Imię3' - ciąg znaków (string)
+// zawierający imiona oddzielone przecinkami i spacją.
 
+
+const IMIENINY_BAZA = {
     // --- Styczeń ---
     '01-01': 'Mieszka, Mieczysława, Marii',
     '01-02': 'Bazylego, Grzegorza, Makarego',
     '01-03': 'Danuty, Daniela, Genowefy',
     '01-04': 'Elżbiety, Anieli, Eugeniusza',
     '01-05': 'Hanny, Edwarda, Szymona',
-    '01-06': 'Kacpra, Melchiora, Baltazara', // Trzech Króli
+    '01-06': 'Kacpra, Melchiora, Baltazara',
     '01-07': 'Lucjana, Juliana, Rajmunda',
     '01-08': 'Seweryna, Mścisława, Juliusza',
     '01-09': 'Adrianny, Juliana, Piotra',
@@ -62,7 +64,7 @@ const IMIENINY_BAZA = {
     '02-11': 'Lucjana, Olgierda, Marii',
     '02-12': 'Eulalii, Radosława, Modesta',
     '02-13': 'Grzegorza, Katarzyny, Lesława',
-    '02-14': 'Walentego, Cyryla, Metodego', // Walentynki
+    '02-14': 'Walentego, Cyryla, Metodego',
     '02-15': 'Jowity, Faustyna, Zygfryda',
     '02-16': 'Danuty, Juliany, Daniela',
     '02-17': 'Aleksandra, Łukasza, Zbigniewa',
@@ -77,11 +79,7 @@ const IMIENINY_BAZA = {
     '02-26': 'Mirosława, Aleksandra, Dionizego',
     '02-27': 'Gabriela, Anastazji, Juliana',
     '02-28': 'Romana, Ludomira, Makarego',
-    // Specjalny przypadek dla roku przestępnego.
-    // Logika aplikacji korzystająca z tej bazy musi obsłużyć
-    // sprawdzanie, czy dany rok jest przestępny, aby poprawnie
-    // zinterpretować ten wpis.
-    '02-29': 'Lecha, Lutomira (tylko w lata przestępne)',
+    '02-29': 'Lecha, Lutomira',
 
     // --- Marzec ---
     '03-01': 'Antoniny, Radosława, Dawida',
@@ -91,7 +89,7 @@ const IMIENINY_BAZA = {
     '03-05': 'Adriana, Fryderyka, Teofila',
     '03-06': 'Róży, Wiktora, Jordana',
     '03-07': 'Pawła, Tomasza, Perpetuy',
-    '03-08': 'Beaty, Wincentego, Jana', // Dzień Kobiet
+    '03-08': 'Beaty, Wincentego, Jana',
     '03-09': 'Franciszki, Dominika, Katarzyny',
     '03-10': 'Cypriana, Marcelego, Aleksandra',
     '03-11': 'Konstantego, Ludwika, Benedykta',
@@ -117,12 +115,12 @@ const IMIENINY_BAZA = {
     '03-31': 'Beniamina, Balbiny, Gwidona',
 
     // --- Kwiecień ---
-    '04-01': 'Grażyny, Hugona, Zbigniewa', // Prima Aprilis
+    '04-01': 'Grażyny, Hugona, Zbigniewa',
     '04-02': 'Władysława, Franciszka, Teodozji',
     '04-03': 'Ryszarda, Pankracego, Ingi',
     '04-04': 'Izydora, Wacława, Benedykta',
     '04-05': 'Ireny, Wincentego, Justyna',
-    '04-06': 'Celestyna, Wilhelma, Sixtusa',
+    '04-06': 'Celestyna, Wilhelma, Sykstusa',
     '04-07': 'Donata, Hermana, Rufina',
     '04-08': 'Dionizego, Julii, Radosława',
     '04-09': 'Marcelego, Marii, Heliodora',
@@ -139,7 +137,7 @@ const IMIENINY_BAZA = {
     '04-20': 'Czesława, Agnieszki, Teodora',
     '04-21': 'Anzelma, Feliksa, Konrada',
     '04-22': 'Kazimierza, Łukasza, Leonii',
-    '04-23': 'Jerzego, Wojciecha, Adalberta',
+    '04-23': 'Jerzego, Wojciecha, Jerzego',
     '04-24': 'Grzegorza, Horacego, Aleksego',
     '04-25': 'Marka, Jarosława, Wioletty',
     '04-26': 'Marzeny, Klaudiusza, Marii',
@@ -149,10 +147,10 @@ const IMIENINY_BAZA = {
     '04-30': 'Mariana, Katarzyny, Jakuba',
 
     // --- Maj ---
-    '05-01': 'Józefa, Jeremiasza, Lubomira', // Święto Pracy
+    '05-01': 'Józefa, Jeremiasza, Lubomira',
     '05-02': 'Zygmunta, Anatola, Walentego',
-    '05-03': 'Marii, Antoniny, Aleksandra', // Święto Konstytucji 3 Maja
-    '05-04': 'Floriana, Moniki, Paulina', // Dzień Strażaka
+    '05-03': 'Marii, Antoniny, Aleksandra',
+    '05-04': 'Floriana, Moniki, Paulina',
     '05-05': 'Ireny, Waldemara, Grzegorza',
     '05-06': 'Jana, Judyty, Filipa',
     '05-07': 'Gizeli, Ludomira, Benedykta',
@@ -174,7 +172,7 @@ const IMIENINY_BAZA = {
     '05-23': 'Iwony, Dezyderego, Emilii',
     '05-24': 'Joanny, Zuzanny, Jana',
     '05-25': 'Grzegorza, Urbana, Magdaleny',
-    '05-26': 'Filipa, Pauliny, Eweliny', // Dzień Matki
+    '05-26': 'Filipa, Pauliny, Eweliny',
     '05-27': 'Augustyna, Jana, Juliusza',
     '05-28': 'Jaromira, Justa, Wilhelma',
     '05-29': 'Magdaleny, Teodozji, Maksymina',
@@ -182,7 +180,7 @@ const IMIENINY_BAZA = {
     '05-31': 'Anieli, Kamili, Petroneli',
 
     // --- Czerwiec ---
-    '06-01': 'Jakuba, Konrada, Justyna', // Dzień Dziecka
+    '06-01': 'Jakuba, Konrada, Justyna',
     '06-02': 'Marii, Erazma, Eugeniusza',
     '06-03': 'Leszka, Kłotyldy, Owidiusza',
     '06-04': 'Karola, Franciszka, Helgi',
@@ -204,7 +202,7 @@ const IMIENINY_BAZA = {
     '06-20': 'Bogny, Florentyny, Rafała',
     '06-21': 'Alicji, Alojzego, Rudolfa',
     '06-22': 'Pauliny, Tomasza, Jana',
-    '06-23': 'Wandy, Zenona, Albiny', // Dzień Ojca
+    '06-23': 'Wandy, Zenona, Albiny',
     '06-24': 'Jana, Danuty, Emilii',
     '06-25': 'Łucji, Wilhelma, Doroty',
     '06-26': 'Jana, Pawła, Tytusa',
@@ -235,7 +233,7 @@ const IMIENINY_BAZA = {
     '07-19': 'Wincentego, Wodzisława, Marcina',
     '07-20': 'Czesława, Małgorzaty, Hieronima',
     '07-21': 'Daniela, Wiktora, Andrzeja',
-    '07-22': 'Marii Magdaleny, Bolesława, Mileny',
+    '07-22': 'Marii, Magdaleny, Bolesława, Mileny',
     '07-23': 'Brygidy, Apolinarego, Bogny',
     '07-24': 'Kingi, Krystyny, Jakuba',
     '07-25': 'Krzysztofa, Jakuba, Walentyny',
@@ -251,7 +249,7 @@ const IMIENINY_BAZA = {
     '08-02': 'Kariny, Gustawa, Euzebiusza',
     '08-03': 'Lidii, Augusta, Nikodema',
     '08-04': 'Dominika, Protazego, Jana',
-    '08-05': 'Marii, Oswalda, Abel',
+    '08-05': 'Marii, Oswalda, Abla',
     '08-06': 'Sławy, Jakuba, Wincentego',
     '08-07': 'Klaudii, Donaty, Kajetana',
     '08-08': 'Emiliana, Dominika, Cypriana',
@@ -261,7 +259,7 @@ const IMIENINY_BAZA = {
     '08-12': 'Lecha, Hilarii, Juliana',
     '08-13': 'Hipolita, Poncjana, Diany',
     '08-14': 'Maksymiliana, Alfreda, Euzebiusza',
-    '08-15': 'Marii, Napoleona, Stelii', // Wniebowzięcie NMP, Święto Wojska Polskiego
+    '08-15': 'Marii, Napoleona, Stelii',
     '08-16': 'Rocha, Stefana, Joachima',
     '08-17': 'Jacka, Anity, Joanny',
     '08-18': 'Ilony, Heleny, Klary',
@@ -309,7 +307,7 @@ const IMIENINY_BAZA = {
     '09-27': 'Wincentego, Kosmy, Mirabeli',
     '09-28': 'Wacława, Marka, Leonarda',
     '09-29': 'Michała, Michaliny, Rafała',
-    '09-30': 'Hieronima, Zofii, Honoriusza', // Dzień Chłopaka
+    '09-30': 'Hieronima, Zofii, Honoriusza',
 
     // --- Październik ---
     '10-01': 'Remigiusza, Teresy, Danuty',
@@ -325,7 +323,7 @@ const IMIENINY_BAZA = {
     '10-11': 'Emila, Marii, Aldony',
     '10-12': 'Maksymiliana, Eustachego, Krystyny',
     '10-13': 'Edwarda, Teofila, Bernarda',
-    '10-14': 'Bernarda, Damiana, Kaliksta', // Dzień Nauczyciela
+    '10-14': 'Bernarda, Damiana, Kaliksta',
     '10-15': 'Teresy, Jadwigi, Leonarda',
     '10-16': 'Gawła, Jadwigi, Florentyny',
     '10-17': 'Ignacego, Wiktora, Małgorzaty',
@@ -342,11 +340,11 @@ const IMIENINY_BAZA = {
     '10-28': 'Szymona, Judy, Tadeusza',
     '10-29': 'Wioletty, Euzebii, Zenobii',
     '10-30': 'Przemysława, Edmunda, Alfonsa',
-    '10-31': 'Augusta, Lucjana, Urbana', // Halloween
+    '10-31': 'Augusta, Lucjana, Urbana',
 
     // --- Listopad ---
-    '11-01': 'Wszystkich Świętych', // Specjalny wpis dla święta
-    '11-02': 'Bohdany, Dzień Zaduszny', // Specjalny wpis dla święta
+    '11-01': 'Seweryna, Wiktoryny, Konrada',
+    '11-02': 'Bohdana, Tobiasza, Bożydara',
     '11-03': 'Sylwii, Huberta, Marcina',
     '11-04': 'Karola, Olgierda, Emeryka',
     '11-05': 'Elżbiety, Sławomira, Dominika',
@@ -355,7 +353,7 @@ const IMIENINY_BAZA = {
     '11-08': 'Seweryna, Klaudiusza, Wiktora',
     '11-09': 'Teodora, Ursyna, Genowefy',
     '11-10': 'Leona, Ludomira, Natalii',
-    '11-11': 'Marcina, Bartłomieja, Teodora', // Narodowe Święto Niepodległości
+    '11-11': 'Marcina, Bartłomieja, Teodora',
     '11-12': 'Renaty, Witolda, Konrada',
     '11-13': 'Stanisława, Mikołaja, Liwii',
     '11-14': 'Wawrzyńca, Emila, Rogera',
@@ -374,15 +372,15 @@ const IMIENINY_BAZA = {
     '11-27': 'Waleriana, Wirgiliusza, Maksymiliana',
     '11-28': 'Zdzisława, Jakuba, Stefana',
     '11-29': 'Błażeja, Saturnina, Maury',
-    '11-30': 'Andrzeja, Maury, Konstantego', // Andrzejki
+    '11-30': 'Andrzeja, Maury, Konstantego',
 
     // --- Grudzień ---
     '12-01': 'Natalii, Eligiusza, Edmunda',
     '12-02': 'Balbiny, Pauliny, Ksawerego',
     '12-03': 'Franciszka, Ksawerego, Kasjana',
-    '12-04': 'Barbary, Krystiana, Hieronima', // Barbórka (Dzień Górnika)
+    '12-04': 'Barbary, Krystiana, Hieronima',
     '12-05': 'Sabiny, Kryspiny, Gerarda',
-    '12-06': 'Mikołaja, Angeliki, Emila', // Mikołajki
+    '12-06': 'Mikołaja, Angeliki, Emila',
     '12-07': 'Ambrożego, Marcina, Teodora',
     '12-08': 'Marii, Światozara, Klemensa',
     '12-09': 'Wiesławy, Leokadii, Joanny',
@@ -400,20 +398,12 @@ const IMIENINY_BAZA = {
     '12-21': 'Tomasza, Piotra, Honoraty',
     '12-22': 'Zenona, Honoraty, Beaty',
     '12-23': 'Wiktorii, Sławomiry, Jana',
-    '12-24': 'Adama, Ewy, Eweliny', // Wigilia Bożego Narodzenia
-    '12-25': 'Anastazji, Eugenii, Piotra', // Boże Narodzenie
-    '12-26': 'Szczepana, Dionizego, Wróciwoja', // Drugi dzień świąt
+    '12-24': 'Adama, Ewy, Eweliny',
+    '12-25': 'Anastazji, Eugenii, Piotra',
+    '12-26': 'Szczepana, Dionizego, Wróciwoja',
     '12-27': 'Jana, Żanety, Fabioli',
     '12-28': 'Teofilii, Antoniusza, Cezarego',
     '12-29': 'Tomasza, Dawida, Dominika',
     '12-30': 'Eugeniusza, Katarzyny, Sabiny',
-    '12-31': 'Sylwestra, Melanii, Mariusza' // Sylwester
+    '12-31': 'Sylwestra, Melanii, Mariusza'
 };
-
-// Aby umożliwić innym plikom (modułom) korzystanie z tej bazy danych,
-// można ją wyeksportować (np. w środowisku Node.js lub przy użyciu modułów ES6).
-// Przykład dla modułów ES6 (jeśli to plik .mjs lub w projekcie używającym transpilatora):
-// export default IMIENINY_BAZA;
-
-// Przykład dla CommonJS (standard w Node.js):
-// module.exports = IMIENINY_BAZA;
