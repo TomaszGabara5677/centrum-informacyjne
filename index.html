@@ -13,10 +13,11 @@
     <title>Kompletne Centrum Informacyjne</title>
 
     <style>
+        /* Zmienne CSS dla łatwego zarządzania motywem kolorystycznym */
         :root {
-            --kolor-aktywny: #00FF00; /* Główny kolor "neonowy" */
-            --kolor-tla: #1a1a1a;     /* Ciemne tło */
-            --kolor-ramki: #000;      /* Czarne wnętrze */
+            --kolor-aktywny: #00FF00; /* Główny kolor "neonowy" (jasna zieleń) */
+            --kolor-tla: #1a1a1a;     /* Ciemne tło dla kontrastu */
+            --kolor-ramki: #000;      /* Czarne wnętrze kontenera */
             --kolor-sentencji: #d461ff; /* Neonowy fiolet dla sentencji */
         }
 
@@ -27,11 +28,11 @@
             min-height: 100vh;
             margin: 0;
             background-color: var(--kolor-tla);
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Courier New', Courier, monospace; /* Czcionka monospaced (o stałej szerokości) dla efektu retro */
             color: var(--kolor-aktywny);
             padding: 0;
             box-sizing: border-box;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Zapobiega przewijaniu na boki */
         }
 
         #kontener {
@@ -46,7 +47,7 @@
             text-align: center;
             box-sizing: border-box;
             transform-origin: top center;
-            transition: transform 0.2s ease-out;
+            transition: transform 0.2s ease-out; /* Płynne skalowanie przy zmianie rozmiaru okna */
             margin-top: 20px;
             margin-bottom: 20px;
         }
@@ -61,36 +62,34 @@
             vertical-align: middle;
         }
 
-        /* ZMIANA: Dzień tygodnia przesunięty na samą górę */
+        /* --- POPRAWKA UI (Pkt 5): Skalowanie czcionki --- */
         .komorka-dzien {
-            font-size: 3rem; /*3.5rem max*/
+            /* clamp(min, val, max) - elastyczna czcionka zależna od szerokości ekranu (vw) */
+            font-size: clamp(1.8rem, 4vw, 3.5rem); 
             text-transform: uppercase;
             letter-spacing: 3px;
-            text-shadow: 0 0 5px var(--kolor-aktywny);
+            text-shadow: 0 0 5px var(--kolor-aktywny); /* Efekt poświaty neonu */
             width: auto;
             text-align: center;
             
-            /* Kluczowe dla "jak najwyżej można" */
             vertical-align: top; 
             padding-top: 0; 
-            
             padding-right: 20px;
             white-space: nowrap;
         }
 
-        /* NOWOŚĆ: Stylizacja sentencji */
         #sentencja {
             display: block;
-            margin-bottom: 10px; /* Wyrównanie dnia tygodnia i sentencji */
-            color: var(--kolor-sentencji); /* Fioletowy */
-            font-size: 1.2rem; /* Zgodnie z wytycznymi */
+            margin-bottom: 10px;
+            color: var(--kolor-sentencji);
+            font-size: 1.2rem;
             font-weight: bold;
             font-style: italic;
-            text-shadow: 0 0 3px var(--kolor-sentencji); /* Delikatna poświata */
+            text-shadow: 0 0 3px var(--kolor-sentencji);
             letter-spacing: 1px;
             text-transform: none; 
-            white-space: normal; /* Zawijanie tekstu */
-            max-width: 400px; /* Ograniczenie szerokości */
+            white-space: normal;
+            max-width: 400px;
             margin-left: auto;
             margin-right: auto;
             line-height: 1.4;
@@ -113,7 +112,7 @@
         
         #lokalizacja {
             font-size: 1.3rem;
-            color: #00c000;
+            color: #00c000; /* Ciemniejsza zieleń dla mniejszego kontrastu drugoplanowych danych */
             font-weight: bold;
             min-height: 1.5rem;
             display: flex;
@@ -127,7 +126,7 @@
         
         #wspolrzedne {
             font-size: 0.9rem;
-            color: #87CEEB;
+            color: #87CEEB; /* Błękitny kolor dla współrzędnych */
             margin-top: 4px;
             min-height: 1rem;
             display: flex;
@@ -147,8 +146,8 @@
             font-size: 2rem;
 			padding-bottom: 6px;
             margin-right: 5px;
-            transition: transform 1s ease-out;
-            color: #FFA500; 
+            transition: transform 1s ease-out; /* Animacja obrotu strzałki wiatru */
+            color: #FFA500; /* Pomarańczowy dla wiatru */
         }
         #wiatr-info {
             font-size: 1.2rem;
@@ -331,13 +330,14 @@
         .segment {
             position: absolute;
             background-color: var(--kolor-aktywny);
-            opacity: 0.1;
+            opacity: 0.1; /* Domyślnie wygaszony segment */
             transition: opacity 0.2s;
             border-radius: 2px;
             box-shadow: 0 0 5px var(--kolor-aktywny);
         }
-        .segment.active { opacity: 1; }
+        .segment.active { opacity: 1; } /* Zapalony segment */
         
+        /* Pozycjonowanie segmentów (a-g) dla wyświetlacza 7-segmentowego */
         .segment.a, .segment.d, .segment.g { width: 20px; height: 4px; left: 5px; }
         .segment.b, .segment.c, .segment.e, .segment.f { width: 4px; height: 20px; }
         .segment.a { top: 0; }
@@ -889,10 +889,26 @@
             return `${d}° ${formatujLiczbe(m)}′ ${formatujLiczbe(s)}″ ${dir}`;
         }
 
+        // --- POPRAWKA LOGICZNA (Pkt 1 i 2): Naprawione wykrywanie znaku zodiaku ---
+        // Poprzednia wersja znajdowała pierwszy pasujący znak od początku roku.
+        // Jeśli był listopad (11), a Wodnik (1) był sprawdzany jako drugi (po Koziorożcu 12),
+        // to warunek 11 > 1 był spełniony i zwracało błędny znak.
+        // Teraz odwracamy tablicę, aby znaleźć *najpóźniejszą* pasującą datę startu.
         function pobierzInfoZodiaku(data) {
-            const dzien = data.getDate(), miesiac = data.getMonth() + 1;
-            let biezacyZnak = ZNAKI_ZODIAKU.find(znak => { return miesiac > znak.start[0] || (miesiac === znak.start[0] && dzien >= znak.start[1]); });
-            if (!biezacyZnak) { return ZNAKI_ZODIAKU[0]; }
+            const dzien = data.getDate();
+            const miesiac = data.getMonth() + 1;
+            
+            // Kopia tablicy odwrócona, aby szukać od końca roku (Strzelec, Skorpion...)
+            const znakiOdwrocone = [...ZNAKI_ZODIAKU].reverse();
+            
+            const biezacyZnak = znakiOdwrocone.find(znak => {
+                return miesiac > znak.start[0] || (miesiac === znak.start[0] && dzien >= znak.start[1]);
+            });
+
+            // Jeśli nic nie znaleziono (np. początek stycznia przed Wodnikiem), to jest to Koziorożec
+            if (!biezacyZnak) { 
+                return ZNAKI_ZODIAKU.find(z => z.nazwa === 'Koziorożec'); 
+            }
             return biezacyZnak;
         }
 
@@ -928,6 +944,7 @@
             if (typeof SunCalc === 'undefined') return 'b/d';
             let fazaPoprzednia = SunCalc.getMoonIllumination(teraz).phase;
             let dataPetli = new Date(teraz.getTime());
+            // Symulacja 30 dni w przód (720 godzin) - bezpieczny zakres dla pętli
             for (let i = 0; i < 720; i++) {
                 dataPetli.setHours(dataPetli.getHours() + 1); 
                 let fazaNowa = SunCalc.getMoonIllumination(dataPetli).phase;
@@ -1062,6 +1079,7 @@
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
             
+            // Weryfikacja (Pkt 6): URL jest poprawny dla API Open-Meteo v1
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&hourly=pressure_msl&past_days=1&temperature_unit=celsius&timezone=auto`;
             
             const ikonaEl = document.getElementById('pogoda-ikona');
@@ -1504,5 +1522,3 @@
 
 </body>
 </html>
-
-
