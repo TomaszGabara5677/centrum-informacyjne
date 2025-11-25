@@ -1,1467 +1,368 @@
 [
-  {
-    "dzien": 1,
-    "tekst": "Rękawiczki to nie wstyd."
-  },
-  {
-    "dzien": 2,
-    "tekst": "Zimowa herbata ratuje świata."
-  },
-  {
-    "dzien": 3,
-    "tekst": "Nie taki diabeł straszny."
-  },
-  {
-    "dzien": 4,
-    "tekst": "Jutro też zaświeci słońce."
-  },
-  {
-    "dzien": 5,
-    "tekst": "Nie odkładaj na jutro."
-  },
-  {
-    "dzien": 6,
-    "tekst": "Rękawiczki to nie wstyd."
-  },
-  {
-    "dzien": 7,
-    "tekst": "Kłamstwo ma krótkie nogi."
-  },
-  {
-    "dzien": 8,
-    "tekst": "Zimowy sen? Nie dla nas!"
-  },
-  {
-    "dzien": 9,
-    "tekst": "Oderwij wzrok od ekranu."
-  },
-  {
-    "dzien": 10,
-    "tekst": "Bez pracy nie ma kołaczy."
-  },
-  {
-    "dzien": 11,
-    "tekst": "Grudzień krótki, długie smutki?"
-  },
-  {
-    "dzien": 12,
-    "tekst": "Śmiech to zdrowie."
-  },
-  {
-    "dzien": 13,
-    "tekst": "Cierpliwość popłaca."
-  },
-  {
-    "dzien": 14,
-    "tekst": "Carpe Diem."
-  },
-  {
-    "dzien": 15,
-    "tekst": "Nie taki diabeł straszny."
-  },
-  {
-    "dzien": 16,
-    "tekst": "Nie jedz żółtego śniegu."
-  },
-  {
-    "dzien": 17,
-    "tekst": "Dziś zrób coś miłego."
-  },
-  {
-    "dzien": 18,
-    "tekst": "Szalik noś, na złość mrozom."
-  },
-  {
-    "dzien": 19,
-    "tekst": "Zima pyta, co robiłeś latem."
-  },
-  {
-    "dzien": 20,
-    "tekst": "Śnieżynki tańczą walca."
-  },
-  {
-    "dzien": 21,
-    "tekst": "Nie taki diabeł straszny."
-  },
-  {
-    "dzien": 22,
-    "tekst": "Lep bałwana póki czas."
-  },
-  {
-    "dzien": 23,
-    "tekst": "Dobra mina do złej gry."
-  },
-  {
-    "dzien": 24,
-    "tekst": "Zgoda buduje."
-  },
-  {
-    "dzien": 25,
-    "tekst": "Rób swoje."
-  },
-  {
-    "dzien": 26,
-    "tekst": "Śnieżynki tańczą walca."
-  },
-  {
-    "dzien": 27,
-    "tekst": "Wlazł kotek na płotek."
-  },
-  {
-    "dzien": 28,
-    "tekst": "Na mrozie ruch to zdrowie."
-  },
-  {
-    "dzien": 29,
-    "tekst": "Zimowa herbata ratuje świata."
-  },
-  {
-    "dzien": 30,
-    "tekst": "Zimowy sen? Nie dla nas!"
-  },
-  {
-    "dzien": 31,
-    "tekst": "Dobrego dnia!"
-  },
-  {
-    "dzien": 32,
-    "tekst": "Lód na drodze, uważaj srodze."
-  },
-  {
-    "dzien": 33,
-    "tekst": "Trafiła kosa na kamień."
-  },
-  {
-    "dzien": 34,
-    "tekst": "Zapomniał wół jak cielęciem był."
-  },
-  {
-    "dzien": 35,
-    "tekst": "Mowa jest srebrem."
-  },
-  {
-    "dzien": 36,
-    "tekst": "Kawa czy herbata?"
-  },
-  {
-    "dzien": 37,
-    "tekst": "Zima trzyma, ale puści."
-  },
-  {
-    "dzien": 38,
-    "tekst": "Sanki czekają, dzieci wołają."
-  },
-  {
-    "dzien": 39,
-    "tekst": "Po burzy zawsze słońce."
-  },
-  {
-    "dzien": 40,
-    "tekst": "Wyprostuj plecy!"
-  },
-  {
-    "dzien": 41,
-    "tekst": "Sanki czekają, dzieci wołają."
-  },
-  {
-    "dzien": 42,
-    "tekst": "Capnij czapkę, chroń uszy."
-  },
-  {
-    "dzien": 43,
-    "tekst": "Nie martw się na zapas."
-  },
-  {
-    "dzien": 44,
-    "tekst": "Idzie luty, podkuj buty."
-  },
-  {
-    "dzien": 45,
-    "tekst": "Nie jedz żółtego śniegu."
-  },
-  {
-    "dzien": 46,
-    "tekst": "Lep bałwana póki czas."
-  },
-  {
-    "dzien": 47,
-    "tekst": "Zadzwoń do mamy."
-  },
-  {
-    "dzien": 48,
-    "tekst": "Patrz pod nogi."
-  },
-  {
-    "dzien": 49,
-    "tekst": "Ciepła kawa to podstawa."
-  },
-  {
-    "dzien": 50,
-    "tekst": "Zima to stan umysłu."
-  },
-  {
-    "dzien": 51,
-    "tekst": "Nie jedz żółtego śniegu."
-  },
-  {
-    "dzien": 52,
-    "tekst": "Zimno wszędzie, co to będzie?"
-  },
-  {
-    "dzien": 53,
-    "tekst": "Nie jedz żółtego śniegu."
-  },
-  {
-    "dzien": 54,
-    "tekst": "Jaki styczeń, taki cały rok."
-  },
-  {
-    "dzien": 55,
-    "tekst": "Milczenie jest złotem."
-  },
-  {
-    "dzien": 56,
-    "tekst": "Raz na wozie, raz pod wozem."
-  },
-  {
-    "dzien": 57,
-    "tekst": "Trafiła kosa na kamień."
-  },
-  {
-    "dzien": 58,
-    "tekst": "Ucz się na błędach."
-  },
-  {
-    "dzien": 59,
-    "tekst": "Jak Kuba Bogu, tak Bóg Kubie."
-  },
-  {
-    "dzien": 60,
-    "tekst": "Patrz w gwiazdy."
-  },
-  {
-    "dzien": 61,
-    "tekst": "Kto sieje wiatr, zbiera burzę."
-  },
-  {
-    "dzien": 62,
-    "tekst": "Maj to raj dla serca."
-  },
-  {
-    "dzien": 63,
-    "tekst": "Zdejmij kurtkę, załóż bluzę."
-  },
-  {
-    "dzien": 64,
-    "tekst": "Marzanna utopiona, zima skończona."
-  },
-  {
-    "dzien": 65,
-    "tekst": "Nowy start, nowa energia."
-  },
-  {
-    "dzien": 66,
-    "tekst": "Nowy start, nowa energia."
-  },
-  {
-    "dzien": 67,
-    "tekst": "Głowa do góry."
-  },
-  {
-    "dzien": 68,
-    "tekst": "Kawa czy herbata?"
-  },
-  {
-    "dzien": 69,
-    "tekst": "W marcu jak w garncu."
-  },
-  {
-    "dzien": 70,
-    "tekst": "W marcu jak w garncu."
-  },
-  {
-    "dzien": 71,
-    "tekst": "Wiosna, ach to ty!"
-  },
-  {
-    "dzien": 72,
-    "tekst": "Co dwie głowy to nie jedna."
-  },
-  {
-    "dzien": 73,
-    "tekst": "Wdech i wydech."
-  },
-  {
-    "dzien": 74,
-    "tekst": "Zapomniał wół jak cielęciem był."
-  },
-  {
-    "dzien": 75,
-    "tekst": "Co dwie głowy to nie jedna."
-  },
-  {
-    "dzien": 76,
-    "tekst": "Słońce wstaje, humor daje."
-  },
-  {
-    "dzien": 77,
-    "tekst": "Głowa do góry."
-  },
-  {
-    "dzien": 78,
-    "tekst": "Nie chwal dnia przed zachodem."
-  },
-  {
-    "dzien": 79,
-    "tekst": "W marcu jak w garncu."
-  },
-  {
-    "dzien": 80,
-    "tekst": "Oddychaj głęboko."
-  },
-  {
-    "dzien": 81,
-    "tekst": "Wiosna bucha, wpadła mucha."
-  },
-  {
-    "dzien": 82,
-    "tekst": "Oderwij wzrok od ekranu."
-  },
-  {
-    "dzien": 83,
-    "tekst": "Uśmiech nic nie kosztuje."
-  },
-  {
-    "dzien": 84,
-    "tekst": "Siej, a będziesz zbierał."
-  },
-  {
-    "dzien": 85,
-    "tekst": "Nie chwal dnia przed zachodem."
-  },
-  {
-    "dzien": 86,
-    "tekst": "Lepiej późno niż wcale."
-  },
-  {
-    "dzien": 87,
-    "tekst": "Trafiła kosa na kamień."
-  },
-  {
-    "dzien": 88,
-    "tekst": "Mowa jest srebrem."
-  },
-  {
-    "dzien": 89,
-    "tekst": "Słuchaj serca."
-  },
-  {
-    "dzien": 90,
-    "tekst": "Bez pracy nie ma kołaczy."
-  },
-  {
-    "dzien": 91,
-    "tekst": "Wyprostuj plecy!"
-  },
-  {
-    "dzien": 92,
-    "tekst": "Ptaszki ćwierkają nowiny."
-  },
-  {
-    "dzien": 93,
-    "tekst": "Wiosna, ach to ty!"
-  },
-  {
-    "dzien": 94,
-    "tekst": "Co nagle to po diable."
-  },
-  {
-    "dzien": 95,
-    "tekst": "Rower z kurzu odświeżamy."
-  },
-  {
-    "dzien": 96,
-    "tekst": "Wszystko będzie dobrze."
-  },
-  {
-    "dzien": 97,
-    "tekst": "Nie chwal dnia przed zachodem."
-  },
-  {
-    "dzien": 98,
-    "tekst": "Słońce wstaje, humor daje."
-  },
-  {
-    "dzien": 99,
-    "tekst": "Wlazł kotek na płotek."
-  },
-  {
-    "dzien": 100,
-    "tekst": "Zielono mi i spokojnie."
-  },
-  {
-    "dzien": 101,
-    "tekst": "Alergia pyli, nos się myli."
-  },
-  {
-    "dzien": 102,
-    "tekst": "Nie daj się zwariować."
-  },
-  {
-    "dzien": 103,
-    "tekst": "Patrz pod nogi, rosną kwiatki."
-  },
-  {
-    "dzien": 104,
-    "tekst": "Czas to pieniądz."
-  },
-  {
-    "dzien": 105,
-    "tekst": "Siej, a będziesz zbierał."
-  },
-  {
-    "dzien": 106,
-    "tekst": "Obudź się, niedźwiedziu!"
-  },
-  {
-    "dzien": 107,
-    "tekst": "Spokój ducha to siła."
-  },
-  {
-    "dzien": 108,
-    "tekst": "Słuchaj serca."
-  },
-  {
-    "dzien": 109,
-    "tekst": "Cierpliwość popłaca."
-  },
-  {
-    "dzien": 110,
-    "tekst": "Czas to pieniądz."
-  },
-  {
-    "dzien": 111,
-    "tekst": "W maju jak w gaju."
-  },
-  {
-    "dzien": 112,
-    "tekst": "W marcu jak w garncu."
-  },
-  {
-    "dzien": 113,
-    "tekst": "Nie daj się zwariować."
-  },
-  {
-    "dzien": 114,
-    "tekst": "Maj to raj dla serca."
-  },
-  {
-    "dzien": 115,
-    "tekst": "Alergia pyli, nos się myli."
-  },
-  {
-    "dzien": 116,
-    "tekst": "Dzień dłuższy, uśmiech szerszy."
-  },
-  {
-    "dzien": 117,
-    "tekst": "Rower z kurzu odświeżamy."
-  },
-  {
-    "dzien": 118,
-    "tekst": "Ptaszki ćwierkają nowiny."
-  },
-  {
-    "dzien": 119,
-    "tekst": "Kwiecień plecień, co przeplata."
-  },
-  {
-    "dzien": 120,
-    "tekst": "Zimne noce, ciepłe dni."
-  },
-  {
-    "dzien": 121,
-    "tekst": "W zdrowym ciele zdrowy duch."
-  },
-  {
-    "dzien": 122,
-    "tekst": "Milczenie jest złotem."
-  },
-  {
-    "dzien": 123,
-    "tekst": "Gdzie kucharek sześć..."
-  },
-  {
-    "dzien": 124,
-    "tekst": "Szczęście sprzyja lepszym."
-  },
-  {
-    "dzien": 125,
-    "tekst": "Nie chwal dnia przed zachodem."
-  },
-  {
-    "dzien": 126,
-    "tekst": "Dziś jest twój dzień."
-  },
-  {
-    "dzien": 127,
-    "tekst": "Mowa jest srebrem."
-  },
-  {
-    "dzien": 128,
-    "tekst": "Pąki na drzewach, śpiew na ustach."
-  },
-  {
-    "dzien": 129,
-    "tekst": "Bez pracy nie ma kołaczy."
-  },
-  {
-    "dzien": 130,
-    "tekst": "Carpe Diem."
-  },
-  {
-    "dzien": 131,
-    "tekst": "Bez pracy nie ma kołaczy."
-  },
-  {
-    "dzien": 132,
-    "tekst": "Jutro też zaświeci słońce."
-  },
-  {
-    "dzien": 133,
-    "tekst": "Jaskółka wiosnę czyni."
-  },
-  {
-    "dzien": 134,
-    "tekst": "Dzień dłuższy, uśmiech szerszy."
-  },
-  {
-    "dzien": 135,
-    "tekst": "Oddychaj głęboko."
-  },
-  {
-    "dzien": 136,
-    "tekst": "Słońce wstaje, humor daje."
-  },
-  {
-    "dzien": 137,
-    "tekst": "Zielono mi i spokojnie."
-  },
-  {
-    "dzien": 138,
-    "tekst": "Marzanna utopiona, zima skończona."
-  },
-  {
-    "dzien": 139,
-    "tekst": "Nowy start, nowa energia."
-  },
-  {
-    "dzien": 140,
-    "tekst": "Apetyt rośnie w miarę jedzenia."
-  },
-  {
-    "dzien": 141,
-    "tekst": "Wiosenne porządki w głowie."
-  },
-  {
-    "dzien": 142,
-    "tekst": "Po burzy zawsze słońce."
-  },
-  {
-    "dzien": 143,
-    "tekst": "Patrz w gwiazdy."
-  },
-  {
-    "dzien": 144,
-    "tekst": "Ptaszki ćwierkają nowiny."
-  },
-  {
-    "dzien": 145,
-    "tekst": "Kwiecień plecień, co przeplata."
-  },
-  {
-    "dzien": 146,
-    "tekst": "Zapomniał wół jak cielęciem był."
-  },
-  {
-    "dzien": 147,
-    "tekst": "Wlazł kotek na płotek."
-  },
-  {
-    "dzien": 148,
-    "tekst": "Wszystko będzie dobrze."
-  },
-  {
-    "dzien": 149,
-    "tekst": "Kwiecień plecień, co przeplata."
-  },
-  {
-    "dzien": 150,
-    "tekst": "Jesteś super!"
-  },
-  {
-    "dzien": 151,
-    "tekst": "Słuchaj serca."
-  },
-  {
-    "dzien": 152,
-    "tekst": "Klapki na nogi, w drogę!"
-  },
-  {
-    "dzien": 153,
-    "tekst": "Milczenie jest złotem."
-  },
-  {
-    "dzien": 154,
-    "tekst": "Gwiazdy spadają, życzenia spełniają."
-  },
-  {
-    "dzien": 155,
-    "tekst": "Rób swoje."
-  },
-  {
-    "dzien": 156,
-    "tekst": "Śmiech to zdrowie."
-  },
-  {
-    "dzien": 157,
-    "tekst": "Komar tnie, a ty nie."
-  },
-  {
-    "dzien": 158,
-    "tekst": "Wakacje to stan umysłu."
-  },
-  {
-    "dzien": 159,
-    "tekst": "Jak Kuba Bogu, tak Bóg Kubie."
-  },
-  {
-    "dzien": 160,
-    "tekst": "Leniwy dzień to dobry dzień."
-  },
-  {
-    "dzien": 161,
-    "tekst": "Upał zelżał, żyć się da."
-  },
-  {
-    "dzien": 162,
-    "tekst": "Wdech i wydech."
-  },
-  {
-    "dzien": 163,
-    "tekst": "Zadzwoń do mamy."
-  },
-  {
-    "dzien": 164,
-    "tekst": "Nie chwal dnia przed zachodem."
-  },
-  {
-    "dzien": 165,
-    "tekst": "Patrz pod nogi."
-  },
-  {
-    "dzien": 166,
-    "tekst": "Rób swoje."
-  },
-  {
-    "dzien": 167,
-    "tekst": "Patrz pod nogi."
-  },
-  {
-    "dzien": 168,
-    "tekst": "Lato mija, wspomnień kupa."
-  },
-  {
-    "dzien": 169,
-    "tekst": "Dobra mina do złej gry."
-  },
-  {
-    "dzien": 170,
-    "tekst": "Kto pyta nie błądzi."
-  },
-  {
-    "dzien": 171,
-    "tekst": "Nie spać, zwiedzać!"
-  },
-  {
-    "dzien": 172,
-    "tekst": "Lato mija, wspomnień kupa."
-  },
-  {
-    "dzien": 173,
-    "tekst": "Oddychaj głęboko."
-  },
-  {
-    "dzien": 174,
-    "tekst": "Jagody barwią brody."
-  },
-  {
-    "dzien": 175,
-    "tekst": "Grill odpalony, sąsiad zadowolony."
-  },
-  {
-    "dzien": 176,
-    "tekst": "Lipiec parzy, rolnik marzy."
-  },
-  {
-    "dzien": 177,
-    "tekst": "Oddychaj głęboko."
-  },
-  {
-    "dzien": 178,
-    "tekst": "Złap trochę witaminy D."
-  },
-  {
-    "dzien": 179,
-    "tekst": "Burza latem szybko mija."
-  },
-  {
-    "dzien": 180,
-    "tekst": "Słońce praży, plaża marzy."
-  },
-  {
-    "dzien": 181,
-    "tekst": "Komar tnie, a ty nie."
-  },
-  {
-    "dzien": 182,
-    "tekst": "Mowa jest srebrem."
-  },
-  {
-    "dzien": 183,
-    "tekst": "Jagody barwią brody."
-  },
-  {
-    "dzien": 184,
-    "tekst": "Korzystaj z słońca rozważnie."
-  },
-  {
-    "dzien": 185,
-    "tekst": "Dobra mina do złej gry."
-  },
-  {
-    "dzien": 186,
-    "tekst": "Jak Kuba Bogu, tak Bóg Kubie."
-  },
-  {
-    "dzien": 187,
-    "tekst": "Słońce praży, plaża marzy."
-  },
-  {
-    "dzien": 188,
-    "tekst": "Jutro też zaświeci słońce."
-  },
-  {
-    "dzien": 189,
-    "tekst": "Bądź zmianą."
-  },
-  {
-    "dzien": 190,
-    "tekst": "Jutro też zaświeci słońce."
-  },
-  {
-    "dzien": 191,
-    "tekst": "Nie spać, zwiedzać!"
-  },
-  {
-    "dzien": 192,
-    "tekst": "Słuchaj serca."
-  },
-  {
-    "dzien": 193,
-    "tekst": "Działaj, nie narzekaj."
-  },
-  {
-    "dzien": 194,
-    "tekst": "Zapomniał wół jak cielęciem był."
-  },
-  {
-    "dzien": 195,
-    "tekst": "Jagody barwią brody."
-  },
-  {
-    "dzien": 196,
-    "tekst": "Sierpień spiekota, większa ochota."
-  },
-  {
-    "dzien": 197,
-    "tekst": "Milczenie jest złotem."
-  },
-  {
-    "dzien": 198,
-    "tekst": "W zdrowym ciele zdrowy duch."
-  },
-  {
-    "dzien": 199,
-    "tekst": "Nie daj się zwariować."
-  },
-  {
-    "dzien": 200,
-    "tekst": "Prawdziwych przyjaciół poznasz."
-  },
-  {
-    "dzien": 201,
-    "tekst": "Nie taki diabeł straszny."
-  },
-  {
-    "dzien": 202,
-    "tekst": "Jagody barwią brody."
-  },
-  {
-    "dzien": 203,
-    "tekst": "Słonecznik głowę skłania."
-  },
-  {
-    "dzien": 204,
-    "tekst": "Dziś zrób coś miłego."
-  },
-  {
-    "dzien": 205,
-    "tekst": "Wlazł kotek na płotek."
-  },
-  {
-    "dzien": 206,
-    "tekst": "Woda, piasek, las."
-  },
-  {
-    "dzien": 207,
-    "tekst": "Odpocznij, jutro też jest dzień."
-  },
-  {
-    "dzien": 208,
-    "tekst": "Mały krok to też krok."
-  },
-  {
-    "dzien": 209,
-    "tekst": "Milczenie jest złotem."
-  },
-  {
-    "dzien": 210,
-    "tekst": "Dziś jest twój dzień."
-  },
-  {
-    "dzien": 211,
-    "tekst": "Złap trochę witaminy D."
-  },
-  {
-    "dzien": 212,
-    "tekst": "Trafiła kosa na kamień."
-  },
-  {
-    "dzien": 213,
-    "tekst": "Gwiazdy spadają, życzenia spełniają."
-  },
-  {
-    "dzien": 214,
-    "tekst": "Cierpliwość popłaca."
-  },
-  {
-    "dzien": 215,
-    "tekst": "Nie spać, zwiedzać!"
-  },
-  {
-    "dzien": 216,
-    "tekst": "Klapki na nogi, w drogę!"
-  },
-  {
-    "dzien": 217,
-    "tekst": "Złap trochę witaminy D."
-  },
-  {
-    "dzien": 218,
-    "tekst": "Leniwy dzień to dobry dzień."
-  },
-  {
-    "dzien": 219,
-    "tekst": "Nie taki diabeł straszny."
-  },
-  {
-    "dzien": 220,
-    "tekst": "Lato w mieście też jest ok."
-  },
-  {
-    "dzien": 221,
-    "tekst": "Co nagle to po diable."
-  },
-  {
-    "dzien": 222,
-    "tekst": "Grill odpalony, sąsiad zadowolony."
-  },
-  {
-    "dzien": 223,
-    "tekst": "Patrz pod nogi."
-  },
-  {
-    "dzien": 224,
-    "tekst": "Jagody barwią brody."
-  },
-  {
-    "dzien": 225,
-    "tekst": "Mowa jest srebrem."
-  },
-  {
-    "dzien": 226,
-    "tekst": "Prawdziwych przyjaciół poznasz."
-  },
-  {
-    "dzien": 227,
-    "tekst": "Upał zelżał, żyć się da."
-  },
-  {
-    "dzien": 228,
-    "tekst": "W zdrowym ciele zdrowy duch."
-  },
-  {
-    "dzien": 229,
-    "tekst": "Wakacje to stan umysłu."
-  },
-  {
-    "dzien": 230,
-    "tekst": "Lepiej późno niż wcale."
-  },
-  {
-    "dzien": 231,
-    "tekst": "Jagody barwią brody."
-  },
-  {
-    "dzien": 232,
-    "tekst": "Lato czeka, czas ucieka."
-  },
-  {
-    "dzien": 233,
-    "tekst": "Dobrego dnia!"
-  },
-  {
-    "dzien": 234,
-    "tekst": "Lato czeka, czas ucieka."
-  },
-  {
-    "dzien": 235,
-    "tekst": "Cierpliwość popłaca."
-  },
-  {
-    "dzien": 236,
-    "tekst": "Jagody barwią brody."
-  },
-  {
-    "dzien": 237,
-    "tekst": "Jagody barwią brody."
-  },
-  {
-    "dzien": 238,
-    "tekst": "Ucz się na błędach."
-  },
-  {
-    "dzien": 239,
-    "tekst": "Niedaleko pada jabłko."
-  },
-  {
-    "dzien": 240,
-    "tekst": "Sierpień spiekota, większa ochota."
-  },
-  {
-    "dzien": 241,
-    "tekst": "Mały krok to też krok."
-  },
-  {
-    "dzien": 242,
-    "tekst": "Głowa do góry."
-  },
-  {
-    "dzien": 243,
-    "tekst": "Rób swoje."
-  },
-  {
-    "dzien": 244,
-    "tekst": "Byle do świąt."
-  },
-  {
-    "dzien": 245,
-    "tekst": "Nie odkładaj na jutro."
-  },
-  {
-    "dzien": 246,
-    "tekst": "Złota polska jesień."
-  },
-  {
-    "dzien": 247,
-    "tekst": "Deszcz pada, trudna rada."
-  },
-  {
-    "dzien": 248,
-    "tekst": "Wypij szklankę wody."
-  },
-  {
-    "dzien": 249,
-    "tekst": "Babie lato nitki przędzie."
-  },
-  {
-    "dzien": 250,
-    "tekst": "Zadzwoń do mamy."
-  },
-  {
-    "dzien": 251,
-    "tekst": "Skarpetki wełniane wróciły."
-  },
-  {
-    "dzien": 252,
-    "tekst": "Zapomniał wół jak cielęciem był."
-  },
-  {
-    "dzien": 253,
-    "tekst": "Bądź zmianą."
-  },
-  {
-    "dzien": 254,
-    "tekst": "Kłamstwo ma krótkie nogi."
-  },
-  {
-    "dzien": 255,
-    "tekst": "Mgła rano, słońce w południe."
-  },
-  {
-    "dzien": 256,
-    "tekst": "Patrz pod nogi."
-  },
-  {
-    "dzien": 257,
-    "tekst": "Kawa czy herbata?"
-  },
-  {
-    "dzien": 258,
-    "tekst": "Kalosze to podstawa mody."
-  },
-  {
-    "dzien": 259,
-    "tekst": "Kocyk, film i spokój."
-  },
-  {
-    "dzien": 260,
-    "tekst": "Byle do świąt."
-  },
-  {
-    "dzien": 261,
-    "tekst": "Zbieraj siły na zimę."
-  },
-  {
-    "dzien": 262,
-    "tekst": "Ucz się na błędach."
-  },
-  {
-    "dzien": 263,
-    "tekst": "Byle do świąt."
-  },
-  {
-    "dzien": 264,
-    "tekst": "Śpiesz się powoli."
-  },
-  {
-    "dzien": 265,
-    "tekst": "Deszcz pada, trudna rada."
-  },
-  {
-    "dzien": 266,
-    "tekst": "Prawdziwych przyjaciół poznasz."
-  },
-  {
-    "dzien": 267,
-    "tekst": "Spadły liście, oczywiście."
-  },
-  {
-    "dzien": 268,
-    "tekst": "Dynia nie tylko na zupę."
-  },
-  {
-    "dzien": 269,
-    "tekst": "Cierpliwość popłaca."
-  },
-  {
-    "dzien": 270,
-    "tekst": "Parasol noś przy sobie."
-  },
-  {
-    "dzien": 271,
-    "tekst": "Słuchaj serca."
-  },
-  {
-    "dzien": 272,
-    "tekst": "Herbata z miodem leczy."
-  },
-  {
-    "dzien": 273,
-    "tekst": "Ucz się na błędach."
-  },
-  {
-    "dzien": 274,
-    "tekst": "Dynia nie tylko na zupę."
-  },
-  {
-    "dzien": 275,
-    "tekst": "Apetyt rośnie w miarę jedzenia."
-  },
-  {
-    "dzien": 276,
-    "tekst": "Kasztany lecą na głowy."
-  },
-  {
-    "dzien": 277,
-    "tekst": "Co dwie głowy to nie jedna."
-  },
-  {
-    "dzien": 278,
-    "tekst": "Żyj chwilą."
-  },
-  {
-    "dzien": 279,
-    "tekst": "Spokój ducha to siła."
-  },
-  {
-    "dzien": 280,
-    "tekst": "Jesienna depresja? Nie daj się!"
-  },
-  {
-    "dzien": 281,
-    "tekst": "Zbieraj siły na zimę."
-  },
-  {
-    "dzien": 282,
-    "tekst": "Dobrego dnia!"
-  },
-  {
-    "dzien": 283,
-    "tekst": "...tam nie ma co jeść."
-  },
-  {
-    "dzien": 284,
-    "tekst": "Chłodny wiatr, ciepły dom."
-  },
-  {
-    "dzien": 285,
-    "tekst": "Wlazł kotek na płotek."
-  },
-  {
-    "dzien": 286,
-    "tekst": "Herbata z miodem leczy."
-  },
-  {
-    "dzien": 287,
-    "tekst": "Zbieraj siły na zimę."
-  },
-  {
-    "dzien": 288,
-    "tekst": "Milczenie jest złotem."
-  },
-  {
-    "dzien": 289,
-    "tekst": "Herbata z miodem leczy."
-  },
-  {
-    "dzien": 290,
-    "tekst": "Milczenie jest złotem."
-  },
-  {
-    "dzien": 291,
-    "tekst": "Oderwij wzrok od ekranu."
-  },
-  {
-    "dzien": 292,
-    "tekst": "Listopad to mały luty."
-  },
-  {
-    "dzien": 293,
-    "tekst": "Długie wieczory z książką."
-  },
-  {
-    "dzien": 294,
-    "tekst": "Wrzesień, jeszcze w lesie."
-  },
-  {
-    "dzien": 295,
-    "tekst": "Kalosze to podstawa mody."
-  },
-  {
-    "dzien": 296,
-    "tekst": "Skarpetki wełniane wróciły."
-  },
-  {
-    "dzien": 297,
-    "tekst": "Spadły liście, oczywiście."
-  },
-  {
-    "dzien": 298,
-    "tekst": "Działaj, nie narzekaj."
-  },
-  {
-    "dzien": 299,
-    "tekst": "Jesień idzie, nie ma na to rady."
-  },
-  {
-    "dzien": 300,
-    "tekst": "Jutro też zaświeci słońce."
-  },
-  {
-    "dzien": 301,
-    "tekst": "Spadły liście, oczywiście."
-  },
-  {
-    "dzien": 302,
-    "tekst": "Prawdziwych przyjaciół poznasz."
-  },
-  {
-    "dzien": 303,
-    "tekst": "W zdrowym ciele zdrowy duch."
-  },
-  {
-    "dzien": 304,
-    "tekst": "Wrzesień, jeszcze w lesie."
-  },
-  {
-    "dzien": 305,
-    "tekst": "Kocyk, film i spokój."
-  },
-  {
-    "dzien": 306,
-    "tekst": "Babie lato nitki przędzie."
-  },
-  {
-    "dzien": 307,
-    "tekst": "Zadzwoń do mamy."
-  },
-  {
-    "dzien": 308,
-    "tekst": "Wypij szklankę wody."
-  },
-  {
-    "dzien": 309,
-    "tekst": "Spadły liście, oczywiście."
-  },
-  {
-    "dzien": 310,
-    "tekst": "Kasztany lecą na głowy."
-  },
-  {
-    "dzien": 311,
-    "tekst": "Dobrego dnia!"
-  },
-  {
-    "dzien": 312,
-    "tekst": "Czas to pieniądz."
-  },
-  {
-    "dzien": 313,
-    "tekst": "Jesień idzie, nie ma na to rady."
-  },
-  {
-    "dzien": 314,
-    "tekst": "Zapomniał wół jak cielęciem był."
-  },
-  {
-    "dzien": 315,
-    "tekst": "Jesteś super!"
-  },
-  {
-    "dzien": 316,
-    "tekst": "Jarzębina czerwona."
-  },
-  {
-    "dzien": 317,
-    "tekst": "Nie chwal dnia przed zachodem."
-  },
-  {
-    "dzien": 318,
-    "tekst": "...tam nie ma co jeść."
-  },
-  {
-    "dzien": 319,
-    "tekst": "Spadły liście, oczywiście."
-  },
-  {
-    "dzien": 320,
-    "tekst": "Zadzwoń do mamy."
-  },
-  {
-    "dzien": 321,
-    "tekst": "Mgła rano, słońce w południe."
-  },
-  {
-    "dzien": 322,
-    "tekst": "Kalosze to podstawa mody."
-  },
-  {
-    "dzien": 323,
-    "tekst": "Bądź zmianą."
-  },
-  {
-    "dzien": 324,
-    "tekst": "Spadły liście, oczywiście."
-  },
-  {
-    "dzien": 325,
-    "tekst": "Nie taki diabeł straszny."
-  },
-  {
-    "dzien": 326,
-    "tekst": "Byle do świąt."
-  },
-  {
-    "dzien": 327,
-    "tekst": "Żyj chwilą."
-  },
-  {
-    "dzien": 328,
-    "tekst": "Ostatnie promienie słońca."
-  },
-  {
-    "dzien": 329,
-    "tekst": "Byle do świąt."
-  },
-  {
-    "dzien": 330,
-    "tekst": "Kasztany lecą na głowy."
-  },
-  {
-    "dzien": 331,
-    "tekst": "Nie martw się na zapas."
-  },
-  {
-    "dzien": 332,
-    "tekst": "Czas to pieniądz."
-  },
-  {
-    "dzien": 333,
-    "tekst": "Dobrego dnia!"
-  },
-  {
-    "dzien": 334,
-    "tekst": "Dynia nie tylko na zupę."
-  },
-  {
-    "dzien": 335,
-    "tekst": "Luty, byle do wiosny skróty."
-  },
-  {
-    "dzien": 336,
-    "tekst": "Zima mrozi, nosy chłodzi."
-  },
-  {
-    "dzien": 337,
-    "tekst": "Dobrego dnia!"
-  },
-  {
-    "dzien": 338,
-    "tekst": "Grzejnik twym przyjacielem."
-  },
-  {
-    "dzien": 339,
-    "tekst": "Zimno wszędzie, co to będzie?"
-  },
-  {
-    "dzien": 340,
-    "tekst": "Zrób to teraz."
-  },
-  {
-    "dzien": 341,
-    "tekst": "Szalik noś, na złość mrozom."
-  },
-  {
-    "dzien": 342,
-    "tekst": "Zadzwoń do mamy."
-  },
-  {
-    "dzien": 343,
-    "tekst": "Rób swoje."
-  },
-  {
-    "dzien": 344,
-    "tekst": "Co ma wisieć nie utonie."
-  },
-  {
-    "dzien": 345,
-    "tekst": "Ciepła kawa to podstawa."
-  },
-  {
-    "dzien": 346,
-    "tekst": "Gdzie kucharek sześć..."
-  },
-  {
-    "dzien": 347,
-    "tekst": "Rękawiczki to nie wstyd."
-  },
-  {
-    "dzien": 348,
-    "tekst": "Zima to stan umysłu."
-  },
-  {
-    "dzien": 349,
-    "tekst": "Po burzy zawsze słońce."
-  },
-  {
-    "dzien": 350,
-    "tekst": "Śnieg za oknem, koc na nogach."
-  },
-  {
-    "dzien": 351,
-    "tekst": "Szalik noś, na złość mrozom."
-  },
-  {
-    "dzien": 352,
-    "tekst": "Mrugnij dwa razy."
-  },
-  {
-    "dzien": 353,
-    "tekst": "Grudzień krótki, długie smutki?"
-  },
-  {
-    "dzien": 354,
-    "tekst": "Zimowy sen? Nie dla nas!"
-  },
-  {
-    "dzien": 355,
-    "tekst": "Czas to pieniądz."
-  },
-  {
-    "dzien": 356,
-    "tekst": "Oderwij wzrok od ekranu."
-  },
-  {
-    "dzien": 357,
-    "tekst": "Dla chcącego nic trudnego."
-  },
-  {
-    "dzien": 358,
-    "tekst": "Byle do wiosny!"
-  },
-  {
-    "dzien": 359,
-    "tekst": "Kto pyta nie błądzi."
-  },
-  {
-    "dzien": 360,
-    "tekst": "Mróz maluje szyby w kwiaty."
-  },
-  {
-    "dzien": 361,
-    "tekst": "Zimowa herbata ratuje świata."
-  },
-  {
-    "dzien": 362,
-    "tekst": "Kto się hartuje, nie choruje."
-  },
-  {
-    "dzien": 363,
-    "tekst": "Kłamstwo ma krótkie nogi."
-  },
-  {
-    "dzien": 364,
-    "tekst": "Byle do wiosny!"
-  },
-  {
-    "dzien": 365,
-    "tekst": "Ucz się na błędach."
-  },
-  {
-    "dzien": 366,
-    "tekst": "...tam nie ma co jeść."
-  }
-
+  { "dzien": 1, "tekst": "Nowy Rok – nowa karta w księdze życia." },
+  { "dzien": 2, "tekst": "Odespałeś już Sylwestra?" },
+  { "dzien": 3, "tekst": "Zacznij realizować postanowienia." },
+  { "dzien": 4, "tekst": "Zima trzyma, ciepło się ubierz." },
+  { "dzien": 5, "tekst": "Wieczór z gorącą herbatą to luksus." },
+  { "dzien": 6, "tekst": "Trzech Króli – czas na kredę na drzwiach." },
+  { "dzien": 7, "tekst": "Karnawał rozpoczęty, baw się!" },
+  { "dzien": 8, "tekst": "Zimowe słońce bywa zdradliwe." },
+  { "dzien": 9, "tekst": "Dokarmiaj ptaki, zima im doskwiera." },
+  { "dzien": 10, "tekst": "Dzień krótki, ale plany mogą być wielkie." },
+  { "dzien": 11, "tekst": "Uśmiech rozgrzewa lepiej niż szalik." },
+  { "dzien": 12, "tekst": "Szron na szybach to sztuka natury." },
+  { "dzien": 13, "tekst": "Nie daj się zimowej chandrze." },
+  { "dzien": 14, "tekst": "Dziś jest dobry dzień na dobrą kawę." },
+  { "dzien": 15, "tekst": "Połowa stycznia za nami." },
+  { "dzien": 16, "tekst": "Błękitne niebo zimą zwiastuje mróz." },
+  { "dzien": 17, "tekst": "Opony zimowe to podstawa bezpieczeństwa." },
+  { "dzien": 18, "tekst": "Dzień Kubusia Puchatka – zjedz coś słodkiego." },
+  { "dzien": 19, "tekst": "Śnieg skrzypi pod butami?" },
+  { "dzien": 20, "tekst": "Zadzwoń do kogoś bliskiego bez okazji." },
+  { "dzien": 21, "tekst": "Dzień Babci – pamiętaj o życzeniach!" },
+  { "dzien": 22, "tekst": "Dzień Dziadka – dziadek też czeka na telefon." },
+  { "dzien": 23, "tekst": "Najlepszy czas na czytanie książek." },
+  { "dzien": 24, "tekst": "Cierpliwość jest cnotą." },
+  { "dzien": 25, "tekst": "Zrób listę marzeń na ten rok." },
+  { "dzien": 26, "tekst": "Zimowy spacer dotlenia umysł." },
+  { "dzien": 27, "tekst": "Pamiętaj o witaminie D." },
+  { "dzien": 28, "tekst": "Jeszcze trochę i dzień będzie dłuższy." },
+  { "dzien": 29, "tekst": "Mróz szczypie w policzki." },
+  { "dzien": 30, "tekst": "Zadbaj o swoje zdrowie." },
+  { "dzien": 31, "tekst": "Styczeń mija, zima zostaje." },
+  { "dzien": 32, "tekst": "Luty – podkuj buty." },
+  { "dzien": 33, "tekst": "Dzień Pozytywnego Myślenia." },
+  { "dzien": 34, "tekst": "Zimno hartuje charakter." },
+  { "dzien": 35, "tekst": "Dziś warto zrobić coś miłego." },
+  { "dzien": 36, "tekst": "Dzień Nutelli – smacznego!" },
+  { "dzien": 37, "tekst": "Luty bywa mroźny, ale serca gorące." },
+  { "dzien": 38, "tekst": "Tęsknisz już za wiosną?" },
+  { "dzien": 39, "tekst": "Czapka to nie wstyd, to rozsądek." },
+  { "dzien": 40, "tekst": "Dzień Pizzy – wiesz co robić." },
+  { "dzien": 41, "tekst": "Zimowe wieczory sprzyjają refleksji." },
+  { "dzien": 42, "tekst": "Pomagaj innym, dobro wraca." },
+  { "dzien": 43, "tekst": "Przygotuj się na Walentynki." },
+  { "dzien": 44, "tekst": "Światowy Dzień Radia." },
+  { "dzien": 45, "tekst": "Walentynki – kochaj i bądź kochany." },
+  { "dzien": 46, "tekst": "Dzień Singla – też można świętować." },
+  { "dzien": 47, "tekst": "Zima powoli pakuje walizki." },
+  { "dzien": 48, "tekst": "Dzień Kota – pogłaszcz mruczka." },
+  { "dzien": 49, "tekst": "Baterie naładowane?" },
+  { "dzien": 50, "tekst": "Dzień Nauki Polskiej." },
+  { "dzien": 51, "tekst": "Luty krótki, wiosna blisko." },
+  { "dzien": 52, "tekst": "Język ojczysty to nasz skarb." },
+  { "dzien": 53, "tekst": "Dzień Myśli Braterskiej." },
+  { "dzien": 54, "tekst": "Walka z depresją – bądź uważny na innych." },
+  { "dzien": 55, "tekst": "Niespodziewany całus? Czemu nie." },
+  { "dzien": 56, "tekst": "Koniec lutego tuż tuż." },
+  { "dzien": 57, "tekst": "Dzień Dinozaura – Rrrraaa!" },
+  { "dzien": 58, "tekst": "Wytrzymaj, zaraz marzec." },
+  { "dzien": 59, "tekst": "Ostatni dzień lutego (zwykle)." },
+  { "dzien": 60, "tekst": "Rok przestępny – masz dodatkowy dzień!" },
+  { "dzien": 61, "tekst": "Marzec – w marcu jak w garncu." },
+  { "dzien": 62, "tekst": "Dzień Starej Książki – poczytaj." },
+  { "dzien": 63, "tekst": "Szukaj pierwszych oznak wiosny." },
+  { "dzien": 64, "tekst": "Nie zapomnij o śniadaniu." },
+  { "dzien": 65, "tekst": "Dzień Teściowej – zadzwoń!" },
+  { "dzien": 66, "tekst": "Czysty stół, czysta głowa." },
+  { "dzien": 67, "tekst": "Wiosna wisi w powietrzu." },
+  { "dzien": 68, "tekst": "Dzień Kobiet – kwiaty obowiązkowe!" },
+  { "dzien": 69, "tekst": "Wszystkiego najlepszego dla Pań." },
+  { "dzien": 70, "tekst": "Dzień Mężczyzn – też ważny!" },
+  { "dzien": 71, "tekst": "Dzień Sołtysa – szacunek dla wsi." },
+  { "dzien": 72, "tekst": "Drzemka w pracy? Dziś można (teoretycznie)." },
+  { "dzien": 73, "tekst": "Szczęście sprzyja przygotowanym." },
+  { "dzien": 74, "tekst": "Dzień Liczby Pi – 3.14..." },
+  { "dzien": 75, "tekst": "Uważaj na marcowe roztopy." },
+  { "dzien": 76, "tekst": "Dzień Pandy – bądź uroczy." },
+  { "dzien": 77, "tekst": "Dzień Św. Patryka – na zielono!" },
+  { "dzien": 78, "tekst": "Wyśpij się, jutro też jest dzień." },
+  { "dzien": 79, "tekst": "Dzień Wędkarza – taaaaka ryba." },
+  { "dzien": 80, "tekst": "Dzień Szczęścia – uśmiechnij się." },
+  { "dzien": 81, "tekst": "Dzień Wagarowicza – pamiętasz to?" },
+  { "dzien": 82, "tekst": "Światowy Dzień Wody – oszczędzaj." },
+  { "dzien": 83, "tekst": "Dzień Windy – schodami zdrowiej." },
+  { "dzien": 84, "tekst": "Coraz dłuższy dzień, cieszysz się?" },
+  { "dzien": 85, "tekst": "Czytanie Tolkiena to przygoda." },
+  { "dzien": 86, "tekst": "Dzień Janosika." },
+  { "dzien": 87, "tekst": "Teatr to magia na żywo." },
+  { "dzien": 88, "tekst": "Zmiana czasu na letni już blisko." },
+  { "dzien": 89, "tekst": "Dzień Metalowca." },
+  { "dzien": 90, "tekst": "Koniec marca, wiosna startuje." },
+  { "dzien": 91, "tekst": "Budyń na deser?" },
+  { "dzien": 92, "tekst": "Prima Aprilis – nie daj się nabrać!" },
+  { "dzien": 93, "tekst": "Kwiecień plecień, co przeplata." },
+  { "dzien": 94, "tekst": "Gdzieś tam musi być tęcza." },
+  { "dzien": 95, "tekst": "Dzień Marchewki – chrup na zdrowie." },
+  { "dzien": 96, "tekst": "Trochę słońca, trochę zimy." },
+  { "dzien": 97, "tekst": "Sport to zdrowie, ruszaj się." },
+  { "dzien": 98, "tekst": "Dbaj o zdrowie, masz tylko jedno." },
+  { "dzien": 99, "tekst": "Odwiedź Zoo, zwierzęta czekają." },
+  { "dzien": 100, "tekst": "Pieniądze szczęścia nie dają, ale..." },
+  { "dzien": 101, "tekst": "Dzień Rodzeństwa – zgoda buduje." },
+  { "dzien": 102, "tekst": "Radio gra, muzyka trwa." },
+  { "dzien": 103, "tekst": "Czyste okna to jaśniejszy świat." },
+  { "dzien": 104, "tekst": "Pamięć o historii jest ważna." },
+  { "dzien": 105, "tekst": "Patrz na świat jak artysta." },
+  { "dzien": 106, "tekst": "Sztuka jest wszędzie." },
+  { "dzien": 107, "tekst": "Włókniarze ubierają świat." },
+  { "dzien": 108, "tekst": "Dbaj o zabytki, to nasza historia." },
+  { "dzien": 109, "tekst": "Czosnek to naturalny antybiotyk." },
+  { "dzien": 110, "tekst": "Rower przygotowany do sezonu?" },
+  { "dzien": 111, "tekst": "Czas na herbatę, jak w Anglii." },
+  { "dzien": 112, "tekst": "Dzień Ziemi – segreguj śmieci." },
+  { "dzien": 113, "tekst": "Książka i róża – piękny zestaw." },
+  { "dzien": 114, "tekst": "Zwierzęta to nasi przyjaciele." },
+  { "dzien": 115, "tekst": "Pingwiny są eleganckie." },
+  { "dzien": 116, "tekst": "Chroń swoją własność intelektualną." },
+  { "dzien": 117, "tekst": "Grafik płakał jak projektował?" },
+  { "dzien": 118, "tekst": "BHP to podstawa." },
+  { "dzien": 119, "tekst": "Tańcz, jakby nikt nie patrzył." },
+  { "dzien": 120, "tekst": "Jazz to wolność w muzyce." },
+  { "dzien": 121, "tekst": "Święto Pracy – odpocznij solidnie." },
+  { "dzien": 122, "tekst": "Dzień Flagi – wywieś biało-czerwoną." },
+  { "dzien": 123, "tekst": "Witaj Maj, 3 Maj!" },
+  { "dzien": 124, "tekst": "Niech Moc będzie z Tobą (Dzień SW)." },
+  { "dzien": 125, "tekst": "Jesteś piękna bez makijażu." },
+  { "dzien": 126, "tekst": "Dziś dieta idzie w odstawkę." },
+  { "dzien": 127, "tekst": "Śmiech to zdrowie – śmiej się!" },
+  { "dzien": 128, "tekst": "Biblioteka to świątynia wiedzy." },
+  { "dzien": 129, "tekst": "Jesteśmy w Unii Europejskiej." },
+  { "dzien": 130, "tekst": "Szanuj zieleń miejską." },
+  { "dzien": 131, "tekst": "Nie śmieć w lesie!" },
+  { "dzien": 132, "tekst": "Szacunek dla pielęgniarek." },
+  { "dzien": 133, "tekst": "Hummus jest pyszny." },
+  { "dzien": 134, "tekst": "Farmaceuta wie co dobre." },
+  { "dzien": 135, "tekst": "Niezapominajki są urocze." },
+  { "dzien": 136, "tekst": "Kto zmywa naczynia?" },
+  { "dzien": 137, "tekst": "Bądź tolerancyjny." },
+  { "dzien": 138, "tekst": "Muzea uczą i bawią." },
+  { "dzien": 139, "tekst": "Zrób dobry uczynek." },
+  { "dzien": 140, "tekst": "Pszczoły dają nam życie." },
+  { "dzien": 141, "tekst": "Kosmos jest nieskończony." },
+  { "dzien": 142, "tekst": "Prawa zwierząt są ważne." },
+  { "dzien": 143, "tekst": "Dzień Żółwia – zwolnij tempo." },
+  { "dzien": 144, "tekst": "Masz brata? Zadzwoń do niego." },
+  { "dzien": 145, "tekst": "Ręcznik – najważniejsza rzecz w galaktyce." },
+  { "dzien": 146, "tekst": "Dzień Matki – ucałuj mamę." },
+  { "dzien": 147, "tekst": "Wspieraj lokalny samorząd." },
+  { "dzien": 148, "tekst": "Dzień Hamburgera – zaszalej." },
+  { "dzien": 149, "tekst": "Kultura wzbogaca." },
+  { "dzien": 150, "tekst": "Wietrzne majowe dni." },
+  { "dzien": 151, "tekst": "Rzuć palenie, warto." },
+  { "dzien": 152, "tekst": "Dzień Dziecka – lody dla każdego!" },
+  { "dzien": 153, "tekst": "Znasz swojego sąsiada?" },
+  { "dzien": 154, "tekst": "Rower to wolność." },
+  { "dzien": 155, "tekst": "Wolność to odpowiedzialność." },
+  { "dzien": 156, "tekst": "Chroń środowisko dla dzieci." },
+  { "dzien": 157, "tekst": "Dzień Yo-Yo – potrafisz?" },
+  { "dzien": 158, "tekst": "Chemia jest wszędzie." },
+  { "dzien": 159, "tekst": "Oceany to płuca ziemi." },
+  { "dzien": 160, "tekst": "Przyjaciel to skarb." },
+  { "dzien": 161, "tekst": "Bezpieczne granice." },
+  { "dzien": 162, "tekst": "Druty i włóczka relaksują." },
+  { "dzien": 163, "tekst": "Dzieciństwo powinno być beztroskie." },
+  { "dzien": 164, "tekst": "Kto czyta, żyje podwójnie." },
+  { "dzien": 165, "tekst": "Krew ratuje życie – oddaj ją." },
+  { "dzien": 166, "tekst": "Wiatr we włosach." },
+  { "dzien": 167, "tekst": "Dbaj o wodę, każda kropla cenna." },
+  { "dzien": 168, "tekst": "Sushi na obiad?" },
+  { "dzien": 169, "tekst": "Leniwe wstawanie jest super." },
+  { "dzien": 170, "tekst": "Najdłuższe dni w roku." },
+  { "dzien": 171, "tekst": "Deskorolka – poczuj wolność." },
+  { "dzien": 172, "tekst": "Kultura słowa." },
+  { "dzien": 173, "tekst": "Dzień Ojca – tata to bohater." },
+  { "dzien": 174, "tekst": "Przytulanie leczy duszę." },
+  { "dzien": 175, "tekst": "Morze wzywa marynarzy." },
+  { "dzien": 176, "tekst": "Żyj zdrowo bez używek." },
+  { "dzien": 177, "tekst": "Cukier krzepi? Niekoniecznie." },
+  { "dzien": 178, "tekst": "Pamięć o historii Poznania." },
+  { "dzien": 179, "tekst": "Bezpiecznie nad wodą." },
+  { "dzien": 180, "tekst": "Motyle są jak latające kwiaty." },
+  { "dzien": 181, "tekst": "Dzień Psa – daj mu smakołyk." },
+  { "dzien": 182, "tekst": "UFO? Patrz w niebo." },
+  { "dzien": 183, "tekst": "Torba wielorazowa zawsze przy sobie." },
+  { "dzien": 184, "tekst": "Hot-dog na stacji benzynowej?" },
+  { "dzien": 185, "tekst": "Lipiec, pełnia lata." },
+  { "dzien": 186, "tekst": "Światowy Dzień Pocałunku – cmok!" },
+  { "dzien": 187, "tekst": "Czekolada to warzywo (z ziarna kakaowca)." },
+  { "dzien": 188, "tekst": "Gry wideo to też sport." },
+  { "dzien": 189, "tekst": "Zmień trasę do pracy." },
+  { "dzien": 190, "tekst": "Wynalazki zmieniają świat." },
+  { "dzien": 191, "tekst": "Pamięć o historii jest ważna." },
+  { "dzien": 192, "tekst": "Frytki z keczupem czy majonezem?" },
+  { "dzien": 193, "tekst": "Dziś swobodny ubiór." },
+  { "dzien": 194, "tekst": "Wolność, Równość, Braterstwo." },
+  { "dzien": 195, "tekst": "Odłóż telefon, spójrz w oczy." },
+  { "dzien": 196, "tekst": "Węże są pożyteczne." },
+  { "dzien": 197, "tekst": "Emotikony mówią więcej niż słowa 😉" },
+  { "dzien": 198, "tekst": "Walcz o swoje prawa." },
+  { "dzien": 199, "tekst": "Uważaj w lesie na wilki." },
+  { "dzien": 200, "tekst": "Szachy – gimnastyka umysłu." },
+  { "dzien": 201, "tekst": "Lody dla ochłody." },
+  { "dzien": 202, "tekst": "Hamak to najlepsze łóżko." },
+  { "dzien": 203, "tekst": "Włóczykij ma rację." },
+  { "dzien": 204, "tekst": "Dzień Policjanta – bezpieczna służba." },
+  { "dzien": 205, "tekst": "Kierowco – noga z gazu." },
+  { "dzien": 206, "tekst": "Szanuj administratora sieci." },
+  { "dzien": 207, "tekst": "Samotność to czasem wybór." },
+  { "dzien": 208, "tekst": "Zdrowie jest najważniejsze." },
+  { "dzien": 209, "tekst": "Tygrysy są zagrożone." },
+  { "dzien": 210, "tekst": "Przyjaźń to magia." },
+  { "dzien": 211, "tekst": "Magia Harry'ego Pottera." },
+  { "dzien": 212, "tekst": "Powstanie Warszawskie – Godzina W." },
+  { "dzien": 213, "tekst": "Kolorowanki relaksują." },
+  { "dzien": 214, "tekst": "Arbuz to głównie woda." },
+  { "dzien": 215, "tekst": "Piwko z pianką?" },
+  { "dzien": 216, "tekst": "Ostrygi to afrodyzjak." },
+  { "dzien": 217, "tekst": "Musztarda po obiedzie?" },
+  { "dzien": 218, "tekst": "Latarnie morskie wskazują drogę." },
+  { "dzien": 219, "tekst": "Koty rządzą internetem." },
+  { "dzien": 220, "tekst": "Czytanie rozwija wyobraźnię." },
+  { "dzien": 221, "tekst": "Król Lew." },
+  { "dzien": 222, "tekst": "Stare budynki mają duszę." },
+  { "dzien": 223, "tekst": "Młodość to stan ducha." },
+  { "dzien": 224, "tekst": "Mańkut ma swoje święto." },
+  { "dzien": 225, "tekst": "Bez prądu ani rusz." },
+  { "dzien": 226, "tekst": "Święto Wojska Polskiego." },
+  { "dzien": 227, "tekst": "Lubisz Rollercoastery?" },
+  { "dzien": 228, "tekst": "Pozytywne zakręcenie." },
+  { "dzien": 229, "tekst": "Sernik z rodzynkami czy bez?" },
+  { "dzien": 230, "tekst": "Uśmiech do zdjęcia!" },
+  { "dzien": 231, "tekst": "Komar to wróg publiczny nr 1." },
+  { "dzien": 232, "tekst": "Optymizm ułatwia życie." },
+  { "dzien": 233, "tekst": "Ochroniarz czuwa." },
+  { "dzien": 234, "tekst": "Internet to okno na świat." },
+  { "dzien": 235, "tekst": "Pozdrowienia dla Ukrainy." },
+  { "dzien": 236, "tekst": "Buziak na zgodę." },
+  { "dzien": 237, "tekst": "Pies najlepszym przyjacielem człowieka." },
+  { "dzien": 238, "tekst": "Szacunek dla kierowców TIRów." },
+  { "dzien": 239, "tekst": "Komiksy to też sztuka." },
+  { "dzien": 240, "tekst": "Pokój na świecie jest bezcenny." },
+  { "dzien": 241, "tekst": "Taksówkarz zna miasto najlepiej." },
+  { "dzien": 242, "tekst": "Blogerzy mają głos." },
+  { "dzien": 243, "tekst": "Witaj szkoło! (albo i nie)." },
+  { "dzien": 244, "tekst": "W każdym dorosłym jest dziecko." },
+  { "dzien": 245, "tekst": "Wieżowce drapią chmury." },
+  { "dzien": 246, "tekst": "Orzechy są zdrowe dla mózgu." },
+  { "dzien": 247, "tekst": "Dobroczynność uszlachetnia." },
+  { "dzien": 248, "tekst": "Nie odkładaj na jutro." },
+  { "dzien": 249, "tekst": "Oddychaj czystym powietrzem." },
+  { "dzien": 250, "tekst": "Marzenia się spełniają." },
+  { "dzien": 251, "tekst": "Piękno jest w tobie." },
+  { "dzien": 252, "tekst": "Jesteś ważny, pamiętaj o tym." },
+  { "dzien": 253, "tekst": "Czołgiści to twardziele." },
+  { "dzien": 254, "tekst": "Kodowanie to język przyszłości." },
+  { "dzien": 255, "tekst": "Dzień Programisty – Hello World!" },
+  { "dzien": 256, "tekst": "Odpocznij, praca nie zając." },
+  { "dzien": 257, "tekst": "Demokracja to rządy ludu." },
+  { "dzien": 258, "tekst": "Chroń warstwę ozonową." },
+  { "dzien": 259, "tekst": "Pamięć o Sybirakach." },
+  { "dzien": 260, "tekst": "Kamienie milczą, ale pamiętają." },
+  { "dzien": 261, "tekst": "Aarrr! Dzień Pirata." },
+  { "dzien": 262, "tekst": "Przedszkolak to zuch." },
+  { "dzien": 263, "tekst": "Pokój zaczyna się od uśmiechu." },
+  { "dzien": 264, "tekst": "Zostaw samochód, idź piechotą." },
+  { "dzien": 265, "tekst": "Jesień – czas na herbatę." },
+  { "dzien": 266, "tekst": "Grzybobranie czas zacząć." },
+  { "dzien": 267, "tekst": "Budowlańcy budują nasz świat." },
+  { "dzien": 268, "tekst": "Ucz się języków obcych." },
+  { "dzien": 269, "tekst": "Podróże kształcą." },
+  { "dzien": 270, "tekst": "Wścieklizna jest groźna, szczep pupila." },
+  { "dzien": 271, "tekst": "Kawa – napój bogów." },
+  { "dzien": 272, "tekst": "Dzień Chłopaka – wszystkiego dobrego." },
+  { "dzien": 273, "tekst": "Szacunek dla seniorów." },
+  { "dzien": 274, "tekst": "Przemoc nie jest rozwiązaniem." },
+  { "dzien": 275, "tekst": "Uśmiech to najkrótsza droga do celu." },
+  { "dzien": 276, "tekst": "Zwierzęta czują tak jak my." },
+  { "dzien": 277, "tekst": "Nauczyciel to przewodnik." },
+  { "dzien": 278, "tekst": "Borsuk to nocny marek." },
+  { "dzien": 279, "tekst": "Masz fajnego chłopaka?" },
+  { "dzien": 280, "tekst": "Ośmiornica ma 3 serca." },
+  { "dzien": 281, "tekst": "Wyślij tradycyjny list." },
+  { "dzien": 282, "tekst": "Zadbaj o swoją głowę." },
+  { "dzien": 283, "tekst": "Dziewczyny mają moc." },
+  { "dzien": 284, "tekst": "Zaktualizuj antywirusa." },
+  { "dzien": 285, "tekst": "Wygoda przede wszystkim." },
+  { "dzien": 286, "tekst": "Dzień Nauczyciela – kwiaty na stół." },
+  { "dzien": 287, "tekst": "Czyste ręce to zdrowie." },
+  { "dzien": 288, "tekst": "Nie marnuj jedzenia." },
+  { "dzien": 289, "tekst": "Walka z ubóstwem to nasz obowiązek." },
+  { "dzien": 290, "tekst": "Listonosz puka dwa razy." },
+  { "dzien": 291, "tekst": "Ratownik medyczny ratuje życie." },
+  { "dzien": 292, "tekst": "Czasem warto być leniwcem." },
+  { "dzien": 293, "tekst": "Bez skarpetek, ale w butach?" },
+  { "dzien": 294, "tekst": "Zbierasz kapsle?" },
+  { "dzien": 295, "tekst": "Mol książkowy to komplement." },
+  { "dzien": 296, "tekst": "Origami uczy cierpliwości." },
+  { "dzien": 297, "tekst": "Kundelki są najwierniejsze." },
+  { "dzien": 298, "tekst": "Zwolnij na drodze." },
+  { "dzien": 299, "tekst": "Szanuj stare nagrania." },
+  { "dzien": 300, "tekst": "Odpocznij, zasłużyłeś." },
+  { "dzien": 301, "tekst": "Internet łączy ludzi." },
+  { "dzien": 302, "tekst": "Spódnica pasuje każdemu (Szkotom też)." },
+  { "dzien": 303, "tekst": "Halloween – cukierek albo psikus!" },
+  { "dzien": 304, "tekst": "Wszystkich Świętych – czas pamięci." },
+  { "dzien": 305, "tekst": "Dzień Zaduszny – zapal znicz." },
+  { "dzien": 306, "tekst": "Hubertus – święto myśliwych." },
+  { "dzien": 307, "tekst": "Tanie wino jest dobre, bo jest dobre." },
+  { "dzien": 308, "tekst": "Bajki uczą życia." },
+  { "dzien": 309, "tekst": "Saksofon ma duszę." },
+  { "dzien": 310, "tekst": "Schabowy z kapustą – klasyk." },
+  { "dzien": 311, "tekst": "Gotuj zdrowo." },
+  { "dzien": 312, "tekst": "Każdy wynalazek zaczyna się od idei." },
+  { "dzien": 313, "tekst": "Jeże już śpią." },
+  { "dzien": 314, "tekst": "Niepodległa Polska!" },
+  { "dzien": 315, "tekst": "Pobij swój rekord." },
+  { "dzien": 316, "tekst": "Pomagaj niewidomym." },
+  { "dzien": 317, "tekst": "Badaj poziom cukru." },
+  { "dzien": 318, "tekst": "Wolność słowa jest ważna." },
+  { "dzien": 319, "tekst": "Tolerancja buduje mosty." },
+  { "dzien": 320, "tekst": "Studenckie życie." },
+  { "dzien": 321, "tekst": "Myszka Miki ma urodziny." },
+  { "dzien": 322, "tekst": "Mężczyźni też płaczą." },
+  { "dzien": 323, "tekst": "Dziecko ma swoje prawa." },
+  { "dzien": 324, "tekst": "Bądź życzliwy dla innych." },
+  { "dzien": 325, "tekst": "Kredki w dłoń." },
+  { "dzien": 326, "tekst": "Ciąg Fibonacciego jest wszędzie." },
+  { "dzien": 327, "tekst": "Burak to samo zdrowie." },
+  { "dzien": 328, "tekst": "Miś pluszowy – przyjaciel dzieci." },
+  { "dzien": 329, "tekst": "Ciasto to radość." },
+  { "dzien": 330, "tekst": "Dzień bez zakupów – dasz radę?" },
+  { "dzien": 331, "tekst": "Pocałunek na zgodę." },
+  { "dzien": 332, "tekst": "Powstanie Listopadowe – pamiętamy." },
+  { "dzien": 333, "tekst": "Andrzejki – lej wosk przez klucz." },
+  { "dzien": 334, "tekst": "Grudzień – idą święta." },
+  { "dzien": 335, "tekst": "Wolność to brak niewolnictwa." },
+  { "dzien": 336, "tekst": "Niepełnosprawność nie wyklucza." },
+  { "dzien": 337, "tekst": "Barbórka – szacunek dla górników." },
+  { "dzien": 338, "tekst": "Wolontariat zmienia świat." },
+  { "dzien": 339, "tekst": "Mikołajki – byłeś grzeczny?" },
+  { "dzien": 340, "tekst": "Lataj bezpiecznie." },
+  { "dzien": 341, "tekst": "Kupiec nasz pan." },
+  { "dzien": 342, "tekst": "Korupcja niszczy państwo." },
+  { "dzien": 343, "tekst": "Prawa człowieka są niezbywalne." },
+  { "dzien": 344, "tekst": "Góry są piękne i groźne." },
+  { "dzien": 345, "tekst": "Zapnij ten guzik." },
+  { "dzien": 346, "tekst": "Książka to najlepszy prezent." },
+  { "dzien": 347, "tekst": "Małpie figle." },
+  { "dzien": 348, "tekst": "Herbata rozgrzewa w grudniu." },
+  { "dzien": 349, "tekst": "Czekolada jest dobra na wszystko." },
+  { "dzien": 350, "tekst": "Bez przekleństw, proszę." },
+  { "dzien": 351, "tekst": "Wszyscy jesteśmy migrantami na Ziemi." },
+  { "dzien": 352, "tekst": "Choinka wiecznie zielona." },
+  { "dzien": 353, "tekst": "Gry planszowe łączą pokolenia." },
+  { "dzien": 354, "tekst": "Najkrótszy dzień w roku." },
+  { "dzien": 355, "tekst": "Początek astronomicznej zimy." },
+  { "dzien": 356, "tekst": "Karp już pływa w wannie?" },
+  { "dzien": 357, "tekst": "Wigilia – czas pojednania." },
+  { "dzien": 358, "tekst": "Wesołych Świąt!" },
+  { "dzien": 359, "tekst": "Drugi dzień świąt – lenistwo." },
+  { "dzien": 360, "tekst": "Odpocznij po świętach." },
+  { "dzien": 361, "tekst": "Śnieżynki na języku." },
+  { "dzien": 362, "tekst": "Kości zostały rzucone." },
+  { "dzien": 363, "tekst": "Serek wiejski na śniadanie." },
+  { "dzien": 364, "tekst": "Podsumuj stary rok." },
+  { "dzien": 365, "tekst": "Sylwester – szampan się chłodzi?" },
+  { "dzien": 366, "tekst": "Szczęśliwego Nowego Roku!" }
 ]
