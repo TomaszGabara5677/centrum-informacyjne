@@ -149,9 +149,9 @@ const SWIETA_NIETYPOWE_BAZA = {
     '04-28': 'Dzień Sera Feta',
     '04-29': 'Międzynarodowy Dzień Tańca',
     '04-30': 'Międzynarodowy Dzień Jazzu',
-    '05-01': 'Święto Pracy',
+    /*'05-01': 'Święto Pracy',*//*Jest już w index.html*/
     '05-02': 'Dzień Flagi Rzeczypospolitej Polskiej',
-    '05-03': 'Święto Konstytucji 3 Maja',
+    /*'05-03': 'Święto Konstytucji 3 Maja',*//*Jest już w index.html*/
     '05-04': 'Dzień Gwiezdnych Wojen (May the 4th), Dzień Strażaka',
     '05-05': 'Dzień Bez Makijażu',
     '05-06': 'Międzynarodowy Dzień Bez Diety',
@@ -255,7 +255,7 @@ const SWIETA_NIETYPOWE_BAZA = {
     '08-12': 'Międzynarodowy Dzień Młodzieży',
     '08-13': 'Międzynarodowy Dzień Osób Leworęcznych',
     '08-14': 'Dzień Energetyka',
-    '08-15': 'Święto Wojska Polskiego',
+    /*'08-15': 'Święto Wojska Polskiego',*//*Jest już w index.html*/
     '08-16': 'Dzień Rollercoastera',
     '08-17': 'Dzień Pozytywnie Zakręconych',
     '08-18': 'Dzień Sernika',
@@ -343,7 +343,7 @@ const SWIETA_NIETYPOWE_BAZA = {
     '11-08': 'Europejski Dzień Zdrowego Jedzenia i Gotowania',
     '11-09': 'Dzień Wynalazcy',
     '11-10': 'Dzień Jeża',
-    '11-11': 'Narodowe Święto Niepodległości',
+    /*'11-11': 'Narodowe Święto Niepodległości',*//*Jest już w index.html*/
     '11-12': 'Dzień Bicia Rekordów',
     '11-13': 'Międzynarodowy Dzień Niewidomych',
     '11-14': 'Dzień Cukrzycy',
@@ -387,8 +387,8 @@ const SWIETA_NIETYPOWE_BAZA = {
     '12-22': 'Pierwszy Dzień Zimy',
     '12-23': 'Dzień Ryby',
     '12-24': 'Wigilia',
-    '12-25': 'Boże Narodzenie',
-    '12-26': 'Boże Narodzenie (II dzień)',
+    /*'12-25': 'Boże Narodzenie',*//*Jest już w index.html*/
+    /*'12-26': 'Boże Narodzenie (II dzień)',*//*Jest już w index.html*/
     '12-27': 'Dzień Odpoczynku',
     '12-28': 'Dzień Całowania Płatków Śniegu',
     '12-29': 'Dzień Kostki do Gry',
