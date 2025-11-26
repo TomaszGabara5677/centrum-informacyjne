@@ -14,20 +14,22 @@
 
     <style>
         /* ==========================================================================
-           KONFIGURACJA PRĘDKOŚCI SCROLLOWANIA
+           KONFIGURACJA GŁÓWNA STYLÓW (ZMIENNE CSS)
+           Ułatwia globalne zarządzanie kolorystyką i prędkościami animacji.
            ========================================================================== */
         :root {
-            --kolor-aktywny: #00FF00;
-            --kolor-tla: #1a1a1a;
-            --kolor-ramki: #000;
-            --kolor-sentencji: #d461ff;
+            --kolor-aktywny: #00FF00;      /* Główny kolor tekstów (jasny zielony) */
+            --kolor-tla: #1a1a1a;          /* Ciemne tło aplikacji */
+            --kolor-ramki: #000;           /* Kolor tła wewnątrz głównego kontenera */
+            --kolor-sentencji: #d461ff;    /* Wyróżniający kolor dla cytatów */
 
-            /* Prędkości przesuwania tekstu - im większa liczba, tym wolniej */
+            /* Zmienne sterujące czasem trwania animacji przewijania (im więcej sekund, tym wolniej) */
             --speed-sentencja: 30s; 
             --speed-swieto: 30s;
             --speed-imieniny: 30s;
         }
 
+        /* Reset i ustawienia ogólne strony */
         html, body {
             display: flex;
             justify-content: center;
@@ -35,13 +37,14 @@
             min-height: 100vh;
             margin: 0;
             background-color: var(--kolor-tla);
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Courier New', Courier, monospace; /* Czcionka monospaced dla efektu retro */
             color: var(--kolor-aktywny);
             padding: 0;
             box-sizing: border-box;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Zapobiega pojawianiu się poziomego paska przewijania strony */
         }
 
+        /* Główny kontener aplikacji - "pudełko" z interfejsem */
         #kontener {
             width: 1000px;
             padding: 20px 30px;
@@ -53,12 +56,13 @@
             align-items: center;
             text-align: center;
             box-sizing: border-box;
-            transform-origin: top center;
-            transition: transform 0.2s ease-out;
+            transform-origin: top center; /* Punkt zaczepienia dla skalowania JS */
+            transition: transform 0.2s ease-out; /* Płynne skalowanie przy zmianie wielkości okna */
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
+        /* Tabela górna: Dzień tygodnia, Lokalizacja/Pogoda, Menu */
         #tabela-naglowek {
             width: 100%;
             border-collapse: collapse;
@@ -69,11 +73,12 @@
             vertical-align: middle;
         }
 
+        /* Lewa kolumna: Nazwa dnia i sentencja */
         .komorka-dzien {
-            font-size: clamp(1.8rem, 4vw, 3rem); 
+            font-size: clamp(1.8rem, 4vw, 3rem); /* Skalowalna czcionka */
             text-transform: uppercase;
             letter-spacing: 3px;
-            text-shadow: 0 0 5px var(--kolor-aktywny);
+            text-shadow: 0 0 5px var(--kolor-aktywny); /* Efekt poświaty (glow) */
             width: auto;
             text-align: center;
             vertical-align: top; 
@@ -83,28 +88,30 @@
         }
 
         /* ==========================================================================
-           STYLE DLA PŁYNNEGO SCROLLOWANIA (SEAMLESS LOOP)
+           LOGIKA PŁYNNEGO SCROLLOWANIA (SEAMLESS LOOP)
+           Używamy duplikacji tekstu i maskowania gradientem dla efektu nieskończoności.
            ========================================================================== */
         
-        /* 1. Główne okno maskujące (przycinanie i gradient) */
+        /* Kontener maskujący - przycina tekst i dodaje gradienty na brzegach */
         .scroller-wrap {
             display: inline-block;
             vertical-align: bottom;
             overflow: hidden;
             position: relative;
             white-space: nowrap;
+            /* Gradient sprawia, że tekst łagodnie zanika po bokach */
             mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
             -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
         }
 
-        /* 2. Szyna (track) trzymająca dwie kopie tekstu */
+        /* Szyna, która faktycznie się przesuwa */
         .scroller-track {
             display: flex;
             width: max-content; 
             animation: scroll-seamless var(--anim-speed) linear infinite;
         }
 
-        /* Klasa dla zatrzymanego scrolla */
+        /* Klasa dodawana przez JS, gdy tekst jest za krótki, aby go przewijać */
         .scroller-track.stopped {
             animation: none !important;
             width: 100%;
@@ -112,41 +119,29 @@
             transform: translateX(0) !important;
         }
 
-        /* 3. Pojedynczy element tekstu wewnątrz szyny - baza */
+        /* Elementy wewnątrz szyny (oryginał i kopia) */
         .scroller-content {
             white-space: nowrap;
             display: inline-block;
         }
 
-        /* --- INDYWIDUALNE ODSTĘPY (padding-right) DLA AKTYWNEJ ANIMACJI --- */
-        
-        /* Sentencja - gdy się rusza */
-        #sentencja-track .scroller-content {
-            padding-right: 100px; 
-        }
+        /* --- Marginesy dla tekstów w ruchu (zapewniają odstęp między końcem a początkiem pętli) --- */
+        #sentencja-track .scroller-content { padding-right: 100px; }
+        #swieto-track .scroller-content { padding-right: 100px; }
+        #imiona-track .scroller-content { padding-right: 100px; }
 
-        /* Święto - gdy się rusza */
-        #swieto-track .scroller-content {
-            padding-right: 100px;
-        }
-
-        /* Imieniny - gdy się rusza */
-        #imiona-track .scroller-content {
-            padding-right: 100px;
-        }
-
-        /* --- ODSTĘP DLA ZATRZYMANEJ ANIMACJI (Dla wszystkich taki sam) --- */
+        /* Gdy animacja jest zatrzymana, zmniejszamy margines dla estetyki */
         .scroller-track.stopped .scroller-content {
             padding-right: 50px !important;
         }
 
-        /* Kluczowa animacja pętli */
+        /* Kluczowa klatka animacji: przesuwa szynę o 50% (długość jednego zestawu tekstu) */
         @keyframes scroll-seamless {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* --- Specyficzne ustawienia dla SENTENCJI --- */
+        /* Specyficzne style dla sekcji z sentencją */
         #sentencja-kontener {
             max-width: 360px; 
             margin: 0 auto; 
@@ -164,7 +159,7 @@
             text-transform: none; 
         }
 
-        /* --- Specyficzne ustawienia dla ŚWIĘTA i IMIENIN (w tabeli) --- */
+        /* Kontenery scrolla w tabelach (Święta, Imieniny) */
         .tabela-scroller {
             max-width: 350px; 
             vertical-align: middle;
@@ -173,14 +168,16 @@
 
         /* ========================================================================== */
 
+        /* Środkowa kolumna: Lokalizacja i Pogoda */
         .komorka-lokalizacja-pogoda {
             text-align: left;
             vertical-align: middle;
-            border-left: 1px dotted #008000;
+            border-left: 1px dotted #008000; /* Separator wizualny */
             padding-left: 15px;
             width: 55%;
         }
 
+        /* Prawa kolumna: Przycisk Menu */
         .komorka-menu {
             width: 50px;
             vertical-align: top;
@@ -188,6 +185,7 @@
             position: relative;
         }
         
+        /* Style sekcji lokalizacji */
         #lokalizacja {
             font-size: 1.3rem;
             color: #00c000;
@@ -202,9 +200,10 @@
             color: var(--kolor-aktywny);
         }
         
+        /* Współrzędne i wiatr */
         #wspolrzedne {
             font-size: 0.9rem;
-            color: #87CEEB;
+            color: #87CEEB; /* Błękitny dla odróżnienia */
             margin-top: 4px;
             min-height: 1rem;
             display: flex;
@@ -224,7 +223,7 @@
             font-size: 2rem;
 			padding-bottom: 6px;
             margin-right: 5px;
-            transition: transform 1s ease-out;
+            transition: transform 1s ease-out; /* Płynny obrót strzałki wiatru */
             color: #FFA500;
         }
         #wiatr-info {
@@ -242,6 +241,7 @@
             opacity: 0.6;
         }
         
+        /* Sekcja pogody */
         #pogoda {
             font-size: 1.2rem;
             color: var(--kolor-aktywny);
@@ -266,16 +266,17 @@
             margin: 0 15px; 
         }
 
+        /* Ciśnienie atmosferyczne */
         #cisnienie-ikona {
             font-size: 1.4rem;
             margin-right: 5px;
         }
-
         #cisnienie-info {
             color: #00c000;
             margin-right: 5px;
         }
         
+        /* Wskaźniki trendu ciśnienia (strzałki) */
         #cisnienie-trend {
             font-size: 1.2rem;
             font-weight: bold;
@@ -284,6 +285,7 @@
         .trend-spadek { color: #FF4500; } 
         .trend-stale { color: #888888; }  
 
+        /* MENU (Dropdown) */
         .menu-kontener {
             position: relative;
             display: inline-block;
@@ -306,7 +308,7 @@
         }
 
         .menu-tresc {
-            display: none;
+            display: none; /* Domyślnie ukryte */
             position: absolute;
             right: 0;
             top: 40px;
@@ -338,9 +340,10 @@
         }
 
         .menu-tresc.pokaz {
-            display: block;
+            display: block; /* Pokazywanie klasy przez JS */
         }
 
+        /* Tabela z informacjami rocznymi (Dzień roku, tydzień, święta) */
         #tabela-info-roczne {
             width: auto; 
             border-collapse: collapse;
@@ -354,15 +357,16 @@
             vertical-align: middle;
         }
         #tabela-info-roczne .max {
-            color: #008000;
+            color: #008000; /* Ciemniejszy kolor dla wartości maksymalnych */
         }
-        /* Style dla tekstów wewnątrz scrolla (Święto/Imieniny) */
+        
         #swieto-track .scroller-content,
         #imiona-track .scroller-content {
             color: var(--kolor-aktywny);
             font-weight: bold;
         }
         
+        /* Wyrównania kolumn w tabeli rocznej */
         #tabela-info-roczne td:nth-child(1) {
             text-align: right;
             padding-right: 10px;
@@ -384,6 +388,10 @@
             align-items: center;
         }
 
+        /* ==========================================================================
+           ZEGAR SEGMENTOWY (STYLE)
+           Symulacja wyświetlacza cyfrowego LED/LCD.
+           ========================================================================== */
         #zegar-segmentowy-kontener {
             display: flex;
             flex-direction: column;
@@ -407,16 +415,18 @@
             flex-shrink: 0;
         }
 
+        /* Pojedynczy segment cyfry (a-g) */
         .segment {
             position: absolute;
             background-color: var(--kolor-aktywny);
-            opacity: 0.1;
+            opacity: 0.1; /* Domyślnie wygaszony */
             transition: opacity 0.2s;
             border-radius: 2px;
             box-shadow: 0 0 5px var(--kolor-aktywny);
         }
-        .segment.active { opacity: 1; }
+        .segment.active { opacity: 1; } /* Zapalony segment */
         
+        /* Pozycjonowanie segmentów (typowe dla wyświetlacza 7-segmentowego) */
         .segment.a, .segment.d, .segment.g { width: 20px; height: 4px; left: 5px; }
         .segment.b, .segment.c, .segment.e, .segment.f { width: 4px; height: 20px; }
         .segment.a { top: 0; }
@@ -427,6 +437,7 @@
         .segment.f { top: 5px; left: 0; }
         .segment.e { top: 25px; left: 0; }
 
+        /* Separatory zegara (: oraz -) */
         .separator {
             height: 50px;
             position: relative;
@@ -450,6 +461,7 @@
             transition: opacity 0.1s;
         }
         .separator-dwukropek::before { margin-bottom: 8px; margin-top: 8px; }
+        /* Klasa do mrugania dwukropka */
         .separator-dwukropek.wygaszony::before,
         .separator-dwukropek.wygaszony::after { opacity: 0.1; }
 
@@ -466,6 +478,7 @@
 
         .separator-spacer { width: 25px; height: 50px; flex-shrink: 0; }
 
+        /* Tabela Słońca (Wschody/Zachody) */
         #tabela-slonce {
             width: auto; 
             border-collapse: collapse;
@@ -510,6 +523,7 @@
             color: #ffff00;
         }
 
+        /* Tabela Astrologiczna (Zodiak, Księżyc) */
         #tabela-astro {
             width: 100%;
             border-collapse: collapse;
@@ -565,6 +579,7 @@
             color: #008000;
         }
 
+        /* Ekran wymuszający obrót urządzenia na telefonach */
         #obroc-urzadzenie {
             display: none;
             position: fixed; 
@@ -593,6 +608,7 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Media Query - wykrywanie orientacji pionowej */
         @media (orientation: portrait) {
             #kontener { display: none; }
             #obroc-urzadzenie { display: flex; }
@@ -762,10 +778,12 @@
         
         const DNI_TYGODNIA = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
         
-        let BIEZACA_LAT = 51.6567; 
+        // Zmienne globalne przechowujące współrzędne - aktualizowane przez Geolocation API
+        let BIEZACA_LAT = 51.6567; // Wartość domyślna (Pabianice)
         let BIEZACA_LON = 19.3578; 
         let BIEZACA_LOKALIZACJA_NAZWA = "Pabianice, woj. Łódzkie"; 
 
+        // Stałe daty świąt, które nie zmieniają się w zależności od roku
         const SWIETA_STALE = {
             '01-01': 'Nowy Rok', '01-06': 'Trzech Króli', '05-01': 'Święto Pracy',
             '05-03': 'Święto Konstyt. 3 Maja', '08-15': 'Święto Wojska Polskiego, Wniebowzięcie NMP',
@@ -773,6 +791,7 @@
             '12-25': 'Boże Narodzenie (I dzień)', '12-26': 'Boże Narodzenie (II dzień)'
         };
 
+        // Definicje znaków zodiaku i ich daty graniczne (miesiąc, dzień)
         const ZNAKI_ZODIAKU = [
             { nazwa: 'Koziorożec', start: [12, 22], emoji: '♑' },
             { nazwa: 'Wodnik', start: [1, 20], emoji: '♒' },
@@ -788,6 +807,7 @@
             { nazwa: 'Strzelec', start: [11, 22], emoji: '♐' }
         ];
 
+        // Mapa podświetlania segmentów dla każdej cyfry (a-g) w zegarze
         const MAPA_SEGMENTOW = {
             '0': ['a', 'b', 'c', 'd', 'e', 'f'],
             '1': ['b', 'c'],
@@ -802,6 +822,7 @@
             ' ': [] 
         };
 
+        // Konfiguracja struktury wyświetlacza daty i czasu (kolejność cyfr i separatorów)
         const STRUKTURA_DATY = [
             { typ: 'cyfra', id: 'data-d1' }, { typ: 'cyfra', id: 'data-d2' },
             { typ: 'separator', 'rodzaj': 'kreska' },
@@ -819,23 +840,23 @@
         ];
 
         // ================================================================
-        // --- ZMIENNE GLOBALNE (CACHE) ---
+        // --- ZMIENNE GLOBALNE (CACHE I PAMIĘĆ PODRĘCZNA) ---
         // ================================================================
         
-        window.ostatniDzien = null;
+        window.ostatniDzien = null; // Do wykrywania zmiany daty o północy
         window.wschodDzis = null;
         window.zachodDzis = null;
         window.wschodJutro = null; 
         window.zachodJutro = null; 
-        window.swietaRuchomeCache = {};
+        window.swietaRuchomeCache = {}; // Cache dla obliczonych świąt wielkanocnych
         window.bazaSentencji = null; 
 
         // ================================================================
         // --- FUNKCJE POMOCNICZE (HELPER FUNCTIONS) ---
         // ================================================================
 
-        // MODYFIKACJA (WARUNEK DŁUGOŚCI): Inteligentny Scroll
-        // Funkcja sprawdza długość tekstu i wyłącza animację, jeśli tekst się mieści.
+        // Obsługuje logikę "inteligentnego przewijania".
+        // Jeśli tekst jest krótszy niż kontener, wyłącza animację CSS, aby uniknąć dziwnego efektu pętli.
         function ustawTekstScrolla(idTracka, tekst) {
             const track = document.getElementById(idTracka);
             if (!track) return;
@@ -843,52 +864,44 @@
             const container = track.parentElement; // .scroller-wrap
             const spans = track.querySelectorAll('.scroller-content');
 
-            // 1. Wpisz tekst do obu kopii
+            // 1. Wpisujemy treść do obu elementów span (dla efektu pętli)
             spans.forEach(span => {
                 span.textContent = tekst;
             });
 
-            // 2. Reset stanu do pomiaru (włącz widoczność, usuń blokady)
+            // 2. Resetujemy stan, aby dokonać pomiarów na "czysto"
             track.classList.remove('stopped');
             spans[1].style.display = 'inline-block';
             container.style.maskImage = '';
             container.style.webkitMaskImage = '';
 
-            // 3. Pomiar
-            // Pobieramy szerokość jednego elementu tekstowego (uwzględnia padding-right)
+            // 3. Pomiary szerokości tekstu i kontenera
             const spanWidthTotal = spans[0].getBoundingClientRect().width;
             
-            // Pobieramy padding-right z CSS (jest to 100px w tym pliku)
-            // Pobieramy go dynamicznie dla pewności
+            // Pobieramy padding zdefiniowany w CSS, aby znać faktyczną długość tekstu
             const computedStyle = window.getComputedStyle(spans[0]);
             const paddingRight = parseFloat(computedStyle.paddingRight) || 0;
-            
-            // Faktyczna szerokość samego tekstu
             const textRealWidth = spanWidthTotal - paddingRight;
 
-            // Szerokość kontenera (okna widoku)
             const containerWidth = container.getBoundingClientRect().width;
 
-            // Oblicz szerokość bufora "3 znaków"
-            // Dla czcionki monospaced (Courier New) stosunek szerokości do wysokości to ok. 0.6
+            // Bufor "3 znaków" zapobiega ucinaniu tekstu, który jest "na styk"
             const fontSize = parseFloat(computedStyle.fontSize);
             const threeCharsBuffer = (fontSize * 0.6) * 3; 
 
-            // 4. Warunek: Czy tekst (+ bufor 3 znaków) jest dłuższy niż kontener?
-            // Jeśli (Tekst > Kontener - 3znaki), to animujemy.
-            // W przeciwnym razie stopujemy.
-            
+            // 4. Decyzja: scrollować czy nie?
             if (textRealWidth > (containerWidth - threeCharsBuffer)) {
-                // Pozostaw animację włączoną (nic nie rób, zresetowaliśmy ją w pkt 2)
+                // Tekst jest długi - zostawiamy animację
             } else {
-                // Wyłącz animację
+                // Tekst się mieści - zatrzymujemy animację i ukrywamy duplikat
                 track.classList.add('stopped');
-                spans[1].style.display = 'none'; // Ukryj duplikat, żeby nie przeszkadzał
-                container.style.maskImage = 'none'; // Usuń gradienty zanikania
+                spans[1].style.display = 'none'; 
+                container.style.maskImage = 'none'; 
                 container.style.webkitMaskImage = 'none';
             }
         }
 
+        // Tworzy strukturę DOM pojedynczej cyfry 7-segmentowej
         function stworzCyfre(id) {
             const cyfraDiv = document.createElement('div');
             cyfraDiv.classList.add('cyfra');
@@ -902,15 +915,17 @@
             return cyfraDiv;
         }
 
+        // Tworzy separator (dwukropek lub kreskę)
         function stworzSeparator(rodzaj) {
             const separatorDiv = document.createElement('div');
             separatorDiv.classList.add('separator', `separator-${rodzaj}`);
             if (rodzaj === 'dwukropek') {
-                separatorDiv.classList.add('mrugajacy');
+                separatorDiv.classList.add('mrugajacy'); // Dwukropki będą mrugać co sekundę
             }
             return separatorDiv;
         }
 
+        // Buduje cały zegar przy starcie aplikacji
         function inicjalizujZegar() {
             const kontenerGlowny = document.getElementById('zegar-segmentowy-kontener');
             if (!kontenerGlowny) return; 
@@ -918,6 +933,7 @@
             const kontenerLinii = document.createElement('div');
             kontenerLinii.classList.add('kontener-linii');
 
+            // Generowanie sekcji daty
             STRUKTURA_DATY.forEach(el => {
                 if (el.typ === 'cyfra') {
                     kontenerLinii.appendChild(stworzCyfre(el.id));
@@ -926,10 +942,12 @@
                 }
             });
 
+            // Odstęp między datą a godziną
             const spacer = document.createElement('div');
             spacer.classList.add('separator-spacer');
             kontenerLinii.appendChild(spacer);
 
+            // Generowanie sekcji czasu
             STRUKTURA_CZASU.forEach(el => {
                 if (el.typ === 'cyfra') {
                     kontenerLinii.appendChild(stworzCyfre(el.id));
@@ -941,13 +959,16 @@
             kontenerGlowny.appendChild(kontenerLinii);
         }
 
+        // Zapala odpowiednie segmenty (a-g) dla danej cyfry
         function ustawCyfre(elementId, cyfra) {
             const el = document.getElementById(elementId);
             if (!el) return; 
             const cyfraStr = String(cyfra);
             const segmentyDoWlaczenia = MAPA_SEGMENTOW[cyfraStr];
             
+            // Najpierw gaśimy wszystko
             el.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
+            // Potem zapalamy tylko potrzebne
             if (segmentyDoWlaczenia) {
                 segmentyDoWlaczenia.forEach(seg => {
                     const segmentElement = el.querySelector(`.segment.${seg}`);
@@ -958,10 +979,12 @@
             }
         }
 
+        // Formatuje liczby do formatu dwucyfrowego (np. 9 -> 09)
         function formatujLiczbe(liczba) {
             return String(liczba).padStart(2, '0');
         }
 
+        // Zwraca godzinę w formacie HH:MM z obiektu Date
         function formatujGodzine(data) {
             if (data && typeof data.getHours === 'function') {
                 const godzina = formatujLiczbe(data.getHours());
@@ -971,6 +994,7 @@
             return 'b/d'; 
         }
 
+        // Oblicza numer dnia w roku (1-366)
         function obliczDzienRoku(data) {
             const startRoku = new Date(data.getFullYear(), 0, 0); 
             const diff = data - startRoku; 
@@ -978,6 +1002,7 @@
             return Math.floor(diff / jedenDzienMs);
         }
 
+        // Oblicza numer tygodnia wg standardu ISO
         function obliczNumerTygodnia(d) {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -990,6 +1015,7 @@
             return Math.floor(data.getMonth() / 3) + 1; 
         }
 
+        // Zamienia milisekundy na format HH:MM:SS (np. do odliczania)
         function formatujDelteCzasu(ms) {
             let totalSeconds = Math.floor(Math.max(ms, 0) / 1000); 
             let hours = Math.floor(totalSeconds / 3600);
@@ -999,6 +1025,7 @@
             return `${formatujLiczbe(hours)}:${formatujLiczbe(minutes)}:${formatujLiczbe(seconds)}`;
         }
 
+        // Format tekstowy długości dnia (np. 8 godz. 20 min.)
         function formatujDlugoscDnia(ms) {
             let totalMinutes = Math.floor(Math.max(ms, 0) / (1000 * 60));
             let hours = Math.floor(totalMinutes / 60);
@@ -1010,10 +1037,12 @@
             return (rok % 4 === 0 && rok % 100 !== 0) || rok % 400 === 0;
         }
 
+        // Zwraca całkowitą liczbę tygodni w danym roku (52 lub 53)
         function iloscTygodniWRoku(rok) {
             return obliczNumerTygodnia(new Date(rok, 11, 28));
         }
 
+        // Algorytm Gaussa do obliczania daty Wielkanocy
         function obliczWielkanoc(rok) {
             const a = rok % 19, b = Math.floor(rok / 100), c = rok % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451), miesiac = Math.floor((h + l - 7 * m + 114) / 31), dzien = ((h + l - 7 * m + 114) % 31) + 1;
             return new Date(rok, miesiac - 1, dzien);
@@ -1025,10 +1054,12 @@
             return nowaData;
         }
 
+        // Tworzy klucz "MM-DD" do wyszukiwania w tablicach świąt/imienin
         function formatujDateNaKlucz(data) {
             return `${formatujLiczbe(data.getMonth() + 1)}-${formatujLiczbe(data.getDate())}`;
         }
 
+        // Konwertuje format dziesiętny (np. 51.5) na stopnie, minuty, sekundy (DMS)
         function decToDMS(dec, isLng) {
             let deg = Math.abs(dec);
             let d = Math.floor(deg);
@@ -1042,10 +1073,12 @@
             return `${d}° ${formatujLiczbe(m)}′ ${formatujLiczbe(s)}″ ${dir}`;
         }
 
+        // Znajduje aktualny znak zodiaku na podstawie daty
         function pobierzInfoZodiaku(data) {
             const dzien = data.getDate();
             const miesiac = data.getMonth() + 1;
             
+            // Odwracamy tablicę, aby łatwiej znaleźć znak (sprawdzając od końca roku)
             const znakiOdwrocone = [...ZNAKI_ZODIAKU].reverse();
             
             const biezacyZnak = znakiOdwrocone.find(znak => {
@@ -1053,11 +1086,12 @@
             });
 
             if (!biezacyZnak) { 
-                return ZNAKI_ZODIAKU.find(z => z.nazwa === 'Koziorożec'); 
+                return ZNAKI_ZODIAKU.find(z => z.nazwa === 'Koziorożec'); // Początek roku
             }
             return biezacyZnak;
         }
 
+        // Mapuje fazę księżyca (0-1) na nazwę, emoji i indeks wizualny
         function pobierzInfoKsiezyca(f) {
             if (f <= 0.03 || f > 0.97) return { nazwa: 'Nów', emoji: '🌑', index: 1 };
             if (f <= 0.22) return { nazwa: 'Sierp przybywający', emoji: '🌒', index: 2 };
@@ -1069,6 +1103,7 @@
             return { nazwa: 'Sierp ubywający', emoji: '🌘', index: 8 };
         }
 
+        // Oblicza ile dni pozostało do następnego znaku zodiaku
         function obliczNastepnyZnak(teraz) {
             const infoZodiaku = pobierzInfoZodiaku(teraz);
             const obecnyIndex = ZNAKI_ZODIAKU.findIndex(z => z.nazwa === infoZodiaku.nazwa);
@@ -1086,13 +1121,16 @@
             return { nazwa: nastepnyZnak.nazwa, dni: diffDni };
         }
 
+        // Symuluje przyszłe godziny, aby znaleźć moment wejścia w fazę pełni (>0.5)
         function obliczNastepnaPelnie(teraz) {
             if (typeof SunCalc === 'undefined') return 'b/d';
             let fazaPoprzednia = SunCalc.getMoonIllumination(teraz).phase;
             let dataPetli = new Date(teraz.getTime());
+            // Szukamy w przód przez max 30 dni (720h)
             for (let i = 0; i < 720; i++) {
                 dataPetli.setHours(dataPetli.getHours() + 1); 
                 let fazaNowa = SunCalc.getMoonIllumination(dataPetli).phase;
+                // Przejście przez 0.5 (pełnia)
                 if (fazaPoprzednia < 0.5 && fazaNowa >= 0.5) {
                     const diffMs = dataPetli.getTime() - teraz.getTime();
                     const diffDni = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
@@ -1103,6 +1141,7 @@
             return 'b/d'; 
         }
 
+        // Oblicza dni do zmiany wizualnej fazy (np. z Sierpa na Kwadrę)
         function obliczZmianeFazyWizualnej(teraz) {
             if (typeof SunCalc === 'undefined') return 'b/d';
             const infoTeraz = pobierzInfoKsiezyca(SunCalc.getMoonIllumination(teraz).phase);
@@ -1121,6 +1160,7 @@
             return 'b/d';
         }
 
+        // Tłumaczy kody WMO (Open-Meteo) na ikony i polskie opisy
         function mapujKodPogody(code) {
             if (code === 0) return { ikona: '☀️', opis: 'Bezchmurnie' };
             if (code === 1) return { ikona: '🌤️', opis: 'Głównie bezchmurnie' };
@@ -1139,12 +1179,14 @@
             return { ikona: '❓', opis: 'Nieznana' }; 
         }
 
+        // Zamienia stopnie (np. 180) na kierunki świata (S)
         function stopnieNaKierunek(stopnie) {
             const kierunki = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
             const index = Math.round(stopnie / 45) % 8;
             return kierunki[index];
         }
 
+        // Skaluje aplikację, aby mieściła się na ekranach mniejszych niż 1000px
         function dopasujSkale() {
             const kontener = document.getElementById('kontener');
             const szerokoscOkna = window.innerWidth;
@@ -1199,6 +1241,7 @@
         // --- GŁÓWNE FUNKCJE APLIKACJI ---
         // ================================================================
         
+        // Wyświetla współrzędne w formacie DMS (stopnie, minuty)
         function wyswietlWspolrzedne() {
             const latDMS = decToDMS(BIEZACA_LAT, false);
             const lonDMS = decToDMS(BIEZACA_LON, true);
@@ -1208,6 +1251,7 @@
             }
         }
 
+        // Pobiera dane pogodowe z Open-Meteo
         async function aktualizujPogode() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
@@ -1243,10 +1287,11 @@
                         cisnienieInfoEl.textContent = "b/d";
                     }
 
+                    // Obliczanie trendu ciśnienia (porównanie z godziną temu)
                     if (cisnienieObecne !== null && data.hourly && data.hourly.pressure_msl) {
                         const teraz = new Date();
                         const aktualnaGodzina = teraz.getHours();
-                        const indeksDzis = 24 + aktualnaGodzina;
+                        const indeksDzis = 24 + aktualnaGodzina; // +24 bo pobieramy 'past_days=1'
                         const indeksGodzineTemu = indeksDzis - 1;
 
                         if (data.hourly.pressure_msl[indeksGodzineTemu] !== undefined) {
@@ -1293,10 +1338,16 @@
             }
         }
 
+        // Zmiana na wersję z kluczem API
         async function aktualizujNazweLokalizacji() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
-            const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pl`;
+            const apiKey = 'bdc_4dd9fd0b7f584a0a9ec3926ee906a5a4'; // Twój klucz API BigDataCloud
+
+            // Używamy endpointu api-bdc.net, który jest przeznaczony dla zapytań z kluczem API.
+            // Jest to stabilniejsze rozwiązanie niż publiczny reverse-geocode-client.
+            const url = `https://api-bdc.net/data/reverse-geocode?latitude=${lat}&longitude=${lon}&localityLanguage=pl&key=${apiKey}`;
+            
             const nazwaEl = document.getElementById('lokalizacja-nazwa');
 
             try {
@@ -1304,6 +1355,8 @@
                 if (!response.ok) throw new Error('Błąd sieci geocoding');
                 const data = await response.json();
                 
+                // BigDataCloud (wersja API) zwraca podobną strukturę jak wersja Client,
+                // więc logika wyboru nazwy (Miasto > Województwo > Kraj) pozostaje ta sama.
                 if (data && data.city) {
                     let nazwa = data.city; 
                     if (data.principalSubdivision) { 
@@ -1330,6 +1383,7 @@
             return (liczba === 1) ? "dzień" : "dni";
         }
 
+        // Główna funkcja aktualizująca dane, które zmieniają się raz na dobę (kalendarz, wschody, święta)
         function aktualizujDaneCodzienne(teraz) {
             console.log(`AKTUALIZACJA DANYCH CODZIENNYCH o ${teraz}`);
             const rok = teraz.getFullYear();
@@ -1380,6 +1434,7 @@
             const swietoStale = SWIETA_STALE[dzisKlucz];
             if (swietoStale) wszystkieSwieta.push(swietoStale);
 
+            // Obliczanie świąt ruchomych tylko raz na rok i zapisywanie w cache
             if (!window.swietaRuchomeCache[rok]) {
                 const wielkanoc = obliczWielkanoc(rok);
                 const ponWielkanocny = dodajDniDoDaty(wielkanoc, 1);
@@ -1395,12 +1450,13 @@
             const swietoRuchome = window.swietaRuchomeCache[rok][dzisKlucz];
             if (swietoRuchome) wszystkieSwieta.push(swietoRuchome);
 
+            // Pobieranie świąt nietypowych z zewnętrznego pliku (jeśli istnieje)
             if(typeof SWIETA_NIETYPOWE_BAZA !== 'undefined') {
                 const swietoNietypowe = SWIETA_NIETYPOWE_BAZA[dzisKlucz];
                 if (swietoNietypowe) wszystkieSwieta.push(swietoNietypowe);
             }
             
-            // USTAWIENIE TEKSTU ŚWIĘTA (SCROLL)
+            // Wstawianie tekstu do przewijanego paska
             const tekstSwieta = wszystkieSwieta.length ? `${wszystkieSwieta.join(', ')}` : "(brak)";
             ustawTekstScrolla('swieto-track', tekstSwieta);
 
@@ -1408,7 +1464,6 @@
             if (typeof IMIENINY_BAZA !== 'undefined') {
                 imieniny = IMIENINY_BAZA[dzisKlucz] || "brak";
             }
-            // USTAWIENIE TEKSTU IMIENIN (SCROLL)
             ustawTekstScrolla('imiona-track', imieniny);
 
             const infoZodiaku = pobierzInfoZodiaku(teraz);
@@ -1449,10 +1504,12 @@
             aktualizujPogode(); 
         }
 
+        // Główna pętla zegara - uruchamiana co sekundę
         function aktualizujZegar() {
             const teraz = new Date();
             const dzienNumer = teraz.getDate(); 
 
+            // Sprawdzamy, czy zmienił się dzień (np. minęła północ), aby odświeżyć dane kalendarzowe
             if (dzienNumer !== window.ostatniDzien) {
                 aktualizujDaneCodzienne(teraz); 
                 window.ostatniDzien = dzienNumer;
@@ -1468,6 +1525,7 @@
             const miesiac = formatujLiczbe(teraz.getMonth() + 1);
             const rok = String(teraz.getFullYear());
 
+            // Aktualizacja segmentów zegara
             ustawCyfre('data-d1', dzien[0]);
             ustawCyfre('data-d2', dzien[1]);
             ustawCyfre('data-m1', miesiac[0]);
@@ -1484,6 +1542,7 @@
             ustawCyfre('czas-s1', sekunda[0]);
             ustawCyfre('czas-s2', sekunda[1]);
 
+            // Mruganie dwukropka co sekundę
             const sekundaParzysta = teraz.getSeconds() % 2 === 0;
             document.querySelectorAll('.mrugajacy').forEach(el => {
                 el.classList.toggle('wygaszony', sekundaParzysta);
@@ -1503,6 +1562,7 @@
                 odliczanieIkonaEl.textContent = '⌛';
             }
 
+            // Ustalanie, czy pokazać wschód/zachód dzisiejszy czy jutrzejszy
             let docelowyWschod = window.wschodDzis;
             let czyWschodJutro = false;
             if (teraz > window.wschodDzis) {
@@ -1535,7 +1595,7 @@
             ustawEtykiety('wschod-lbl-dzis', 'wschod-lbl-jutro', czyWschodJutro);
             ustawEtykiety('zachod-lbl-dzis', 'zachod-lbl-jutro', czyZachodJutro);
 
-
+            // Logika odliczania do najbliższego zdarzenia solarnego
             let celOdliczania, tekstOdliczania;
             
             if (teraz < window.wschodDzis) {
@@ -1563,6 +1623,7 @@
             }
         }
         
+        // Resetowanie aplikacji w przypadku problemów (czyści cache Service Workera i LocalStorage)
         async function resetAplikacji() {
             if (!confirm("Czy na pewno chcesz zresetować aplikację?\nSpowoduje to wyczyszczenie pamięci i ponowne pobranie danych.\n\n️⚠️ Uwaga!⚠️ Ta czyność może potrwać od kilku do kilkunastu sekund,\nw zależności od prędkości Twojego urządzenia i Internetu.\nW tym czasie nie musisz nic robić, czekaj cierpliwie, aplikacja sama się uruchomi, kiedy proces pobierania danych się zakończy.")) {
                 return; 
@@ -1584,6 +1645,7 @@
             window.location.reload(true);
         }
 
+        // Zamykanie menu po kliknięciu poza nie
         window.onclick = function(event) {
             if (!event.target.matches('.menu-przycisk')) {
                 var dropdowns = document.getElementsByClassName("menu-tresc");
@@ -1598,6 +1660,7 @@
 
         window.addEventListener('resize', dopasujSkale);
 
+        // Start inicjalizacji
         inicjalizujZegar();
         pobierzBazeSentencji();
 
@@ -1606,11 +1669,12 @@
             dopasujSkale(); 
             setTimeout(() => {
                 aktualizujZegar();
-                setInterval(aktualizujZegar, 1000);
+                setInterval(aktualizujZegar, 1000); // Odświeżanie zegara co sekundę
             }, 100); 
-            setInterval(aktualizujPogode, 15 * 60 * 1000);
+            setInterval(aktualizujPogode, 15 * 60 * 1000); // Odświeżanie pogody co 15 minut
         }
 
+        // Geolocation API - pobranie pozycji użytkownika
         function pobierzLokalizacje() {
             const ikonaEl = document.getElementById('lokalizacja-ikona');
             const wspolrzedneIkonaEl = document.getElementById('wspolrzedne-ikona');
@@ -1618,6 +1682,7 @@
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(geoSukces, geoBlad);
             } else {
+                // Brak wsparcia w przeglądarce
                 ikonaEl.textContent = '🛰️';
                 wspolrzedneIkonaEl.textContent = '❌'; 
                 wyswietlWspolrzedne();
@@ -1635,6 +1700,7 @@
         }
 
         function geoBlad(blad) {
+            // W razie błędu (np. użytkownik zablokował), używamy domyślnych współrzędnych
             document.getElementById('lokalizacja-ikona').textContent = '🛰️';
             document.getElementById('wspolrzedne-ikona').textContent = '❌'; 
             wyswietlWspolrzedne();
@@ -1643,6 +1709,7 @@
 
         pobierzLokalizacje();
 
+        // Rejestracja PWA Service Worker (jeśli obsługiwane)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').catch(err => console.log(err));
@@ -1652,4 +1719,3 @@
 
 </body>
 </html>
-
