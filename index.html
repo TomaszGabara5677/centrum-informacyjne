@@ -13,12 +13,19 @@
     <title>Kompletne Centrum Informacyjne</title>
 
     <style>
-        /* Zmienne CSS dla łatwego zarządzania motywem kolorystycznym */
+        /* ==========================================================================
+           KONFIGURACJA PRĘDKOŚCI SCROLLOWANIA
+           ========================================================================== */
         :root {
-            --kolor-aktywny: #00FF00; /* Główny kolor "neonowy" (jasna zieleń) */
-            --kolor-tla: #1a1a1a;     /* Ciemne tło dla kontrastu */
-            --kolor-ramki: #000;      /* Czarne wnętrze kontenera */
-            --kolor-sentencji: #d461ff; /* Neonowy fiolet dla sentencji */
+            --kolor-aktywny: #00FF00;
+            --kolor-tla: #1a1a1a;
+            --kolor-ramki: #000;
+            --kolor-sentencji: #d461ff;
+
+            /* Prędkości przesuwania tekstu - im większa liczba, tym wolniej */
+            --speed-sentencja: 30s; 
+            --speed-swieto: 30s;
+            --speed-imieniny: 30s;
         }
 
         html, body {
@@ -28,11 +35,11 @@
             min-height: 100vh;
             margin: 0;
             background-color: var(--kolor-tla);
-            font-family: 'Courier New', Courier, monospace; /* Czcionka monospaced (o stałej szerokości) dla efektu retro */
+            font-family: 'Courier New', Courier, monospace;
             color: var(--kolor-aktywny);
             padding: 0;
             box-sizing: border-box;
-            overflow-x: hidden; /* Zapobiega przewijaniu na boki */
+            overflow-x: hidden;
         }
 
         #kontener {
@@ -47,7 +54,7 @@
             text-align: center;
             box-sizing: border-box;
             transform-origin: top center;
-            transition: transform 0.2s ease-out; /* Płynne skalowanie przy zmianie rozmiaru okna */
+            transition: transform 0.2s ease-out;
             margin-top: 20px;
             margin-bottom: 20px;
         }
@@ -62,25 +69,92 @@
             vertical-align: middle;
         }
 
-        /* --- POPRAWKA UI (Pkt 5): Skalowanie czcionki --- */
         .komorka-dzien {
-            /* clamp(min, val, max) - elastyczna czcionka zależna od szerokości ekranu (vw) */
             font-size: clamp(1.8rem, 4vw, 3rem); 
             text-transform: uppercase;
             letter-spacing: 3px;
-            text-shadow: 0 0 5px var(--kolor-aktywny); /* Efekt poświaty neonu */
+            text-shadow: 0 0 5px var(--kolor-aktywny);
             width: auto;
             text-align: center;
-            
             vertical-align: top; 
             padding-top: 0; 
             padding-right: 20px;
             white-space: nowrap;
         }
 
-        #sentencja {
-            display: block;
+        /* ==========================================================================
+           STYLE DLA PŁYNNEGO SCROLLOWANIA (SEAMLESS LOOP)
+           ========================================================================== */
+        
+        /* 1. Główne okno maskujące (przycinanie i gradient) */
+        .scroller-wrap {
+            display: inline-block;
+            vertical-align: bottom;
+            overflow: hidden;
+            position: relative;
+            white-space: nowrap;
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        }
+
+        /* 2. Szyna (track) trzymająca dwie kopie tekstu */
+        .scroller-track {
+            display: flex;
+            width: max-content; 
+            animation: scroll-seamless var(--anim-speed) linear infinite;
+        }
+
+        /* Klasa dla zatrzymanego scrolla */
+        .scroller-track.stopped {
+            animation: none !important;
+            width: 100%;
+            justify-content: center;
+            transform: translateX(0) !important;
+        }
+
+        /* 3. Pojedynczy element tekstu wewnątrz szyny - baza */
+        .scroller-content {
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        /* --- INDYWIDUALNE ODSTĘPY (padding-right) DLA AKTYWNEJ ANIMACJI --- */
+        
+        /* Sentencja - gdy się rusza */
+        #sentencja-track .scroller-content {
+            padding-right: 100px; 
+        }
+
+        /* Święto - gdy się rusza */
+        #swieto-track .scroller-content {
+            padding-right: 100px;
+        }
+
+        /* Imieniny - gdy się rusza */
+        #imiona-track .scroller-content {
+            padding-right: 100px;
+        }
+
+        /* --- ODSTĘP DLA ZATRZYMANEJ ANIMACJI (Dla wszystkich taki sam) --- */
+        .scroller-track.stopped .scroller-content {
+            padding-right: 50px !important;
+        }
+
+        /* Kluczowa animacja pętli */
+        @keyframes scroll-seamless {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- Specyficzne ustawienia dla SENTENCJI --- */
+        #sentencja-kontener {
+            max-width: 360px; 
+            margin: 0 auto; 
+            display: block; 
             margin-bottom: 10px;
+        }
+        
+        #sentencja-track .scroller-content {
             color: var(--kolor-sentencji);
             font-size: 1.2rem;
             font-weight: bold;
@@ -88,13 +162,17 @@
             text-shadow: 0 0 3px var(--kolor-sentencji);
             letter-spacing: 1px;
             text-transform: none; 
-            white-space: normal;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.4;
         }
-        
+
+        /* --- Specyficzne ustawienia dla ŚWIĘTA i IMIENIN (w tabeli) --- */
+        .tabela-scroller {
+            max-width: 350px; 
+            vertical-align: middle;
+            margin-bottom: -4px; 
+        }
+
+        /* ========================================================================== */
+
         .komorka-lokalizacja-pogoda {
             text-align: left;
             vertical-align: middle;
@@ -112,7 +190,7 @@
         
         #lokalizacja {
             font-size: 1.3rem;
-            color: #00c000; /* Ciemniejsza zieleń dla mniejszego kontrastu drugoplanowych danych */
+            color: #00c000;
             font-weight: bold;
             min-height: 1.5rem;
             display: flex;
@@ -126,7 +204,7 @@
         
         #wspolrzedne {
             font-size: 0.9rem;
-            color: #87CEEB; /* Błękitny kolor dla współrzędnych */
+            color: #87CEEB;
             margin-top: 4px;
             min-height: 1rem;
             display: flex;
@@ -146,8 +224,8 @@
             font-size: 2rem;
 			padding-bottom: 6px;
             margin-right: 5px;
-            transition: transform 1s ease-out; /* Animacja obrotu strzałki wiatru */
-            color: #FFA500; /* Pomarańczowy dla wiatru */
+            transition: transform 1s ease-out;
+            color: #FFA500;
         }
         #wiatr-info {
             font-size: 1.2rem;
@@ -273,14 +351,14 @@
         #tabela-info-roczne td {
             padding: 3px 0;
             border: none;
-            vertical-align: top;
+            vertical-align: middle;
         }
         #tabela-info-roczne .max {
             color: #008000;
         }
-        #tabela-info-roczne span span,
-        #tabela-info-roczne span#swieto-nowe,
-        #tabela-info-roczne span#imiona-nowe {
+        /* Style dla tekstów wewnątrz scrolla (Święto/Imieniny) */
+        #swieto-track .scroller-content,
+        #imiona-track .scroller-content {
             color: var(--kolor-aktywny);
             font-weight: bold;
         }
@@ -302,6 +380,8 @@
             padding-left: 10px;
             border-left: 1px dotted #008000;
             line-height: 1.4;
+            display: flex; 
+            align-items: center;
         }
 
         #zegar-segmentowy-kontener {
@@ -330,14 +410,13 @@
         .segment {
             position: absolute;
             background-color: var(--kolor-aktywny);
-            opacity: 0.1; /* Domyślnie wygaszony segment */
+            opacity: 0.1;
             transition: opacity 0.2s;
             border-radius: 2px;
             box-shadow: 0 0 5px var(--kolor-aktywny);
         }
-        .segment.active { opacity: 1; } /* Zapalony segment */
+        .segment.active { opacity: 1; }
         
-        /* Pozycjonowanie segmentów (a-g) dla wyświetlacza 7-segmentowego */
         .segment.a, .segment.d, .segment.g { width: 20px; height: 4px; left: 5px; }
         .segment.b, .segment.c, .segment.e, .segment.f { width: 4px; height: 20px; }
         .segment.a { top: 0; }
@@ -533,7 +612,14 @@
             <tr>
                 <td class="komorka-dzien">
                     <div id="dzien">...</div>
-                    <div id="sentencja">Wczytywanie myśli...</div>
+                    
+                    <div id="sentencja-kontener" class="scroller-wrap" style="--anim-speed: var(--speed-sentencja);">
+                        <div id="sentencja-track" class="scroller-track">
+                            <span class="scroller-content">Wczytywanie myśli...</span>
+                            <span class="scroller-content">Wczytywanie myśli...</span>
+                        </div>
+                    </div>
+
                 </td>
                 <td class="komorka-lokalizacja-pogoda">
                     <div id="lokalizacja">
@@ -583,7 +669,13 @@
                     Tydzień: <span><span id="tydzien-roku">...</span><span class="max">/<span id="max-tydzien-roku">...</span></span></span>
                 </td>
                 <td>
-                    Święto: <span id="swieto-nowe">...</span>
+                    <span>Święto:&nbsp;</span>
+                    <div class="scroller-wrap tabela-scroller" style="--anim-speed: var(--speed-swieto);">
+                        <div id="swieto-track" class="scroller-track">
+                            <span class="scroller-content">...</span>
+                            <span class="scroller-content">...</span>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -594,7 +686,13 @@
                     Kwartał: <span><span id="kwartal">...</span><span class="max">/4</span></span>
                 </td>
                 <td>
-                    Imieniny: <span id="imiona-nowe">...</span>
+                    <span>Imieniny:&nbsp;</span>
+                    <div class="scroller-wrap tabela-scroller" style="--anim-speed: var(--speed-imieniny);">
+                        <div id="imiona-track" class="scroller-track">
+                            <span class="scroller-content">...</span>
+                            <span class="scroller-content">...</span>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -730,11 +828,66 @@
         window.wschodJutro = null; 
         window.zachodJutro = null; 
         window.swietaRuchomeCache = {};
-        window.bazaSentencji = null; // Cache na sentencje
+        window.bazaSentencji = null; 
 
         // ================================================================
         // --- FUNKCJE POMOCNICZE (HELPER FUNCTIONS) ---
         // ================================================================
+
+        // MODYFIKACJA (WARUNEK DŁUGOŚCI): Inteligentny Scroll
+        // Funkcja sprawdza długość tekstu i wyłącza animację, jeśli tekst się mieści.
+        function ustawTekstScrolla(idTracka, tekst) {
+            const track = document.getElementById(idTracka);
+            if (!track) return;
+
+            const container = track.parentElement; // .scroller-wrap
+            const spans = track.querySelectorAll('.scroller-content');
+
+            // 1. Wpisz tekst do obu kopii
+            spans.forEach(span => {
+                span.textContent = tekst;
+            });
+
+            // 2. Reset stanu do pomiaru (włącz widoczność, usuń blokady)
+            track.classList.remove('stopped');
+            spans[1].style.display = 'inline-block';
+            container.style.maskImage = '';
+            container.style.webkitMaskImage = '';
+
+            // 3. Pomiar
+            // Pobieramy szerokość jednego elementu tekstowego (uwzględnia padding-right)
+            const spanWidthTotal = spans[0].getBoundingClientRect().width;
+            
+            // Pobieramy padding-right z CSS (jest to 100px w tym pliku)
+            // Pobieramy go dynamicznie dla pewności
+            const computedStyle = window.getComputedStyle(spans[0]);
+            const paddingRight = parseFloat(computedStyle.paddingRight) || 0;
+            
+            // Faktyczna szerokość samego tekstu
+            const textRealWidth = spanWidthTotal - paddingRight;
+
+            // Szerokość kontenera (okna widoku)
+            const containerWidth = container.getBoundingClientRect().width;
+
+            // Oblicz szerokość bufora "3 znaków"
+            // Dla czcionki monospaced (Courier New) stosunek szerokości do wysokości to ok. 0.6
+            const fontSize = parseFloat(computedStyle.fontSize);
+            const threeCharsBuffer = (fontSize * 0.6) * 3; 
+
+            // 4. Warunek: Czy tekst (+ bufor 3 znaków) jest dłuższy niż kontener?
+            // Jeśli (Tekst > Kontener - 3znaki), to animujemy.
+            // W przeciwnym razie stopujemy.
+            
+            if (textRealWidth > (containerWidth - threeCharsBuffer)) {
+                // Pozostaw animację włączoną (nic nie rób, zresetowaliśmy ją w pkt 2)
+            } else {
+                // Wyłącz animację
+                track.classList.add('stopped');
+                spans[1].style.display = 'none'; // Ukryj duplikat, żeby nie przeszkadzał
+                container.style.maskImage = 'none'; // Usuń gradienty zanikania
+                container.style.webkitMaskImage = 'none';
+            }
+        }
 
         function stworzCyfre(id) {
             const cyfraDiv = document.createElement('div');
@@ -889,23 +1042,16 @@
             return `${d}° ${formatujLiczbe(m)}′ ${formatujLiczbe(s)}″ ${dir}`;
         }
 
-        // --- POPRAWKA LOGICZNA (Pkt 1 i 2): Naprawione wykrywanie znaku zodiaku ---
-        // Poprzednia wersja znajdowała pierwszy pasujący znak od początku roku.
-        // Jeśli był listopad (11), a Wodnik (1) był sprawdzany jako drugi (po Koziorożcu 12),
-        // to warunek 11 > 1 był spełniony i zwracało błędny znak.
-        // Teraz odwracamy tablicę, aby znaleźć *najpóźniejszą* pasującą datę startu.
         function pobierzInfoZodiaku(data) {
             const dzien = data.getDate();
             const miesiac = data.getMonth() + 1;
             
-            // Kopia tablicy odwrócona, aby szukać od końca roku (Strzelec, Skorpion...)
             const znakiOdwrocone = [...ZNAKI_ZODIAKU].reverse();
             
             const biezacyZnak = znakiOdwrocone.find(znak => {
                 return miesiac > znak.start[0] || (miesiac === znak.start[0] && dzien >= znak.start[1]);
             });
 
-            // Jeśli nic nie znaleziono (np. początek stycznia przed Wodnikiem), to jest to Koziorożec
             if (!biezacyZnak) { 
                 return ZNAKI_ZODIAKU.find(z => z.nazwa === 'Koziorożec'); 
             }
@@ -944,7 +1090,6 @@
             if (typeof SunCalc === 'undefined') return 'b/d';
             let fazaPoprzednia = SunCalc.getMoonIllumination(teraz).phase;
             let dataPetli = new Date(teraz.getTime());
-            // Symulacja 30 dni w przód (720 godzin) - bezpieczny zakres dla pętli
             for (let i = 0; i < 720; i++) {
                 dataPetli.setHours(dataPetli.getHours() + 1); 
                 let fazaNowa = SunCalc.getMoonIllumination(dataPetli).phase;
@@ -1025,41 +1170,29 @@
 
         async function pobierzBazeSentencji() {
             try {
-                // Pobieramy plik JSON
                 const response = await fetch('sentencje.json');
                 if (!response.ok) {
                     throw new Error('Błąd sieci przy pobieraniu sentencji');
                 }
-                // Zapisujemy dane do zmiennej globalnej
                 window.bazaSentencji = await response.json();
                 console.log("Sentencje załadowane.");
-                // Od razu próbujemy odświeżyć, jeśli mamy już datę
                 aktualizujSentencje(new Date());
             } catch (error) {
                 console.error("Nie udało się pobrać sentencji:", error);
-                document.getElementById('sentencja').textContent = "Miłego dnia!";
+                ustawTekstScrolla('sentencja-track', "Miłego dnia!");
             }
         }
 
         function aktualizujSentencje(teraz) {
-            const el = document.getElementById('sentencja');
-            if (!window.bazaSentencji) {
-                // Jeśli baza się jeszcze nie pobrała, nie robimy nic (jest tekst "Wczytywanie...")
-                return; 
-            }
+            if (!window.bazaSentencji) return; 
 
-            // Obliczamy dzień roku (1-366)
             const dzienRoku = obliczDzienRoku(teraz);
-
-            // Szukamy wpisu w tablicy obiektów JSON
             const wpis = window.bazaSentencji.find(item => item.dzien === dzienRoku);
-
-            if (wpis) {
-                el.textContent = `„${wpis.tekst}”`;
-            } else {
-                // Zapasowy tekst, gdyby brakowało wpisu dla danego dnia
-                el.textContent = "Chwytaj dzień!";
-            }
+            
+            const tekst = wpis ? `„${wpis.tekst}”` : "Chwytaj dzień!";
+            
+            // Używamy nowej funkcji do ustawienia tekstu w pętli
+            ustawTekstScrolla('sentencja-track', tekst);
         }
 
         // ================================================================
@@ -1079,7 +1212,6 @@
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
             
-            // Weryfikacja (Pkt 6): URL jest poprawny dla API Open-Meteo v1
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&hourly=pressure_msl&past_days=1&temperature_unit=celsius&timezone=auto`;
             
             const ikonaEl = document.getElementById('pogoda-ikona');
@@ -1268,14 +1400,16 @@
                 if (swietoNietypowe) wszystkieSwieta.push(swietoNietypowe);
             }
             
-            document.getElementById('swieto-nowe').textContent =
-                wszystkieSwieta.length ? `(${wszystkieSwieta.join(', ')})` : "(brak)";
+            // USTAWIENIE TEKSTU ŚWIĘTA (SCROLL)
+            const tekstSwieta = wszystkieSwieta.length ? `${wszystkieSwieta.join(', ')}` : "(brak)";
+            ustawTekstScrolla('swieto-track', tekstSwieta);
 
             let imieniny = "b/d";
             if (typeof IMIENINY_BAZA !== 'undefined') {
                 imieniny = IMIENINY_BAZA[dzisKlucz] || "brak";
             }
-            document.getElementById('imiona-nowe').textContent = imieniny;
+            // USTAWIENIE TEKSTU IMIENIN (SCROLL)
+            ustawTekstScrolla('imiona-track', imieniny);
 
             const infoZodiaku = pobierzInfoZodiaku(teraz);
             document.getElementById('zodiak-nazwa').textContent = infoZodiaku.nazwa;
@@ -1310,9 +1444,7 @@
                  document.getElementById('faza-countdown-sufiks').textContent = dobierzKoncowkeDni(dniDoFazy);
             }
 
-            // NOWA FUNKCJA: Aktualizacja sentencji przy zmianie dnia
             aktualizujSentencje(teraz);
-
             aktualizujNazweLokalizacji(); 
             aktualizujPogode(); 
         }
@@ -1432,7 +1564,7 @@
         }
         
         async function resetAplikacji() {
-            if (!confirm("Czy na pewno chcesz zresetować aplikację?\nSpowoduje to wyczyszczenie pamięci i ponowne pobranie danych.")) {
+            if (!confirm("Czy na pewno chcesz zresetować aplikację?\nSpowoduje to wyczyszczenie pamięci i ponowne pobranie danych.\n\n️⚠️ Uwaga!⚠️ Ta czyność może potrwać od kilku do kilkunastu sekund,\nw zależności od prędkości Twojego urządzenia i Internetu.\nW tym czasie nie musisz nic robić, czekaj cierpliwie, aplikacja sama się uruchomi, kiedy proces pobierania danych się zakończy.")) {
                 return; 
             }
             if ('caches' in window) {
@@ -1467,8 +1599,6 @@
         window.addEventListener('resize', dopasujSkale);
 
         inicjalizujZegar();
-        
-        // NOWA FUNKCJA: Rozpoczęcie pobierania sentencji
         pobierzBazeSentencji();
 
         function uruchomAplikacje() {
@@ -1522,4 +1652,3 @@
 
 </body>
 </html>
-
