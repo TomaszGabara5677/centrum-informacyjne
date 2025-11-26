@@ -12,7 +12,7 @@ const PLIKI_DO_CACHE = [
   './imieniny.js',
   './swieta.js',
   './sentencje.json', // ZMIANA: Dodano plik z sentencjami
-  './suncalc.min.js',
+  './suncalc.js',
   './icon-192x192.png',
   './icon-512x512.png',
   './manifest.json'
@@ -142,6 +142,7 @@ self.addEventListener('fetch', (event) => {
     )
   );
 });
+
 
 
 
