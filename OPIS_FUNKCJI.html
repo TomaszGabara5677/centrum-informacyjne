@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPIS_FUNKCJI</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #538c3d;
+            background-color: #000000;
+        }
+        h1, h2, h3 { border-bottom: 1px solid #333; padding-bottom: .3em; color: #538c3d; }
+        code { background-color: #1a1a1a; padding: 0.2em 0.4em; border-radius: 3px; color: #ddd; }
+        pre { background-color: #111; padding: 16px; overflow: auto; border-radius: 3px; border: 1px solid #333; }
+        blockquote { border-left: 4px solid #538c3d; color: #888; padding-left: 1em; margin-left: 0; }
+        img { max-width: 100%; }
+        table { border-collapse: collapse; width: 100%; color: #ccc; }
+        th, td { border: 1px solid #444; padding: 8px; }
+        th { background-color: #1a1a1a; }
+        a { color: #76c954; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #333; }
+    </style>
+</head>
+<body>
+    <h1>📖 Legenda i Opis Funkcji Centrum Informacyjnego</h1>
+<p>Ten dokument wyjaśnia, jak odczytywać dane prezentowane na ekranie <strong>Centrum Informacyjnego</strong>. Interfejs został zaprojektowany w stylu "dashboardu", gdzie każda sekcja dostarcza kluczowych informacji w czasie rzeczywistym.</p>
+<hr />
+<h2>1. Górny pasek (Nagłówek)</h2>
+<p>Ta sekcja zawiera najważniejsze informacje o "tu i teraz".</p>
+<ul>
+<li>
+<p><strong>Dzień Tygodnia:</strong> Duży, wyraźny napis po lewej stronie informujący o aktualnym dniu.</p>
+</li>
+<li>
+<p><strong>Lokalizacja (📍):</strong></p>
+<ul>
+<li>Nazwa miejscowości jest pobierana automatycznie na podstawie GPS lub adresu IP.</li>
+<li>Poniżej (na niebiesko) widoczne są dokładne współrzędne geograficzne.</li>
+</ul>
+</li>
+<li>
+<p><strong>Wiatr (↓):</strong></p>
+<ul>
+<li>Obok współrzędnych znajduje się pomarańczowa strzałka oraz prędkość wiatru w <code>km/h</code>.</li>
+<li><strong>Zachowanie strzałki:</strong> Strzałka obraca się dynamicznie, wskazując kierunek, w którym wieje wiatr (zgodnie z rzeczywistym ruchem powietrza).</li>
+<li><strong>Kierunek:</strong> Obok prędkości wyświetlany jest skrót kierunku geograficznego (np. <code>NE</code> - północny wschód, <code>S</code> - południe), skąd wieje wiatr.</li>
+</ul>
+</li>
+<li>
+<p><strong>Pogoda (☀️/☁️):</strong></p>
+<ul>
+<li>Ikona obrazuje aktualny stan nieba (np. słońce, chmury, deszcz).</li>
+<li>Obok widoczna jest temperatura w stopniach Celsjusza oraz słowny opis pogody.</li>
+</ul>
+</li>
+<li>
+<p><strong>Ciśnienie (⏲️):</strong></p>
+<ul>
+<li>Wyświetla aktualne ciśnienie atmosferyczne w hektopaskalach (<code>hPa</code>).</li>
+<li><strong>Trend:</strong> Obok wartości pojawia się strzałka trendu:<ul>
+<li><code>↗️</code> - Ciśnienie rośnie (wzrost &gt; 0.5 hPa w ciągu ostatniej godziny).</li>
+<li><code>↘️</code> - Ciśnienie spada.</li>
+<li><code>➡️</code> - Ciśnienie stabilne.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2>2. Kalendarz i Rok (Tabela Górna)</h2>
+<p>Sekcja ta pozwala zorientować się w upływie czasu w skali roku.</p>
+<ul>
+<li>
+<p><strong>Dzień roku:</strong> Numer bieżącego dnia / Całkowita liczba dni w roku (uwzględnia lata przestępne).</p>
+</li>
+<li>
+<p><strong>Tydzień:</strong> Numer bieżącego tygodnia roku.</p>
+</li>
+<li>
+<p><strong>Do końca roku:</strong> Licznik dni pozostałych do Sylwestra.</p>
+</li>
+<li>
+<p><strong>Kwartał:</strong> Aktualny kwartał (1-4).</p>
+</li>
+<li>
+<p><strong>Święto:</strong> Informacja o świętach stałych (np. Nowy Rok), ruchomych (np. Wielkanoc) oraz nietypowych.</p>
+</li>
+<li>
+<p><strong>Imieniny:</strong> Lista imion obchodzących imieniny w danym dniu.</p>
+</li>
+</ul>
+<hr />
+<h2>3. Zegar Segmentowy</h2>
+<p>Centralny element wyświetlacza stylizowany na cyfrowy zegar retro.</p>
+<ul>
+<li>
+<p><strong>Górna linia:</strong> Data w formacie <code>DD-MM-RRRR</code>.</p>
+</li>
+<li>
+<p><strong>Dolna linia:</strong> Godzina w formacie <code>GG:MM:SS</code>. Dwukropek mruga co sekundę, sygnalizując pracę systemu.</p>
+</li>
+</ul>
+<hr />
+<h2>4. Dane Słoneczne (Tabela Lewa Dolna)</h2>
+<p>Sekcja dedykowana wędrówce Słońca po niebie.</p>
+<ul>
+<li>
+<p><strong>Wschód i Zachód:</strong> Godziny wschodu i zachodu Słońca.</p>
+<ul>
+<li>System inteligentnie przełącza się między "dziś" a "jutro".</li>
+<li><strong>Kolor jasny (neonowy):</strong> Oznacza nadchodzące zdarzenie (np. jeśli jest rano, aktywny jest zachód słońca "dziś").</li>
+<li><strong>Kolor ciemny:</strong> Oznacza zdarzenie, które już minęło lub jest odległe.</li>
+</ul>
+</li>
+<li>
+<p><strong>Długość dnia:</strong> Czas trwania jasnej części doby dla Twojej lokalizacji.</p>
+</li>
+<li>
+<p><strong>Żółty licznik (⌛):</strong> Odlicza czas co do sekundy do najbliższego zdarzenia astronomicznego (do wschodu lub do zachodu słońca).</p>
+</li>
+</ul>
+<hr />
+<h2>5. Astronomia (Tabela Prawa Dolna)</h2>
+<p>Informacje astrologiczne i lunarne.</p>
+<ul>
+<li>
+<p><strong>Znak Zodiaku:</strong> Aktualny znak zodiaku dla bieżącego dnia.</p>
+<ul>
+<li>Poniżej znajduje się odliczanie (w dniach) do momentu, kiedy Słońce wejdzie w kolejny znak zodiaku.</li>
+</ul>
+</li>
+<li>
+<p><strong>Faza Księżyca:</strong></p>
+<ul>
+<li>Ikona wizualizuje przybliżony wygląd Księżyca.</li>
+<li>Opis słowny (np. "Pełnia", "Sierp przybywający").</li>
+<li>Licznik (x/8) wskazujący etap cyklu księżycowego.</li>
+</ul>
+</li>
+<li>
+<p><strong>Liczniki astronomiczne:</strong></p>
+<ul>
+<li><strong>Pełnia za:</strong> Liczba dni do najbliższej pełni.</li>
+<li><strong>Zmiana fazy za:</strong> Liczba dni do zmiany wizualnej fazy Księżyca (np. z pełni na garbary ubywający).</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2>ℹ️ Uwagi techniczne</h2>
+<ul>
+<li>
+<p>Jeśli widzisz komunikat "b/d" (brak danych), upewnij się, że masz połączenie z internetem i wyraziłeś zgodę na udostępnienie lokalizacji.</p>
+</li>
+<li>
+<p>Aplikacja odświeża dane pogodowe automatycznie co 15 minut.</p>
+</li>
+<li>
+<p>Zegar i odliczania aktualizowane są co sekundę.</p>
+</li>
+</ul>
+</body>
+</html>
