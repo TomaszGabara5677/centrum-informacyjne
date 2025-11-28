@@ -1,7 +1,7 @@
 // Nazwa naszej pamięci podręcznej (cache).
 // WAŻNE: Zmiana tej nazwy (np. na 'v2', 'v3') przy aktualizacji plików
 // automatycznie uruchomi proces 'activate' i wyczyści stare cache.
-const CACHE_NAME = 'v1';
+const CACHE_NAME = 'v2';
 
 // Lista plików stanowiących "szkielet" aplikacji (App Shell).
 // Są to kluczowe zasoby potrzebne do uruchomienia aplikacji offline.
@@ -9,6 +9,9 @@ const CACHE_NAME = 'v1';
 // poprawnie na różnych platformach hostingowych (np. GitHub Pages).
 const PLIKI_DO_CACHE = [
   './index.html',
+  './OPIS_FUNKCJI.html',
+  './POLITYKA-PRYWATNOSCI.html',
+  './README.html',
   './imieniny.js',
   './swieta.js',
   './sentencje.json', // ZMIANA: Dodano plik z sentencjami
@@ -142,7 +145,6 @@ self.addEventListener('fetch', (event) => {
     )
   );
 });
-
 
 
 
