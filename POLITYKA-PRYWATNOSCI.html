@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POLITYKA-PRYWATNOSCI</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #538c3d;
+            background-color: #000000;
+        }
+        h1, h2, h3 { border-bottom: 1px solid #333; padding-bottom: .3em; color: #538c3d; }
+        code { background-color: #1a1a1a; padding: 0.2em 0.4em; border-radius: 3px; color: #ddd; }
+        pre { background-color: #111; padding: 16px; overflow: auto; border-radius: 3px; border: 1px solid #333; }
+        blockquote { border-left: 4px solid #538c3d; color: #888; padding-left: 1em; margin-left: 0; }
+        img { max-width: 100%; }
+        table { border-collapse: collapse; width: 100%; color: #ccc; }
+        th, td { border: 1px solid #444; padding: 8px; }
+        th { background-color: #1a1a1a; }
+        a { color: #76c954; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #333; }
+    </style>
+</head>
+<body>
+    <h1>Polityka Prywatności aplikacji "Centrum Informacyjne"</h1>
+<p><strong>Ostatnia aktualizacja:</strong> 19.11.2025</p>
+<p>Niniejsza Polityka Prywatności określa zasady przetwarzania informacji o użytkowniku w aplikacji "Centrum Informacyjne" (zwanej dalej "Aplikacją").</p>
+<p>Twórcą i administratorem Aplikacji jest Tomasz Gabara. Szanujemy Twoją prywatność i dbamy o to, aby Twoje dane były bezpieczne. Aplikacja została zaprojektowana w taki sposób, aby przetwarzać minimalną ilość danych niezbędną do jej funkcjonowania.</p>
+<h2>1. Jakie dane zbieramy i w jakim celu?</h2>
+<p>Aplikacja pobiera i przetwarza następujące dane wyłącznie w określonych celach:</p>
+<h3>A. Dane lokalizacyjne (Pozycja GPS)</h3>
+<p>Aplikacja prosi o dostęp do lokalizacji urządzenia (współrzędne geograficzne: szerokość i długość).</p>
+<ul>
+<li>
+<p><strong>Cel:</strong> Dane te są niezbędne do:</p>
+<ol>
+<li>Wyświetlenia aktualnej prognozy pogody dla Twojego miejsca pobytu.</li>
+<li>Obliczenia precyzyjnych czasów wschodu i zachodu Słońca oraz faz Księżyca (dane astronomiczne).</li>
+<li>Wyświetlenia nazwy miejscowości, w której się znajdujesz.</li>
+</ol>
+</li>
+<li>
+<p><strong>Sposób przetwarzania:</strong> Współrzędne są pobierane w czasie rzeczywistym tylko wtedy, gdy Aplikacja jest uruchomiona. Nie śledzimy Twojej lokalizacji w tle, gdy nie korzystasz z Aplikacji.</p>
+</li>
+</ul>
+<h3>B. Dane techniczne (Pamięć podręczna)</h3>
+<p>Aplikacja korzysta z mechanizmów "Service Worker" oraz pamięci podręcznej przeglądarki (Cache API).</p>
+<ul>
+<li><strong>Cel:</strong> Umożliwienie działania Aplikacji w trybie offline (bez dostępu do Internetu) oraz szybsze ładowanie zasobów.</li>
+</ul>
+<h2>2. Udostępnianie danych podmiotom trzecim</h2>
+<p>Nie gromadzimy Twoich danych lokalizacyjnych na własnych serwerach, nie tworzymy profili użytkowników ani nie sprzedajemy danych.</p>
+<p>Jednakże, aby Aplikacja mogła wyświetlić pogodę i nazwę miasta, Twoje współrzędne geograficzne muszą zostać przesłane do wyspecjalizowanych, zewnętrznych interfejsów programistycznych (API). Korzystamy z następujących zaufanych dostawców:</p>
+<ol>
+<li>
+<p><strong>Open-Meteo</strong> (https://open-meteo.com/)</p>
+<ul>
+<li>Przesyłamy współrzędne w celu pobrania danych pogodowych (temperatura, kod pogodowy).</li>
+<li>Polityka prywatności dostawcy: https://open-meteo.com/en/features#terms</li>
+</ul>
+</li>
+<li>
+<p><strong>BigDataCloud</strong> (https://www.bigdatacloud.com/)</p>
+<ul>
+<li>Przesyłamy współrzędne w celu uzyskania nazwy miejscowości (tzw. Reverse Geocoding).</li>
+<li>Polityka prywatności dostawcy: https://www.bigdatacloud.com/privacy-policy</li>
+</ul>
+</li>
+</ol>
+<p>Dostawcy ci otrzymują Twoje współrzędne oraz adres IP w momencie wysyłania zapytania przez Aplikację.</p>
+<h2>3. Bezpieczeństwo danych</h2>
+<ul>
+<li>
+<p>Komunikacja z Aplikacją oraz zewnętrznymi API odbywa się za pomocą szyfrowanego protokołu HTTPS.</p>
+</li>
+<li>
+<p>Twoje dane lokalizacyjne nie są zapisywane w trwałej bazie danych administratora Aplikacji. Są przetwarzane "w locie" (on-the-fly) na Twoim urządzeniu i ulotnie przez zewnętrzne API.</p>
+</li>
+</ul>
+<h2>4. Uprawnienia i kontrola użytkownika</h2>
+<p>Podanie danych lokalizacyjnych jest dobrowolne, ale niezbędne do pełnego działania funkcji pogodowych i astronomicznych.</p>
+<ul>
+<li>
+<p>Możesz w każdej chwili cofnąć zgodę na dostęp do lokalizacji w ustawieniach swojego urządzenia lub przeglądarki.</p>
+</li>
+<li>
+<p>W przypadku braku zgody, Aplikacja wyświetli dane dla lokalizacji domyślnej lub nie wyświetli ich wcale, jednak pozostałe funkcje (np. kalendarz, zegar) będą działać nadal.</p>
+</li>
+</ul>
+<h2>5. Kontakt</h2>
+<p>W razie pytań lub wątpliwości dotyczących niniejszej Polityki Prywatności, możesz skontaktować się z deweloperem pod adresem e-mail:<code>TomaszGabara5677@gmail.com</code></p>
+</body>
+</html>
