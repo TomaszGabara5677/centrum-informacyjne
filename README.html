@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #538c3d;
+            background-color: #000000;
+        }
+        h1, h2, h3 { border-bottom: 1px solid #333; padding-bottom: .3em; color: #538c3d; }
+        code { background-color: #1a1a1a; padding: 0.2em 0.4em; border-radius: 3px; color: #ddd; }
+        pre { background-color: #111; padding: 16px; overflow: auto; border-radius: 3px; border: 1px solid #333; }
+        blockquote { border-left: 4px solid #538c3d; color: #888; padding-left: 1em; margin-left: 0; }
+        img { max-width: 100%; }
+        table { border-collapse: collapse; width: 100%; color: #ccc; }
+        th, td { border: 1px solid #444; padding: 8px; }
+        th { background-color: #1a1a1a; }
+        a { color: #76c954; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #333; }
+    </style>
+</head>
+<body>
+    <h1>Centrum Informacyjne</h1>
+<p>Kompleksowy zegar segmentowy z funkcjami astronomicznymi, kalendarzem imienin i zaawansowaną prognozą pogody. Aplikacja typu PWA (Progressive Web App) działająca offline, stylizowana na neonowy interfejs retro.</p>
+<h2>🚀 Uruchomienie</h2>
+<p>Aplikacja dostępna jest pod adresem:<br />
+👉 <strong>https://tomaszgabara5677.github.io/centrum-informacyjne/</strong></p>
+<h3>Instalacja (PWA)</h3>
+<p>Tę stronę można zainstalować jako aplikację na telefonie lub komputerze:</p>
+<ul>
+<li>
+<p><strong>Android (Chrome):</strong> Kliknij menu (trzy kropki) -&gt; "Zainstaluj aplikację" lub "Dodaj do ekranu głównego".</p>
+</li>
+<li>
+<p><strong>iOS (Safari):</strong> Kliknij przycisk "Udostępnij" -&gt; "Do ekranu początkowego".</p>
+</li>
+<li>
+<p><strong>PC (Chrome/Edge):</strong> Kliknij ikonę instalacji na pasku adresu.</p>
+</li>
+</ul>
+<hr />
+<h2>💡 Funkcje</h2>
+<p>Szczegółowy opis działania poszczególnych elementów znajdziesz tutaj: <a href="OPIS_FUNKCJI.md">📖 Opis Funkcji (Legenda)</a></p>
+<ul>
+<li>
+<p><strong>Zegar:</strong> Stylizowany na wyświetlacz segmentowy, pokazujący datę i czas z mrugającym sekundnikiem.</p>
+</li>
+<li>
+<p><strong>Kalendarz:</strong> Imieniny, święta stałe i ruchome, dni do końca roku, numer tygodnia i kwartału.</p>
+</li>
+<li>
+<p><strong>Astronomiczne:</strong></p>
+</li>
+<li>Wschody i zachody Słońca (z inteligentnym odliczaniem do najbliższego zdarzenia).</li>
+<li>Fazy Księżyca (wizualizacja i nazwy) oraz odliczanie do Pełni.</li>
+<li>
+<p>Znaki zodiaku z informacją o zmianie znaku.</p>
+</li>
+<li>
+<p><strong>Pogoda (Open-Meteo):</strong> * Aktualna temperatura i warunki (ikona).</p>
+</li>
+<li><strong>Ciśnienie atmosferyczne:</strong> Wskazanie w hPa wraz ze strzałką trendu (wzrost/spadek).</li>
+<li>
+<p><strong>Wiatr:</strong> Prędkość oraz dynamiczna strzałka wskazująca kierunek wiatru.</p>
+</li>
+<li>
+<p><strong>Lokalizacja:</strong> Automatyczne wykrywanie miejscowości i precyzyjnych współrzędnych (GPS).</p>
+</li>
+</ul>
+<hr />
+<h2>🛠️ Technologie i Źródła</h2>
+<p>Program powstał przy użyciu narzędzia Google Gemini PRO.</p>
+<p><strong>Wykorzystane API i biblioteki:</strong></p>
+<ul>
+<li>
+<p><strong>Pogoda:</strong> <a href="https://open-meteo.com/">Open-Meteo API</a> (Dane pogodowe, wiatr, ciśnienie).</p>
+</li>
+<li>
+<p><strong>Geocoding:</strong> <a href="https://www.bigdatacloud.com/">BigDataCloud API</a> (Nazwy miejscowości).</p>
+</li>
+<li>
+<p><strong>Astronomia:</strong> Biblioteka <code>SunCalc</code> (Obliczenia pozycji Słońca i Księżyca).</p>
+</li>
+</ul>
+<hr />
+<h2>🔒 Prywatność</h2>
+<p>Aplikacja korzysta z geolokalizacji urządzenia wyłącznie w celu pobrania danych pogodowych i astronomicznych dla Twojego miejsca pobytu. Żadne dane nie są gromadzone ani wysyłane na zewnętrzne serwery autora.<br />
+Szczegóły: <a href="POLITYKA-PRYWATNOSCI.md">Polityka Prywatności</a></p>
+<hr />
+<h2>ℹ️ Uwagi techniczne</h2>
+<p>Aby odświeżyć pamięć podręczną (cache) po aktualizacji aplikacji (gdy nie widzisz nowych funkcji):</p>
+<ul>
+<li>
+<p><strong>Opcja automatyczna (Zalecana):</strong> Otwórz menu aplikacji (przycisk ☰) i wybierz <strong>"Reset Aplikacji"</strong>. Spowoduje to wyczyszczenie danych i ponowne załadowanie najnowszej wersji. (Czasem wymaga to chwili, aż nowe zasoby zostaną pobrane, wystarczy poczekać, aplikacja sama się uruchomi. Wszystko jest zależne od prędkości Twojego urządzenia i Internetu.)</p>
+</li>
+<li>
+<p><strong>PC (Ręcznie):</strong> Użyj skrótu <code>Ctrl + F5</code> lub <code>Ctrl + R</code>.</p>
+</li>
+<li>
+<p><strong>Mobile (Ręcznie):</strong> Zamknij aplikację całkowicie (wyrzuć z paska zadań) i otwórz ponownie – Service Worker zaktualizuje się w tle przy kolejnym uruchomieniu.</p>
+</li>
+</ul>
+<p>Wszelkie uwagi mile widziane: <code>TomaszGabara5677@gmail.com</code></p>
+<hr />
+<h2>📜 Licencja</h2>
+<p><strong>Freeware</strong> - z podaniem źródła, jeśli projekt jest wykorzystywany poza Github.</p>
+<p>Pozwala na darmowe korzystanie z programu, ale bez możliwości modyfikacji kodu źródłowego i czerpania korzyści finansowych z jego dystrybucji.</p>
+</body>
+</html>
