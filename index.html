@@ -328,6 +328,7 @@
             display: block;
             font-size: 1rem;
             border-bottom: 1px dotted #00ff00;
+            cursor: pointer; /* Kursor wskazujący na klikalność */
         }
 
         .menu-tresc a:last-child {
@@ -579,6 +580,64 @@
             color: #008000;
         }
 
+        /* ==========================================================================
+           MODAL (OKNO DOKUMENTACJI)
+           Służy do wyświetlania plików HTML (Opis, RODO, Readme) wewnątrz aplikacji.
+           ========================================================================== */
+        #modal-tlo {
+            display: none; /* Domyślnie ukryte */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Ciemne półprzezroczyste tło */
+            z-index: 2000; /* Musi być wyżej niż menu */
+            justify-content: center;
+            align-items: center;
+        }
+
+        #modal-okno {
+            position: relative;
+            background-color: #fff; /* Białe tło dla dokumentów tekstowych */
+            width: 90%;
+            max-width: 900px;
+            height: 80%;
+            border: 4px solid var(--kolor-aktywny);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Przycisk zamykania modala */
+        #modal-zamknij-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background: #cc0000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            font-weight: bold;
+        }
+        #modal-zamknij-btn:hover {
+            background: #ff0000;
+        }
+
+        /* Iframe do wyświetlania treści zewnętrznych plików HTML */
+        #modal-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
         /* Ekran wymuszający obrót urządzenia na telefonach */
         #obroc-urzadzenie {
             display: none;
@@ -620,6 +679,13 @@
     <div id="obroc-urzadzenie">
         <div class="ikona">📱🔄</div>
         <p>Proszę obrócić urządzenie do pozycji poziomej.</p>
+    </div>
+
+    <div id="modal-tlo">
+        <div id="modal-okno">
+            <button id="modal-zamknij-btn" onclick="zamknijModal()">ZAMKNIJ X</button>
+            <iframe id="modal-iframe" src=""></iframe>
+        </div>
     </div>
 
     <div id="kontener">
@@ -665,9 +731,10 @@
                     <div class="menu-kontener">
                         <button onclick="przelaczMenu()" class="menu-przycisk">☰</button>
                             <div id="menu-dropdown" class="menu-tresc">
-                                <a href="#" onclick="otworzLinkZewnetrzny('https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/OPIS_FUNKCJI.md'); return false;">Opis funkcji</a>
-                                <a href="#" onclick="otworzLinkZewnetrzny('https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/POLITYKA-PRYWATNOSCI.md'); return false;">Polityka Prywatności</a>
-                                <a href="#" onclick="otworzLinkZewnetrzny('https://github.com/TomaszGabara5677/centrum-informacyjne/blob/main/README.md'); return false;">Informacje ogólne</a>
+                                <a onclick="pokazDokument('OPIS_FUNKCJI.html'); return false;">Opis funkcji</a>
+                                <a onclick="pokazDokument('POLITYKA-PRYWATNOSCI.html'); return false;">Polityka Prywatności</a>
+                                <a onclick="pokazDokument('README.html'); return false;">Informacje ogólne</a>
+                                
                                 <a href="#" onclick="otworzLinkZewnetrzny('https://github.com/TomaszGabara5677/centrum-informacyjne'); return false;">Strona projektu</a>
                                 <a href="#" onclick="resetAplikacji(); return false;">Reset Aplikacji</a>
                             </div>
@@ -1235,6 +1302,37 @@
             
             // Używamy nowej funkcji do ustawienia tekstu w pętli
             ustawTekstScrolla('sentencja-track', tekst);
+        }
+
+        // ================================================================
+        // --- FUNKCJE DO OBSŁUGI MODALA (NOWE) ---
+        // ================================================================
+
+        // Funkcja wyświetlająca plik HTML wewnątrz aplikacji
+        function pokazDokument(nazwaPliku) {
+            const modal = document.getElementById('modal-tlo');
+            const iframe = document.getElementById('modal-iframe');
+            
+            // Ustawiamy źródło ramki na wybrany plik
+            iframe.src = nazwaPliku;
+            
+            // Pokazujemy modal
+            modal.style.display = 'flex';
+            
+            // Zamykamy menu dropdown, jeśli jest otwarte
+            document.getElementById("menu-dropdown").classList.remove("pokaz");
+        }
+
+        // Funkcja zamykająca modal
+        function zamknijModal() {
+            const modal = document.getElementById('modal-tlo');
+            const iframe = document.getElementById('modal-iframe');
+            
+            // Ukrywamy modal
+            modal.style.display = 'none';
+            
+            // Czyścimy src, aby zatrzymać ewentualne procesy w tle i przygotować na nowe otwarcie
+            iframe.src = '';
         }
 
         // ================================================================
