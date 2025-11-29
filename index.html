@@ -1436,45 +1436,86 @@
             }
         }
 
-        // Zmiana na wersję z kluczem API
+        // Funkcja obliczająca dystans w km między dwoma punktami (wzór Haversine)
+        function obliczDystans(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Promień Ziemi w km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
         async function aktualizujNazweLokalizacji() {
             const lat = BIEZACA_LAT;
             const lon = BIEZACA_LON;
-            const apiKey = 'bdc_4dd9fd0b7f584a0a9ec3926ee906a5a4'; // Twój klucz API BigDataCloud
-
-            // Używamy endpointu api-bdc.net, który jest przeznaczony dla zapytań z kluczem API.
-            // Jest to stabilniejsze rozwiązanie niż publiczny reverse-geocode-client.
-            const url = `https://api-bdc.net/data/reverse-geocode?latitude=${lat}&longitude=${lon}&localityLanguage=pl&key=${apiKey}`;
-            
             const nazwaEl = document.getElementById('lokalizacja-nazwa');
+
+            // 1. Sprawdzamy czy mamy coś w pamięci
+            const zapisanaLok = JSON.parse(localStorage.getItem('cached_lokalizacja'));
+
+            // 2. Jeśli mamy zapisaną lokalizację, sprawdzamy dystans
+            if (zapisanaLok && zapisanaLok.nazwa) {
+                const dystans = obliczDystans(lat, lon, zapisanaLok.lat, zapisanaLok.lon);
+                console.log(`Dystans od ostatniej lokalizacji: ${dystans.toFixed(3)} km`);
+
+                // Jeśli przesunęliśmy się mniej niż 2 km, używamy starej nazwy (OSZCZĘDZAMY API!)
+                if (dystans < 2.0) {
+                    console.log("Używam nazwy z pamięci (Cache) - limit API bezpieczny.");
+                    BIEZACA_LOKALIZACJA_NAZWA = zapisanaLok.nazwa;
+                    nazwaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
+                    return; // Kończymy funkcję, nie wysyłamy zapytania!
+                }
+            }
+
+            // 3. Jeśli nie ma cache lub jesteśmy daleko - pytamy API
+            console.log("Pobieram nową nazwę z API...");
+            
+            // TU WPISZ SWÓJ NOWY KLUCZ (tylko w wersji do APK!)
+            //const apiKey = 'bdc_TWOJ_NOWY_KLUCZ_TUTAJ'; 
+            //const url = `https://api-bdc.net/data/reverse-geocode?latitude=${lat}&longitude=${lon}&localityLanguage=pl&key=${apiKey}`;
+			const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pl`;
 
             try {
                 const response = await fetch(url);
                 if (!response.ok) throw new Error('Błąd sieci geocoding');
                 const data = await response.json();
                 
-                // BigDataCloud (wersja API) zwraca podobną strukturę jak wersja Client,
-                // więc logika wyboru nazwy (Miasto > Województwo > Kraj) pozostaje ta sama.
-                if (data && data.city) {
-                    let nazwa = data.city; 
+                if (data && (data.city || data.locality)) {
+                    let nazwa = data.city || data.locality; 
                     if (data.principalSubdivision) { 
                         let wojewodztwo = data.principalSubdivision.replace("Województwo ", "woj. ");
                         nazwa += `, ${wojewodztwo}`;
                     } else if (data.countryName) { 
                         nazwa += `, ${data.countryName}`;
                     }
+                    
                     BIEZACA_LOKALIZACJA_NAZWA = nazwa;
-                } else if (data && data.locality) {
-                    BIEZACA_LOKALIZACJA_NAZWA = data.locality;
+                    nazwaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
+
+                    // 4. Zapisujemy nową pozycję i nazwę do pamięci
+                    localStorage.setItem('cached_lokalizacja', JSON.stringify({
+                        lat: lat,
+                        lon: lon,
+                        nazwa: nazwa,
+                        timestamp: new Date().getTime()
+                    }));
                 } else {
                     throw new Error('Nie znaleziono nazwy');
                 }
 
             } catch (error) {
                 console.error('Błąd lokalizacji:', error);
-                BIEZACA_LOKALIZACJA_NAZWA = "Błąd API (Nazwa)";
+                // W razie błędu API, próbujemy użyć starej nazwy jeśli istnieje, lub błędu
+                if (zapisanaLok) {
+                     nazwaEl.textContent = zapisanaLok.nazwa + " (Offline)";
+                } else {
+                     BIEZACA_LOKALIZACJA_NAZWA = "Błąd API";
+                     nazwaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
+                }
             }
-            nazwaEl.textContent = BIEZACA_LOKALIZACJA_NAZWA;
         }
 
         function dobierzKoncowkeDni(liczba) {
